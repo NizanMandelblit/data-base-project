@@ -54,12 +54,55 @@
 
 <!--search page content-->
 <% if(pageName == "search page") { %>
-<form class="" action="/" method="post">
-    <input type="text">
-</form>
+    <div class="container">
 
-    <% } %>
 
+        <form class="" action="/" method="post">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">1.favorite food</label>
+                <select class="form-control">
+                    <option>Chinese</option>
+                    <option>Japneese</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">2.Max Distance</label>
+                <input type="number" class="form-control" placeholder="e.g 120.5">
+            </div>
+
+            <div class="form-row align-items-center">
+                <label for="exampleFormControlInput1">3.Rating</label>
+                <input type="number" class="form-control" placeholder="Max">
+                <input type="number" class="form-control" placeholder="Min">
+            </div>
+
+
+            <div class="form-row align-items-center">
+                <label for="exampleFormControlInput1">4.cost range per night in $</label>
+                <input type="number" class="form-control" placeholder="Max">
+                <input type="number" class="form-control" placeholder="Min">
+            </div>
+            <div class="form-row align-items-center">
+                <label for="exampleFormControlInput1">5.max and min range for hotel</label>
+                <input type="number" class="form-control" placeholder="Max">
+                <input type="number" class="form-control" placeholder="Min">
+            </div>
+
+            <div class="form-row align-items-center">
+                <label for="exampleFormControlInput1">6.are you ready to include critical reviews?</label>
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+        </form>
+
+    </div>
+<% } %>
 
 <!--update page content-->
 <% if(pageName == "update page") { %>
@@ -69,7 +112,6 @@
 
 <% } %>
 
-
 <!--delete page content-->
 <% if(pageName == "delete page") { %>
     <form class="" action="/" method="post">
@@ -78,9 +120,7 @@
 
 <% } %>
 
-
-
-    <script src="scripts.js"></script>
+<script src="scripts.js"></script>
 </body>
 
 
