@@ -42,27 +42,25 @@ app.get('/thanks', (req, res) => {
 
 //POST functions
 app.post("/search", function (req, res) {
-    var id = req.body.id;
-    console.log(id);
+
+    res.redirect("/thanks");
+
 })
 
 app.post("/update", function (req, res) {
-    var id = req.body.id;
-    console.log(id);
+
+    res.redirect("/thanks");
+
 })
 
 
-
 app.post("/delete", function (req, res) {
-    var placeSort=req.body.place;
+    var placeSort = req.body.place;
     var id = req.body.id;
     console.log(placeSort);
     console.log(id);
     res.redirect("/thanks");
 })
-
-
-
 
 
 app.listen(process.env.PORT | port, () => {
