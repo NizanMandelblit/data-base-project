@@ -33,6 +33,12 @@ app.get('/delete', (req, res) => {
     res.render("index", {pageName: pageName});
 })
 
+app.get('/thanks', (req, res) => {
+    pageName = "thanks page";
+
+    res.render("index", {pageName: pageName});
+})
+
 
 //POST functions
 app.post("/search", function (req, res) {
@@ -51,7 +57,11 @@ app.post("/delete", function (req, res) {
     var placeSort=req.body.place;
     var id = req.body.id;
     console.log(placeSort);
+    console.log(id);
+    res.redirect("/thanks");
 })
+
+
 
 
 
