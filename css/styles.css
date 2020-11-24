@@ -2,6 +2,9 @@ html,
 body {
     height: 100%;
 }
+
+
+
 body {
     display: -ms-flexbox;
     display: flex;
@@ -39,4 +42,9 @@ body {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.currentLink {
+    color: #640200;
+    background-color: #000000;
 }

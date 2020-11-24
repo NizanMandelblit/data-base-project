@@ -27,7 +27,7 @@
 </head>
 
 <body>
-<h1> this is  <%= pageName%></h1>
+<h1> this is <%= pageName %></h1>
 
 <div class="container-fluid p-3 mb-2 bg-light text-dark">
 
@@ -52,8 +52,35 @@
 
 </div>
 
+<!--search page content-->
+<% if(pageName == "search page") { %>
+<form class="" action="/" method="post">
+    <input type="text">
+</form>
 
-<script src="testing.js"></script>
+    <% } %>
+
+
+<!--update page content-->
+<% if(pageName == "update page") { %>
+    <form class="" action="/" method="post">
+        <input type="text">
+    </form>
+
+<% } %>
+
+
+<!--delete page content-->
+<% if(pageName == "delete page") { %>
+    <form class="" action="/" method="post">
+        <input type="text">
+    </form>
+
+<% } %>
+
+
+
+    <script src="scripts.js"></script>
 </body>
 
 
