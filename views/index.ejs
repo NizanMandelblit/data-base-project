@@ -70,7 +70,7 @@
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">2.Max Distance</label>
-                <input type="number" class="form-control" placeholder="e.g 120.5">
+                <input type="double" class="form-control" placeholder="e.g 120.5">
             </div>
 
             <div class="form-row align-items-center">
@@ -104,23 +104,46 @@
     </div>
 <% } %>
 
-
-
 <!--update page content-->
 <% if(pageName == "update page") { %>
 
+    <div class="container">
 
 
+        <form class="" action="/search" method="post">
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">1.where did you visit?</label>
+                <select class="form-control">
+                    <option>AirBnb</option>
+                    <option>Hotel</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlSelect1">2.Name:</label>
+                <div class="row">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="First name">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Last name">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">3.id of the place</label>
+                <input type="number" class="form-control" placeholder="e.g 132">
+            </div>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">4.Grade of the place</label>
+                <input type="number" min="1" max="100" class="form-control" placeholder="1-100">
+            </div>
+        </form>
+
+    </div>
 
 
 
 <% } %>
-
-
-
-
-
-
 
 <!--delete page content-->
 <% if(pageName == "delete page") { %>
