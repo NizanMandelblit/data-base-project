@@ -1,11 +1,34 @@
-const express = require('express')
+const express = require("express")
+const bodyParser=require("body-parser")
 const app = express()
+app.set("view engine","ejs");
+
 const port = 3001
+var pageName;
 
 app.get('/', (req, res) => {
-    res.sendFile('index.html', {root: __dirname});
+    pageName="home page";
+
+    res.render("index", {pageName:pageName});
 })
 
+app.get('/search', (req, res) => {
+    pageName="search page";
+
+    res.render("index", {pageName:pageName});
+})
+
+app.get('/update', (req, res) => {
+    pageName="update page";
+
+    res.render("index", {pageName:pageName});
+})
+
+app.get('/delete', (req, res) => {
+    pageName="delete page";
+
+    res.render("index", {pageName:pageName});
+})
 
 app.listen(process.env.PORT | port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
