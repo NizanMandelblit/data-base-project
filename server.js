@@ -35,10 +35,24 @@ app.get('/delete', (req, res) => {
 
 
 //POST functions
-app.post("/delete", function (req, res) {
+app.post("/search", function (req, res) {
     var id = req.body.id;
     console.log(id);
 })
+
+app.post("/update", function (req, res) {
+    var id = req.body.id;
+    console.log(id);
+})
+
+
+
+app.post("/delete", function (req, res) {
+    var placeSort=req.body.place;
+    var id = req.body.id;
+    console.log(placeSort);
+})
+
 
 
 app.listen(process.env.PORT | port, () => {
