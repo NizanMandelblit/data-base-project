@@ -33,7 +33,7 @@
 
 
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="/">Data-Base Project Test Site</a>
+        <a class="navbar-brand" href="">Data-Base Project Test Site</a>
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="/search"><img src="statue-of-liberty.png">
@@ -113,33 +113,34 @@
         <form class="" action="/update" method="post">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">1.where did you visit?</label>
-                <select class="form-control">
+                <select class="form-control" name="place">
                     <option>AirBnb</option>
-                    <option>Hotel</option>
+                    <option>מסעדה</option>
+                    <option>מלון</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlSelect1">2.Name:</label>
                 <div class="row">
                     <div class="col">
-                        <input type="text" class="form-control" placeholder="First name">
+                        <input type="text" class="form-control" name="FirstName" placeholder="First name">
                     </div>
                     <div class="col">
-                        <input type="text" class="form-control" placeholder="Last name">
+                        <input type="text" class="form-control" name="LastName" placeholder="Last name">
                     </div>
                 </div>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">3.id of the place</label>
-                <input type="number" class="form-control" placeholder="e.g 132">
+                <input type="number" name="id" class="form-control" placeholder="e.g 132">
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">4.Grade of the place</label>
-                <input type="number" min="1" max="100" class="form-control" placeholder="1-100">
+                <input type="number" name="grade" min="1" max="100" class="form-control" placeholder="1-100">
             </div>
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">5.Comments:</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
 
@@ -163,7 +164,8 @@
                 <label for="exampleFormControlSelect1">1.where did you visit?</label>
                 <select name="place" class="form-control">
                     <option>AirBnb</option>
-                    <option>Hotel</option>
+                    <option>מסעדה</option>
+                    <option>מלון</option>
                 </select>
             </div>
             <div class="form-group">
@@ -179,10 +181,23 @@
 
 <% } %>
 
+<!--delete page content-->
+<% if(pageName == "thanks page") { %>
 
 
 
 
+
+        <form class="" action="/thanks">
+            <h1> thank you! </h1>
+            <h2> we hope you enjoyed your trip:) </h2>
+
+        </form>
+
+
+
+
+<% } %>
 
 <script src="scripts.js"></script>
 </body>

@@ -42,25 +42,38 @@ app.get('/thanks', (req, res) => {
 
 //POST functions
 app.post("/search", function (req, res) {
-
-    res.redirect("/thanks");
-
+    var id = req.body.id;
+    console.log(id);
 })
 
 app.post("/update", function (req, res) {
-
+    var id = req.body.id;
+    var placeSort=req.body.place;
+    var FirstName=req.body.FirstName;
+    var LastName=req.body.LastName;
+    var grade=req.body.grade;
+    var comment=req.body.comment;
+    console.log(id);
+    console.log(placeSort);
+    console.log(FirstName);
+    console.log(LastName);
+    console.log(grade);
+    console.log(comment);
     res.redirect("/thanks");
-
 })
 
 
+
 app.post("/delete", function (req, res) {
-    var placeSort = req.body.place;
+    var placeSort=req.body.place;
     var id = req.body.id;
     console.log(placeSort);
     console.log(id);
     res.redirect("/thanks");
 })
+
+
+
 
 
 app.listen(process.env.PORT | port, () => {
