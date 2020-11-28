@@ -60,40 +60,40 @@
         <form class="" action="/search" method="post">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">1.favorite food</label>
-                <select class="form-control">
+                <select class="form-control" name="style">
                     <option>Chinese</option>
-                    <option>Japneese</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option>Japanese</option>
+                    <option>italian</option>
+                    <option>jewish</option>
+                    <option>pizza</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="exampleFormControlInput1">2.Max Distance</label>
-                <input type="double" class="form-control" placeholder="e.g 120.5">
+                <input type="double" class="form-control" placeholder="e.g 12.5" name="distance">
             </div>
 
             <div class="form-row align-items-center">
-                <label for="exampleFormControlInput1">3.Rating</label>
-                <input type="number" class="form-control" placeholder="Max">
-                <input type="number" class="form-control" placeholder="Min">
+                <label for="exampleFormControlInput1">3.Rating for the requested restaurants</label>
+                <input type="number" class="form-control" placeholder="Max" name="maxRateRestaurant">
+                <input type="number" class="form-control" placeholder="Min" name="minRateRestaurant">
             </div>
 
 
             <div class="form-row align-items-center">
                 <label for="exampleFormControlInput1">4.cost range per night in $</label>
-                <input type="number" class="form-control" placeholder="Max">
-                <input type="number" class="form-control" placeholder="Min">
+                <input type="number" class="form-control" placeholder="Max" name="maxNightCost">
+                <input type="number" class="form-control" placeholder="Min" name="minNightCost">
             </div>
             <div class="form-row align-items-center">
                 <label for="exampleFormControlInput1">5.max and min range for hotel</label>
-                <input type="number" class="form-control" placeholder="Max">
-                <input type="number" class="form-control" placeholder="Min">
+                <input type="number" class="form-control" placeholder="Max" name="maxRateHA">
+                <input type="number" class="form-control" placeholder="Min" name="minRateHA">
             </div>
             <label for="exampleFormControlInput1">6.are you ready to include critical reviews?</label>
 
             <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1" name="critical">
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
 
             </div>
@@ -181,7 +181,7 @@
 
 <% } %>
 
-<!--delete page content-->
+<!--thanks page content-->
 <% if(pageName == "thanks page") { %>
 
 
@@ -198,7 +198,23 @@
 
 
 <% } %>
+<!--output page content-->
+<% if(pageName == "output page") { %>
 
+
+
+
+
+    <form class="" action="/output">
+        <h1> we are looking for the best vacation for you </h1>
+        <h2> it is coming soon... </h2>
+
+    </form>
+
+
+
+
+<% } %>
 <script src="scripts.js"></script>
 </body>
 
