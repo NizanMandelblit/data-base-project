@@ -6,6 +6,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 var pageName;
+var counter=2;
 const mysql = require("mysql")
 //Create connection
 const db = mysql.createConnection({
@@ -111,7 +112,8 @@ app.post("/update", function (req, res) {
     console.log(LastName);
     console.log(grade);
     console.log(comment);
-    var cur;
+    var cur=90;
+    /*
     let sql0 = "SELECT rating FROM " + placeSort + " WHERE airbnb_id=" + id;
     db.query(sql0, (err,results) => {
         if (err) {
@@ -126,16 +128,17 @@ app.post("/update", function (req, res) {
         console.log("asked table")
         //cur=parseInt(results)
     })
-
-    //var value = ((grade - cur) / 10) + cur;
-    let sql = "UPDATE " + placeSort + " SET rating = " + grade + " WHERE id=" + id;
+*/
+    var value = ((grade - cur) / 10) + cur;
+    let sql = "UPDATE " + placeSort + " SET rating = " + value + " WHERE id=" + id;
     db.query(sql, (err, results) => {
         if (err) {
             throw err
         } else console.log("updated table")
     })
     var finalname=FirstName+" "+LastName
-    let sql2 = "INSERT INTO airbnb_reviews VALUES (8," + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
+    let sql2 = "INSERT INTO "+placeSort+"_reviews VALUES ("+counter+"," + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
+    counter++;
     db.query(sql2, (err, results) => {
         if (err) {
             throw err
@@ -153,6 +156,13 @@ app.post("/delete", function (req, res) {
     var id = req.body.id;
     console.log(placeSort);
     console.log(id);
+    let sql = "DELETE FROM " + placeSort + " WHERE id=" + id;
+    db.query(sql, (err, results) => {
+        if (err) {
+            throw err
+        } else console.log("deleted table")
+    })
+    //must add other tabels like reviews
     res.redirect("/thanks");
 })
 
