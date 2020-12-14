@@ -1,6 +1,7 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const app = express()
+const mysql = require("mysql")
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -66,8 +67,10 @@ app.get('/thanks', (req, res) => {
 })
 app.get('/output', (req, res) => {
     pageName = "output page";
+    let rawdata = fs.readFileSync('jsondata.json');
+    let student = JSON.parse(rawdata);
 
-    res.render("index", {pageName: pageName});
+    res.render("index", {pageName: pageName,query:student});
 })
 
 //POST functions
@@ -207,3 +210,31 @@ app.listen(process.env.PORT | port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
 
+
+//Create connection
+const db = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: pass,
+    database: 'newyorktrip'
+})
+
+//Connect to MySQL
+db.connect(err => {
+    if (err) {
+        throw err
+    }
+    console.log('Connected!')
+})
+
+
+ // //Create Database
+ // app.get('/createdb', (req, res) => {
+ //    let sql = 'CREATE DATABASE NYCulinaryTrip'
+ //     db.query(sql, err => {
+ //        if (err) {
+ //            throw err
+ //        )}
+ //         res.send('Database Created!')
+ //    })
+ //
