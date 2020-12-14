@@ -107,15 +107,31 @@ app.post("/search", function (req, res) {
     console.log(maxRateHA);
     console.log(minRateHA);
     console.log(critical);
-    minRateHA=90
-    maxNightCost=670
-    //let types=""
-    let sql="SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter FROM hotels JOIN restaurants WHERE hotels.rating>"+minRateHA+" AND hotels.high_price<"+maxNightCost+" GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
-    let sql2="SELECT name,type FROM restaurants WHERE type IN("+types+");"
+
+    maxRateRestaurant=30;
+    minRateRestaurant=20;
+    minRateHA=60
+    maxRateHA=70
+    maxNightCost=200
+    minNightCost=50
+    var distance_hotels= "(hotels.latitude-restaurants.latitude)+(hotels.longitude-restaurants.longitude)"
+    var output_hotel="SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter"
+    var tabels_hotel="FROM hotels JOIN restaurants"
+    var conditions_hotel="WHERE restaurants.rating BETWEEN "+minRateRestaurant+" AND "+maxRateRestaurant+" AND hotels.rating BETWEEN "+minRateHA+" AND "+maxRateHA+" AND hotels.high_price>="+minNightCost+" AND hotels.low_price<="+maxNightCost+" AND type IN("+types+")"
+    var critical_hotel=" AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
+    //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
+    var end_hotel="GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
+
+    let sql=output_hotel+" "+tabels_hotel+" "+conditions_hotel+" "+end_hotel;
+    if(critical){
+        sql=output_hotel+" "+tabels_hotel+" "+conditions_hotel+critical_hotel+" "+end_hotel;
+    }
+    console.log(sql);
     db.query(sql, (err, results) => {
          if (err) {
              throw err
          } else {
+             console.log(results);
              let data = JSON.stringify(results);
              fs.writeFileSync("jsondata.json", data)
          }
