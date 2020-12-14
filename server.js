@@ -81,7 +81,21 @@ app.post("/search", function (req, res) {
     var maxRateHA = req.body.maxRateHA;
     var minRateHA = req.body.minRateHA;
     var critical = req.body.critical;
+    let types=""
     console.log(style);
+    console.log(style.length);
+    if (typeof style === 'string')
+    {
+        types=types+"'"+style+"'";
+    }else{
+        for (var i=0;i<style.length;i++){
+            types=types+"'"+style[i]+"'";
+            if(i<style.length-1){
+                types+=",";
+            }
+        }
+    }
+    console.log(types);
     console.log(distance);
     console.log(maxRateRestaurant);
     console.log(minRateRestaurant);
@@ -90,14 +104,16 @@ app.post("/search", function (req, res) {
     console.log(maxRateHA);
     console.log(minRateHA);
     console.log(critical);
-
-
-    // let sql="SELECT hotels.id ,hotels.name ,hotels.rating COUNT(DISTINCT restaurants.id) AS counter FROM hotels LEFT JOIN restaurants ON (type="+style+") GROUP BY hotels.id"
-    // db.query(sql, (err, results) => {
-    //     if (err) {
-    //         throw err
-    //     } else console.log(results)
-    // })
+    minRateHA=90
+    maxNightCost=670
+    //let types=""
+    let sql="SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter FROM hotels JOIN restaurants WHERE hotels.rating>"+minRateHA+" AND hotels.high_price<"+maxNightCost+" GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
+    let sql2="SELECT name,type FROM restaurants WHERE type IN("+types+");"
+    db.query(sql, (err, results) => {
+         if (err) {
+             throw err
+         } else console.log(results)
+     })
 
 
 
