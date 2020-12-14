@@ -8,7 +8,10 @@ app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 var pageName;
 
-var pass=''
+var pass='9096373'
+
+
+var counter=2;
 // GET functions
 app.get('/', (req, res) => {
     pageName = "home page";
@@ -65,11 +68,17 @@ app.post("/search", function (req, res) {
     console.log(maxRateHA);
     console.log(minRateHA);
     console.log(critical);
-    if (critical) {
-        console.log("!!!!!!!!!");
-    } else {
-        console.log("??????????");
-    }
+
+
+    // let sql="SELECT hotels.id ,hotels.name ,hotels.rating COUNT(DISTINCT restaurants.id) AS counter FROM hotels LEFT JOIN restaurants ON (type="+style+") GROUP BY hotels.id"
+    // db.query(sql, (err, results) => {
+    //     if (err) {
+    //         throw err
+    //     } else console.log(results)
+    // })
+
+
+
     res.redirect("/output");
 })
 
