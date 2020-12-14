@@ -1,7 +1,7 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const app = express()
-const mysql = require("mysql")
+const fs=require('fs')
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -115,7 +115,10 @@ app.post("/search", function (req, res) {
     db.query(sql, (err, results) => {
          if (err) {
              throw err
-         } else console.log(results)
+         } else {
+             let data = JSON.stringify(results);
+             fs.writeFileSync("jsondata.json", data)
+         }
      })
 
 
@@ -182,22 +185,8 @@ app.post("/delete", function (req, res) {
     db.query(sql, (err, results) => {
         if (err) {
             throw err
-        } else console.log("deleted table1")
+        } else console.log("deleted table")
     })
-    let sql1 = "DELETE FROM " + placeSort +"_reviews WHERE id=" + id;
-    db.query(sql1, (err, results) => {
-        if (err) {
-            throw err
-        } else console.log("deleted table2")
-    })
-    if (placeSort.localeCompare("restaurants")===0){
-        let sql2 = "DELETE FROM restaurant_inspections_connection_table WHERE resaurant_id=" + id;
-        db.query(sql2, (err, results) => {
-            if (err) {
-                throw err
-            } else console.log("deleted table2")
-        })
-    }
     //must add other tabels like reviews
     res.redirect("/thanks");
 })
@@ -211,21 +200,6 @@ app.listen(process.env.PORT | port, () => {
 })
 
 
-//Create connection
-const db = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: pass,
-    database: 'newyorktrip'
-})
-
-//Connect to MySQL
-db.connect(err => {
-    if (err) {
-        throw err
-    }
-    console.log('Connected!')
-})
 
 
  // //Create Database
