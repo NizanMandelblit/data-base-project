@@ -118,7 +118,7 @@ app.post("/update", function (req, res) {
         if (err) {
             console.log("bad results")
             throw err
-        } else {
+        } else if (results.length) {
             console.log("good" + results[0]['rating'])
             cur = results[0]['rating']
             console.log(cur)
@@ -130,12 +130,15 @@ app.post("/update", function (req, res) {
                     throw err
                 } else console.log("updated table")
             })
+        } else {
+            console.log("ID not found")
         }
     })
 
 
-    var finalname = FirstName + " " + LastName
-    let sql2 = "INSERT INTO " + placeSort + "_reviews (" + placeSort + "_id, guest_name,grade,comment) VALUES (" + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
+    const finalName = FirstName + " " + LastName;
+    let sql2 = "INSERT INTO " + placeSort + "_reviews (" + placeSort + "_id, guest_name,grade,comment) VALUES (" + id +
+        ",'" + finalName + "'," + grade + ",'" + comment + "');"
     //counter++;
     db.query(sql2, (err, results) => {
         if (err) {
