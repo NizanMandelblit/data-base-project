@@ -171,15 +171,3 @@ db.connect(err => {
     }
     console.log('Connected!')
 })
-
-
-// //Create Database
-// app.get('/createdb', (req, res) => {
-//    let sql = 'CREATE DATABASE NYCulinaryTrip'
-//     db.query(sql, err => {
-//        if (err) {
-//            throw err
-//        )}
-//         res.send('Database Created!')
-//    })
-//
