@@ -6,7 +6,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 var pageName;
-var counter=2;
+
 const mysql = require("mysql")
 //Create connection
 const db = mysql.createConnection({
@@ -142,7 +142,6 @@ app.post("/update", function (req, res) {
 
     var finalname = FirstName + " " + LastName
     let sql2 = "INSERT INTO " + placeSort + "_reviews (" + placeSort + "_id, guest_name,grade,comment) VALUES (" + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
-    //counter++;
     db.query(sql2, (err, results) => {
         if (err) {
             throw err
@@ -164,8 +163,22 @@ app.post("/delete", function (req, res) {
     db.query(sql, (err, results) => {
         if (err) {
             throw err
-        } else console.log("deleted table")
+        } else console.log("deleted table1")
     })
+    let sql1 = "DELETE FROM " + placeSort +"_reviews WHERE id=" + id;
+    db.query(sql1, (err, results) => {
+        if (err) {
+            throw err
+        } else console.log("deleted table2")
+    })
+    if (placeSort.localeCompare("restaurants")===0){
+        let sql2 = "DELETE FROM restaurant_inspections_connection_table WHERE resaurant_id=" + id;
+        db.query(sql2, (err, results) => {
+            if (err) {
+                throw err
+            } else console.log("deleted table2")
+        })
+    }
     //must add other tabels like reviews
     res.redirect("/thanks");
 })
