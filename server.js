@@ -112,24 +112,25 @@ app.post("/search", function (req, res) {
     console.log(minRateHA);
     console.log(critical);
 
-    maxRateRestaurant=30;
+    maxRateRestaurant=100;
     minRateRestaurant=20;
     minRateHA=60
     maxRateHA=70
     maxNightCost=200
     minNightCost=50
-    var distance_hotels= "(hotels.latitude-restaurants.latitude)+(hotels.longitude-restaurants.longitude)"
-    var output_hotel="SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter"
+    //var distance_hotels= "(hotels.latitude-restaurants.latitude)+(hotels.longitude-restaurants.longitude)"
+    var output_hotel="SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter "
     var tabels_hotel="FROM hotels JOIN restaurants"
-    var conditions_hotel="WHERE restaurants.rating BETWEEN "+minRateRestaurant+" AND "+maxRateRestaurant+" AND hotels.rating BETWEEN "+minRateHA+" AND "+maxRateHA+" AND hotels.high_price>="+minNightCost+" AND hotels.low_price<="+maxNightCost+" AND type IN("+types+")"
-    var critical_hotel=" AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
+    var conditions_hotel=" WHERE restaurants.rating BETWEEN "+minRateRestaurant+" AND "+maxRateRestaurant+" AND hotels.rating BETWEEN "+minRateHA+" AND "+maxRateHA+" AND hotels.low_price BETWEEN "+minNightCost+" AND "+maxNightCost+" AND type IN("+types+") "
+    var critical_hotel="AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
     //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
     var end_hotel="GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
 
-    let sql1=output_hotel+" "+tabels_hotel+" "+conditions_hotel+" "+end_hotel;
+    let sql1=output_hotel+tabels_hotel+conditions_hotel;
     if(critical){
-        sql1=output_hotel+" "+tabels_hotel+" "+conditions_hotel+critical_hotel+" "+end_hotel;
+        sql1+=critical_hotel;
     }
+    sql1+=end_hotel;
     var output_airbnb="SELECT airbnb.id,airbnb.name,airbnb.rating,airbnb.price AS price,COUNT(restaurants.id) AS counter"
     var tabels_airbnb="FROM airbnb JOIN restaurants"
     var conditions_airbnb="WHERE restaurants.rating BETWEEN "+minRateRestaurant+" AND "+maxRateRestaurant+" AND airbnb.rating BETWEEN "+minRateHA+" AND "+maxRateHA+" AND airbnb.price BETWEEN "+minNightCost+" AND "+maxNightCost+" AND type IN("+types+")"
@@ -145,26 +146,28 @@ app.post("/search", function (req, res) {
         sql2+=" "+superhost_airbnb;
     }
     sql2+=" "+end_airbnb;
-    console.log(sql1);
-    db.query(sql1, (err, results) => {
+    //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel;
+    console.log(sql2);
+    db.query(sql2, (err, results) => {
          if (err) {
              throw err
          } else {
-             console.log(results[0]);
+             console.log(results);
              let data = JSON.stringify(results);
              fs.writeFileSync("jsondata.json", data)
          }
      })
-    console.log(sql2);
-    db.query(sql2, (err, results) => {
+    /*
+    console.log(sql);
+    db.query(sql, (err, results) => {
         if (err) {
             throw err
         } else {
-            console.log(results[0]);
+            console.log(results);
             let data = JSON.stringify(results);
             fs.writeFileSync("jsondata.json", data)
         }
-    })
+    })*/
 
 
 
