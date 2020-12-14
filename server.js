@@ -61,7 +61,21 @@ app.post("/search", function (req, res) {
     var maxRateHA = req.body.maxRateHA;
     var minRateHA = req.body.minRateHA;
     var critical = req.body.critical;
+    let types=""
     console.log(style);
+    console.log(style.length);
+    if (typeof style === 'string')
+    {
+        types=types+"'"+style+"'";
+    }else{
+        for (var i=0;i<style.length;i++){
+            types=types+"'"+style[i]+"'";
+            if(i<style.length-1){
+                types+=",";
+            }
+        }
+    }
+    console.log(types);
     console.log(distance);
     console.log(maxRateRestaurant);
     console.log(minRateRestaurant);
@@ -70,29 +84,32 @@ app.post("/search", function (req, res) {
     console.log(maxRateHA);
     console.log(minRateHA);
     console.log(critical);
-
-
-    let sql = "SELECT hotels.id ,hotels.name ,hotels.rating FROM hotels where rating>90 UNION SELECT airbnb.id ,airbnb.name ,airbnb.rating FROM airbnb where rating>90;"
-    var f;
+    minRateHA=90
+    maxNightCost=670
+    //let types=""
+    let sql="SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter FROM hotels JOIN restaurants WHERE hotels.rating>"+minRateHA+" AND hotels.high_price<"+maxNightCost+" GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
+    let sql2="SELECT name,type FROM restaurants WHERE type IN("+types+");"
     db.query(sql, (err, results) => {
-        if (err) {
-            throw err
-        } else {
-            // console.log(results)
-            let data = JSON.stringify(results);
-            fs.writeFileSync("jsondata.json", data)
-        }
-    })
+         if (err) {
+             throw err
+         } else {
+             let data = JSON.stringify(results);
+             fs.writeFileSync("jsondata.json", data)
+         }
+     })
+
+
+
     res.redirect("/output");
 })
 
 app.post("/update", function (req, res) {
     var id = req.body.id;
-    var placeSort = req.body.place;
-    var FirstName = req.body.FirstName;
-    var LastName = req.body.LastName;
-    var grade = req.body.grade;
-    var comment = req.body.comment;
+    var placeSort=req.body.place;
+    var FirstName=req.body.FirstName;
+    var LastName=req.body.LastName;
+    var grade=req.body.grade;
+    var comment=req.body.comment;
     console.log(id);
     console.log(placeSort);
     console.log(FirstName);
@@ -101,31 +118,27 @@ app.post("/update", function (req, res) {
     console.log(comment);
     var cur = 90;
 
-    // let sql0 = "SELECT rating FROM " + placeSort + " WHERE airbnb_id=" + id;
-    // db.query(sql0, (err,results) => {
-    //     if (err) {
-    //         console.log("bad results")
-    //         throw err
-    //     } else console.log("good"+results)
-    // })
-    // db.query(sql0, (err, cur) => {
-    //     if (err) {
-    //         throw err
-    //     } else console.log(cur)
-    //     console.log("asked table")
-    //     //cur=parseInt(results)
-    // })
-
-    var value = ((grade - cur) / 10) + cur;
-    let sql = "UPDATE " + placeSort + " SET rating = " + value + " WHERE id=" + id;
-    db.query(sql, (err, results) => {
+    let sql0 = "SELECT * FROM " + placeSort + " WHERE id=" + id;
+    db.query(sql0, (err, results) => {
         if (err) {
+            console.log("bad results")
             throw err
-        } else console.log("updated table")
+        } else {
+            console.log("good" + results[0]['rating'])
+            cur = results[0]['rating']
+            console.log(cur)
+            var value = ((grade - cur) / 10) + cur;
+            console.log(value)
+            let sql = "UPDATE " + placeSort + " SET rating = " + value + " WHERE id=" + id;
+            db.query(sql, (err, results) => {
+                if (err) {
+                    throw err
+                } else console.log("updated table")
+            })
+        }
     })
     var finalname = FirstName + " " + LastName
-    let sql2 = "INSERT INTO " + placeSort + "_reviews VALUES (" + counter + "," + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
-    counter++;
+    let sql2 = "INSERT INTO " + placeSort + "_reviews (" + placeSort + "_id, guest_name,grade,comment) VALUES (" + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
     db.query(sql2, (err, results) => {
         if (err) {
             throw err
@@ -171,3 +184,15 @@ db.connect(err => {
     }
     console.log('Connected!')
 })
+
+
+// //Create Database
+// app.get('/createdb', (req, res) => {
+//    let sql = 'CREATE DATABASE NYCulinaryTrip'
+//     db.query(sql, err => {
+//        if (err) {
+//            throw err
+//        )}
+//         res.send('Database Created!')
+//    })
+//
