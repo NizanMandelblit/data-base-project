@@ -85,12 +85,7 @@ app.post("/search", function (req, res) {
     var minRateHA = req.body.minRateHA;
     var critical = req.body.critical;
     var superhost = req.body.super;
-    if(superhost){
-        console.log("!!!!!!!!!!!!1")
-    }
     let types=""
-    console.log(style);
-    console.log(style.length);
     if (typeof style === 'string')
     {
         types=types+"'"+style+"'";
@@ -102,22 +97,7 @@ app.post("/search", function (req, res) {
             }
         }
     }
-    console.log(types);
-    console.log(distance);
-    console.log(maxRateRestaurant);
-    console.log(minRateRestaurant);
-    console.log(maxNightCost);
-    console.log(minNightCost);
-    console.log(maxRateHA);
-    console.log(minRateHA);
-    console.log(critical);
 
-    maxRateRestaurant=100;
-    minRateRestaurant=20;
-    minRateHA=60
-    maxRateHA=70
-    maxNightCost=200
-    minNightCost=50
     //var distance_hotels= "(hotels.latitude-restaurants.latitude)+(hotels.longitude-restaurants.longitude)"
     var output_hotel="SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter "
     var tabels_hotel="FROM hotels JOIN restaurants"
@@ -147,8 +127,8 @@ app.post("/search", function (req, res) {
     }
     sql2+=" "+end_airbnb;
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel;
-    console.log(sql2);
-    db.query(sql2, (err, results) => {
+    console.log(sql1);
+    db.query(sql1, (err, results) => {
          if (err) {
              throw err
          } else {
@@ -157,9 +137,9 @@ app.post("/search", function (req, res) {
              fs.writeFileSync("jsondata.json", data)
          }
      })
-    /*
-    console.log(sql);
-    db.query(sql, (err, results) => {
+
+    console.log(sql2);
+    db.query(sql2, (err, results) => {
         if (err) {
             throw err
         } else {
@@ -167,7 +147,7 @@ app.post("/search", function (req, res) {
             let data = JSON.stringify(results);
             fs.writeFileSync("jsondata.json", data)
         }
-    })*/
+    })
 
 
 
@@ -250,13 +230,4 @@ app.listen(process.env.PORT | port, () => {
 
 
 
- // //Create Database
- // app.get('/createdb', (req, res) => {
- //    let sql = 'CREATE DATABASE NYCulinaryTrip'
- //     db.query(sql, err => {
- //        if (err) {
- //            throw err
- //        )}
- //         res.send('Database Created!')
- //    })
- //
+
