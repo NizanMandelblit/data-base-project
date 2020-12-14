@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Data-Base Project Test Site </title>
+    <title>Data-Base Project Site </title>
     <!--bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -31,23 +31,23 @@
 </head>
 
 <body>
-<h1> this is <%= pageName %></h1>
+
 
 <div class="container-fluid p-3 mb-2 bg-light text-dark">
 
 
     <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <a class="navbar-brand" href="">Data-Base Project Test Site</a>
+        <a class="navbar-brand" href="">Data-Base Project Site</a>
         <ul class="navbar-nav">
             <li class="nav-item">
                 <a class="nav-link" href="/search"><img src="statue-of-liberty.png">
-                    חיפוש חופשה</a>
+                    search for the best culinary vacation</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/update"><img src="statue-of-liberty.png">עדכון מידע</a>
+                <a class="nav-link" href="/update"><img src="statue-of-liberty.png">update information</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="/delete"><i class="fas fa-sign-in-alt"></i>מחיקת מידע</a>
+                <a class="nav-link" href="/delete"><i class="fas fa-sign-in-alt"></i>delete information</a>
             </li>
         </ul>
 
@@ -61,7 +61,7 @@
     <div class="container">
         <form class="" action="/search" method="post">
             <div class="form-group">
-                <label for="exampleFormControlSelect1">1.favorite food</label>
+                <label for="exampleFormControlSelect1">1.choose your favorite food</label>
                 <!-- need to have multi choose-->
                 <select class="selectpicker form-control" multiple data-live-search="true" name="style" required>
                     <option>Pizza/Italian</option>
@@ -122,24 +122,24 @@
 
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">2.Max Distance</label>
+                <label for="exampleFormControlInput1">2.enter maximum distance you want to affect the search</label>
                 <input type="double" class="form-control" placeholder="e.g 12.5" name="distance">
             </div>
 
             <div class="form-row align-items-center">
-                <label for="exampleFormControlInput1">3.Rating for the requested restaurants</label>
+                <label for="exampleFormControlInput1">3.enter the requested rating for the restaurants</label>
                 <input type="number" class="form-control" placeholder="Max" name="maxRateRestaurant">
                 <input type="number" class="form-control" placeholder="Min" name="minRateRestaurant">
             </div>
 
 
             <div class="form-row align-items-center">
-                <label for="exampleFormControlInput1">4.cost range per night in $</label>
+                <label for="exampleFormControlInput1">4.enter the requested price for a night in $</label>
                 <input type="number" class="form-control" placeholder="Max" name="maxNightCost">
                 <input type="number" class="form-control" placeholder="Min" name="minNightCost">
             </div>
             <div class="form-row align-items-center">
-                <label for="exampleFormControlInput1">5.max and min range for hotel</label>
+                <label for="exampleFormControlInput1">5.enter the requested rating for the hotel</label>
                 <input type="number" class="form-control" placeholder="Max" name="maxRateHA">
                 <input type="number" class="form-control" placeholder="Min" name="minRateHA">
             </div>
@@ -150,7 +150,7 @@
                 <label class="form-check-label" for="exampleCheck1"> </label>
 
             </div>
-            <label for="exampleFormControlInput1">7.do you want to find airbnb of only super hosts?</label>
+            <label for="exampleFormControlInput1">7.do you want to find airbnb of super hosts only?</label>
 
             <div class="form-group form-check">
                 <input type="checkbox" class="form-check-input" id="exampleCheck1" name="super">
@@ -178,7 +178,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlSelect1">2.Name:</label>
+                <label for="exampleFormControlSelect1">2.enter yor name:</label>
                 <div class="row">
                     <div class="col">
                         <input type="text" class="form-control" name="FirstName" placeholder="First name">
@@ -189,15 +189,15 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">3.id of the place</label>
+                <label for="exampleFormControlInput1">3.enter the id of the place</label>
                 <input type="number" name="id" class="form-control" placeholder="e.g 132">
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">4.Grade of the place</label>
+                <label for="exampleFormControlInput1">4.enter the grade you give to the place</label>
                 <input type="number" name="grade" min="1" max="100" class="form-control" placeholder="1-100">
             </div>
             <div class="form-group">
-                <label for="exampleFormControlTextarea1">5.Comments:</label>
+                <label for="exampleFormControlTextarea1">5.enter your comments please:</label>
                 <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -223,7 +223,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="exampleFormControlInput1">2.id of the place</label>
+                <label for="exampleFormControlInput1">2.enter the id of the place</label>
                 <input type="number" name="id" class="form-control" placeholder="e.g 132">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
