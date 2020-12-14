@@ -5,13 +5,14 @@ const mysql = require("mysql")
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
+const fs = require('fs');
 const port = 3001
 var pageName;
 
-var pass='9096373'
+var pass = '9096373'
 
 
-var counter=2;
+var counter = 2;
 // GET functions
 app.get('/', (req, res) => {
     pageName = "home page";
@@ -39,13 +40,14 @@ app.get('/delete', (req, res) => {
 
 app.get('/thanks', (req, res) => {
     pageName = "thanks page";
-
     res.render("index", {pageName: pageName});
 })
 app.get('/output', (req, res) => {
     pageName = "output page";
+    let rawdata = fs.readFileSync('jsondata.json');
+    let student = JSON.parse(rawdata);
 
-    res.render("index", {pageName: pageName});
+    res.render("index", {pageName: pageName,query:student});
 })
 
 //POST functions
@@ -70,15 +72,17 @@ app.post("/search", function (req, res) {
     console.log(critical);
 
 
-    // let sql="SELECT hotels.id ,hotels.name ,hotels.rating COUNT(DISTINCT restaurants.id) AS counter FROM hotels LEFT JOIN restaurants ON (type="+style+") GROUP BY hotels.id"
-    // db.query(sql, (err, results) => {
-    //     if (err) {
-    //         throw err
-    //     } else console.log(results)
-    // })
-
-
-
+    let sql = "SELECT hotels.id ,hotels.name ,hotels.rating FROM hotels where rating>90 UNION SELECT airbnb.id ,airbnb.name ,airbnb.rating FROM airbnb where rating>90;"
+    var f;
+    db.query(sql, (err, results) => {
+        if (err) {
+            throw err
+        } else {
+            // console.log(results)
+            let data = JSON.stringify(results);
+            fs.writeFileSync("jsondata.json", data)
+        }
+    })
     res.redirect("/output");
 })
 
@@ -95,23 +99,23 @@ app.post("/update", function (req, res) {
     console.log(LastName);
     console.log(grade);
     console.log(comment);
-    var cur=90;
-    /*
-    let sql0 = "SELECT rating FROM " + placeSort + " WHERE airbnb_id=" + id;
-    db.query(sql0, (err,results) => {
-        if (err) {
-            console.log("bad results")
-            throw err
-        } else console.log("good"+results)
-    })
-    db.query(sql0, (err, cur) => {
-        if (err) {
-            throw err
-        } else console.log(cur)
-        console.log("asked table")
-        //cur=parseInt(results)
-    })
-*/
+    var cur = 90;
+
+    // let sql0 = "SELECT rating FROM " + placeSort + " WHERE airbnb_id=" + id;
+    // db.query(sql0, (err,results) => {
+    //     if (err) {
+    //         console.log("bad results")
+    //         throw err
+    //     } else console.log("good"+results)
+    // })
+    // db.query(sql0, (err, cur) => {
+    //     if (err) {
+    //         throw err
+    //     } else console.log(cur)
+    //     console.log("asked table")
+    //     //cur=parseInt(results)
+    // })
+
     var value = ((grade - cur) / 10) + cur;
     let sql = "UPDATE " + placeSort + " SET rating = " + value + " WHERE id=" + id;
     db.query(sql, (err, results) => {
@@ -119,8 +123,8 @@ app.post("/update", function (req, res) {
             throw err
         } else console.log("updated table")
     })
-    var finalname=FirstName+" "+LastName
-    let sql2 = "INSERT INTO "+placeSort+"_reviews VALUES ("+counter+"," + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
+    var finalname = FirstName + " " + LastName
+    let sql2 = "INSERT INTO " + placeSort + "_reviews VALUES (" + counter + "," + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
     counter++;
     db.query(sql2, (err, results) => {
         if (err) {
@@ -147,9 +151,6 @@ app.post("/delete", function (req, res) {
 })
 
 
-
-
-
 app.listen(process.env.PORT | port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
@@ -172,13 +173,13 @@ db.connect(err => {
 })
 
 
- // //Create Database
- // app.get('/createdb', (req, res) => {
- //    let sql = 'CREATE DATABASE NYCulinaryTrip'
- //     db.query(sql, err => {
- //        if (err) {
- //            throw err
- //        )}
- //         res.send('Database Created!')
- //    })
- //
+// //Create Database
+// app.get('/createdb', (req, res) => {
+//    let sql = 'CREATE DATABASE NYCulinaryTrip'
+//     db.query(sql, err => {
+//        if (err) {
+//            throw err
+//        )}
+//         res.send('Database Created!')
+//    })
+//
