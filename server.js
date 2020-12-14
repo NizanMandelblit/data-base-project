@@ -84,6 +84,10 @@ app.post("/search", function (req, res) {
     var maxRateHA = req.body.maxRateHA;
     var minRateHA = req.body.minRateHA;
     var critical = req.body.critical;
+    var superhost = req.body.super;
+    if(superhost){
+        console.log("!!!!!!!!!!!!1")
+    }
     let types=""
     console.log(style);
     console.log(style.length);
@@ -122,20 +126,45 @@ app.post("/search", function (req, res) {
     //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
     var end_hotel="GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
 
-    let sql=output_hotel+" "+tabels_hotel+" "+conditions_hotel+" "+end_hotel;
+    let sql1=output_hotel+" "+tabels_hotel+" "+conditions_hotel+" "+end_hotel;
     if(critical){
-        sql=output_hotel+" "+tabels_hotel+" "+conditions_hotel+critical_hotel+" "+end_hotel;
+        sql1=output_hotel+" "+tabels_hotel+" "+conditions_hotel+critical_hotel+" "+end_hotel;
     }
-    console.log(sql);
-    db.query(sql, (err, results) => {
+    var output_airbnb="SELECT airbnb.id,airbnb.name,airbnb.rating,airbnb.price AS price,COUNT(restaurants.id) AS counter"
+    var tabels_airbnb="FROM airbnb JOIN restaurants"
+    var conditions_airbnb="WHERE restaurants.rating BETWEEN "+minRateRestaurant+" AND "+maxRateRestaurant+" AND airbnb.rating BETWEEN "+minRateHA+" AND "+maxRateHA+" AND airbnb.price BETWEEN "+minNightCost+" AND "+maxNightCost+" AND type IN("+types+")"
+    var critical_airbnb="AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
+    var superhost_airbnb="AND airbnb.id IN(SELECT id FROM airbnb WHERE host_id IN (SELECT DISTINCT host_id FROM airbnb_hosts WHERE superhost=1))"
+    var end_airbnb=" GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC;"
+
+    let sql2=output_airbnb+" "+tabels_airbnb+" "+conditions_airbnb;
+    if(critical){
+        sql2+=" "+critical_airbnb;
+    }
+    if(superhost){
+        sql2+=" "+superhost_airbnb;
+    }
+    sql2+=" "+end_airbnb;
+    console.log(sql1);
+    db.query(sql1, (err, results) => {
          if (err) {
              throw err
          } else {
-             console.log(results);
+             console.log(results[0]);
              let data = JSON.stringify(results);
              fs.writeFileSync("jsondata.json", data)
          }
      })
+    console.log(sql2);
+    db.query(sql2, (err, results) => {
+        if (err) {
+            throw err
+        } else {
+            console.log(results[0]);
+            let data = JSON.stringify(results);
+            fs.writeFileSync("jsondata.json", data)
+        }
+    })
 
 
 
