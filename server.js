@@ -124,7 +124,7 @@ app.post("/search", function (req, res) {
          }
      })
 
-    console.log(sql2);
+    //console.log(sql2);
     db.query(sql2, (err, results) => {
         if (err) {
             throw err
