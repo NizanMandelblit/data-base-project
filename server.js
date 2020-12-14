@@ -90,22 +90,27 @@ app.post("/search", function (req, res) {
     console.log(maxRateHA);
     console.log(minRateHA);
     console.log(critical);
-    if (critical){
-        console.log("!!!!!!!!!");
-    }
-    else{
-        console.log("??????????");
-    }
+
+
+    // let sql="SELECT hotels.id ,hotels.name ,hotels.rating COUNT(DISTINCT restaurants.id) AS counter FROM hotels LEFT JOIN restaurants ON (type="+style+") GROUP BY hotels.id"
+    // db.query(sql, (err, results) => {
+    //     if (err) {
+    //         throw err
+    //     } else console.log(results)
+    // })
+
+
+
     res.redirect("/output");
 })
 
 app.post("/update", function (req, res) {
     var id = req.body.id;
-    var placeSort=req.body.place;
-    var FirstName=req.body.FirstName;
-    var LastName=req.body.LastName;
-    var grade=req.body.grade;
-    var comment=req.body.comment;
+    var placeSort = req.body.place;
+    var FirstName = req.body.FirstName;
+    var LastName = req.body.LastName;
+    var grade = req.body.grade;
+    var comment = req.body.comment;
     console.log(id);
     console.log(placeSort);
     console.log(FirstName);
@@ -152,7 +157,7 @@ app.post("/update", function (req, res) {
 
 
 app.post("/delete", function (req, res) {
-    var placeSort=req.body.place;
+    var placeSort = req.body.place;
     var id = req.body.id;
     console.log(placeSort);
     console.log(id);
