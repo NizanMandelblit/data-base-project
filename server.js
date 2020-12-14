@@ -7,7 +7,6 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 var pageName;
-
 const mysql = require("mysql")
 //Create connection
 const db = mysql.createConnection({
@@ -25,16 +24,6 @@ db.connect(err => {
     console.log('Connected!')
 })
 
-
-//random query
-/*
-let sql = 'SELECT * FROM restaurants WHERE Restaurant_Id = 40511702'
-db.query(sql, (err,results) => {
-    if (err) {
-        throw err
-    } else console.log(results[0]['boro'])
-})
-*/
 // GET functions
 app.get('/', (req, res) => {
     pageName = "home page";
@@ -127,12 +116,10 @@ app.post("/search", function (req, res) {
     }
     sql2+=" "+end_airbnb;
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel;
-    console.log(sql1);
     db.query(sql1, (err, results) => {
          if (err) {
              throw err
          } else {
-             console.log(results);
              let data = JSON.stringify(results);
              fs.writeFileSync("jsondata.json", data)
          }
@@ -143,7 +130,6 @@ app.post("/search", function (req, res) {
         if (err) {
             throw err
         } else {
-            console.log(results);
             let data = JSON.stringify(results);
             fs.writeFileSync("jsondata.json", data)
         }
@@ -161,30 +147,21 @@ app.post("/update", function (req, res) {
     var LastName=req.body.LastName;
     var grade=req.body.grade;
     var comment=req.body.comment;
-    console.log(id);
-    console.log(placeSort);
-    console.log(FirstName);
-    console.log(LastName);
-    console.log(grade);
-    console.log(comment);
+
     var cur = 90;
 
     let sql0 = "SELECT * FROM " + placeSort + " WHERE id=" + id;
     db.query(sql0, (err, results) => {
         if (err) {
-            console.log("bad results")
             throw err
         } else {
-            console.log("good" + results[0]['rating'])
             cur = results[0]['rating']
-            console.log(cur)
             var value = ((grade - cur) / 10) + cur;
-            console.log(value)
             let sql = "UPDATE " + placeSort + " SET rating = " + value + " WHERE id=" + id;
             db.query(sql, (err, results) => {
                 if (err) {
                     throw err
-                } else console.log("updated table")
+                }
             })
         }
     })
@@ -207,8 +184,6 @@ app.post("/update", function (req, res) {
 app.post("/delete", function (req, res) {
     var placeSort=req.body.place;
     var id = req.body.id;
-    console.log(placeSort);
-    console.log(id);
     let sql = "DELETE FROM " + placeSort + " WHERE id=" + id;
     db.query(sql, (err, results) => {
         if (err) {
