@@ -60,11 +60,11 @@
 <!--search page content-->
 <% if(pageName == "search page") { %>
     <div class="container">
-        <form class="" action="/search" method="post">
+        <form id="my-form" class="" action="/search" method="post">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">1.favorite food</label>
                 <!-- need to have multi choose-->
-                <select id="requireform" class="selectpicker form-control" multiple data-live-search="true" name="style" required>
+                <select id="requirelist" class="selectpicker form-control" multiple data-live-search="true" name="style" required>
                     <option>Pizza/Italian</option>
                     <option>Donuts</option>
                     <option>Delicatessen</option>
@@ -129,20 +129,20 @@
 
             <div class="form-row align-items-center">
                 <label for="exampleFormControlInput1">3.enter the requested rating for the restaurants</label>
-                <input type="number" class="form-control" placeholder="Max" name="maxRateRestaurant" required>
-                <input type="number" class="form-control" placeholder="Min" name="minRateRestaurant" required>
+                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxRateRestaurant" required>
+                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minRateRestaurant" required>
             </div>
 
 
             <div class="form-row align-items-center">
                 <label for="exampleFormControlInput1">4.enter the requested price for a night in $</label>
-                <input type="number" class="form-control" placeholder="Max" name="maxNightCost" required>
-                <input type="number" class="form-control" placeholder="Min" name="minNightCost" required>
+                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxNightCost" required>
+                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minNightCost" required>
             </div>
             <div class="form-row align-items-center">
                 <label for="exampleFormControlInput1">5.enter the requested rating for the hotel or airbnb</label>
-                <input type="number" class="form-control" placeholder="Max" name="maxRateHA" required>
-                <input type="number" class="form-control" placeholder="Min" name="minRateHA" required>
+                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxRateHA" required>
+                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minRateHA" required>
             </div>
             <label for="exampleFormControlInput1">6.do you want to avoid restaurants with critical reviews?</label>
 
@@ -261,6 +261,7 @@
     <!-- JSON.stringify(query)-->
 
     <div class="container-fluid">
+        <h1>HOTELS</h1>
         <table class="table table-hover table-dark">
             <thead>
             <tr>
@@ -273,19 +274,44 @@
             </thead>
 
             <tbody>
-            <% for(var i = 0; i < query.length; i++) { %>
+            <% for(var i = 0; i < queryhotels.length; i++) { %>
                 <tr>
-                    <td><%= query[i].id %></td>
-                    <td><%= query[i].name %></td>
-                    <td><%= query[i].rating %></td>
-                    <td><%= query[i].price %></td>
-                    <td><%= query[i].counter %></td>
-
+                    <td><%= queryhotels[i].id %></td>
+                    <td><%= queryhotels[i].name %></td>
+                    <td><%= queryhotels[i].rating %></td>
+                    <td><%= queryhotels[i].price %></td>
+                    <td><%= queryhotels[i].counter %></td>
                 </tr>
             <% } %>
             </tbody>
         </table>
 
+
+        <div class="container-fluid">
+            <h1>AIRBNB</h1>
+            <table class="table table-hover table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">name</th>
+                    <th scope="col">rating</th>
+                    <th scope="col">price</th>
+                    <th scope="col">counter</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% for(var i = 0; i < queryairbnb.length; i++) { %>
+                    <tr>
+                        <td><%= queryairbnb[i].id %></td>
+                        <td><%= queryairbnb[i].name %></td>
+                        <td><%= queryairbnb[i].rating %></td>
+                        <td><%= queryairbnb[i].price %></td>
+                        <td><%= queryairbnb[i].counter %></td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
 
     </div>
 

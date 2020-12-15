@@ -1,23 +1,16 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const app = express()
-const fs=require('fs')
+const fs = require('fs')
+const mysql = require("mysql")
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
-const fs = require('fs');
 const port = 3001
 var pageName;
 
 var pass = '9096373'
 
-//Connect to MySQL
-db.connect(err => {
-    if (err) {
-        throw err
-    }
-    console.log('Connected!')
-})
 
 var counter = 2;
 // GET functions
@@ -52,10 +45,12 @@ app.get('/thanks', (req, res) => {
 })
 app.get('/output', (req, res) => {
     pageName = "output page";
-    let rawdata = fs.readFileSync('jsondata.json');
-    let student = JSON.parse(rawdata);
+    let rawdatahotel = fs.readFileSync('hotelrseults.json');
+    let hotel = JSON.parse(rawdatahotel);
+    let rawdataairbnb = fs.readFileSync('airbnbrseults.json');
+    let airbnb = JSON.parse(rawdataairbnb);
 
-    res.render("index", {pageName: pageName, query: student});
+    res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb});
 })
 
 //POST functions
@@ -70,81 +65,84 @@ app.post("/search", function (req, res) {
     var minRateHA = req.body.minRateHA;
     var critical = req.body.critical;
     var superhost = req.body.super;
-    let types=""
-    if (typeof style === 'string')
-    {
-        types=types+"'"+style+"'";
-    }else{
-        for (var i=0;i<style.length;i++){
-            types=types+"'"+style[i]+"'";
-            if(i<style.length-1){
-                types+=",";
+    let types = ""
+    if (typeof style === 'string') {
+        types = types + "'" + style + "'";
+    } else {
+        for (var i = 0; i < style.length; i++) {
+            types = types + "'" + style[i] + "'";
+            if (i < style.length - 1) {
+                types += ",";
             }
         }
     }
 
     //var distance_hotels= "(hotels.latitude-restaurants.latitude)+(hotels.longitude-restaurants.longitude)"
-    var output_hotel="SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter "
-    var tabels_hotel="FROM hotels JOIN restaurants"
-    var conditions_hotel=" WHERE restaurants.rating BETWEEN "+minRateRestaurant+" AND "+maxRateRestaurant+" AND hotels.rating BETWEEN "+minRateHA+" AND "+maxRateHA+" AND hotels.low_price BETWEEN "+minNightCost+" AND "+maxNightCost+" AND type IN("+types+") "
-    var critical_hotel="AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
+    var output_hotel = "SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter "
+    var tabels_hotel = "FROM hotels JOIN restaurants"
+    var conditions_hotel = " WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND hotels.rating BETWEEN " + minRateHA + " AND " + maxRateHA + " AND hotels.low_price BETWEEN " + minNightCost + " AND " + maxNightCost + " AND type IN(" + types + ") "
+    var critical_hotel = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
     //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
-    var end_hotel="GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
+    var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
 
-    let sql1=output_hotel+tabels_hotel+conditions_hotel;
-    if(critical){
-        sql1+=critical_hotel;
+    let sql1 = output_hotel + tabels_hotel + conditions_hotel;
+    if (critical) {
+        sql1 += critical_hotel;
     }
-    sql1+=end_hotel;
-    var output_airbnb="SELECT airbnb.id,airbnb.name,airbnb.rating,airbnb.price AS price,COUNT(restaurants.id) AS counter"
-    var tabels_airbnb="FROM airbnb JOIN restaurants"
-    var conditions_airbnb="WHERE restaurants.rating BETWEEN "+minRateRestaurant+" AND "+maxRateRestaurant+" AND airbnb.rating BETWEEN "+minRateHA+" AND "+maxRateHA+" AND airbnb.price BETWEEN "+minNightCost+" AND "+maxNightCost+" AND type IN("+types+")"
-    var critical_airbnb="AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
-    var superhost_airbnb="AND airbnb.id IN(SELECT id FROM airbnb WHERE host_id IN (SELECT DISTINCT host_id FROM airbnb_hosts WHERE superhost=1))"
-    var end_airbnb=" GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC;"
+    sql1 += end_hotel;
+    var output_airbnb = "SELECT airbnb.id,airbnb.name,airbnb.rating,airbnb.price AS price,COUNT(restaurants.id) AS counter"
+    var tabels_airbnb = "FROM airbnb JOIN restaurants"
+    var conditions_airbnb = "WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND airbnb.rating BETWEEN " + minRateHA + " AND " + maxRateHA + " AND airbnb.price BETWEEN " + minNightCost + " AND " + maxNightCost + " AND type IN(" + types + ")"
+    var critical_airbnb = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
+    var superhost_airbnb = "AND airbnb.id IN(SELECT id FROM airbnb WHERE host_id IN (SELECT DISTINCT host_id FROM airbnb_hosts WHERE superhost=1))"
+    var end_airbnb = " GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC;"
 
-    let sql2=output_airbnb+" "+tabels_airbnb+" "+conditions_airbnb;
-    if(critical){
-        sql2+=" "+critical_airbnb;
+    let sql2 = output_airbnb + " " + tabels_airbnb + " " + conditions_airbnb;
+    if (critical) {
+        sql2 += " " + critical_airbnb;
     }
-    if(superhost){
-        sql2+=" "+superhost_airbnb;
+    if (superhost) {
+        sql2 += " " + superhost_airbnb;
     }
-    sql2+=" "+end_airbnb;
-    //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel;
+    sql2 += " " + end_airbnb;
+    //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel; hotel results
     db.query(sql1, (err, results) => {
-         if (err) {
-             throw err
-         } else {
-             let data = JSON.stringify(results);
-             fs.writeFileSync("jsondata.json", data)
-         }
-     })
+        if (err) {
+            throw err
+        } else {
+            console.log("hotel results:")
+            console.log(results[0])
+            let data = JSON.stringify(results);
+            fs.writeFileSync("hotelrseults.json", data)
+        }
+    })
 
-    //console.log(sql2);
+    //console.log(sql2); airbnb results
     db.query(sql2, (err, results) => {
         if (err) {
             throw err
         } else {
+            console.log("airbnb results:")
+            console.log(results[0])
             let data = JSON.stringify(results);
-            fs.writeFileSync("jsondata.json", data)
+            fs.writeFileSync("airbnbrseults.json", data)
         }
     })
 
 
     setTimeout(function () {
         res.redirect("/output");
-    }, 1000);
+    }, 8000);
 })
 
 
 app.post("/update", function (req, res) {
     var id = req.body.id;
-    var placeSort=req.body.place;
-    var FirstName=req.body.FirstName;
-    var LastName=req.body.LastName;
-    var grade=req.body.grade;
-    var comment=req.body.comment;
+    var placeSort = req.body.place;
+    var FirstName = req.body.FirstName;
+    var LastName = req.body.LastName;
+    var grade = req.body.grade;
+    var comment = req.body.comment;
 
     var cur = 90;
 
@@ -183,9 +181,6 @@ app.post("/update", function (req, res) {
 })
 
 
-
-
-
 app.post("/delete", function (req, res) {
     var placeSort = req.body.place;
     var id = req.body.id;
@@ -198,14 +193,11 @@ app.post("/delete", function (req, res) {
         } else console.log("deleted table")
     })
 
-    setTimeout(function (){
+    setTimeout(function () {
         //must add other tabels like reviews
         res.redirect("/thanks");
-    },1000);
+    }, 1000);
 })
-
-
-
 
 
 app.listen(process.env.PORT | port, () => {
@@ -221,13 +213,11 @@ const db = mysql.createConnection({
     database: 'newyorktrip'
 })
 
- // //Create Database
- // app.get('/createdb', (req, res) => {
- //    let sql = 'CREATE DATABASE NYCulinaryTrip'
- //     db.query(sql, err => {
- //        if (err) {
- //            throw err
- //        )}
- //         res.send('Database Created!')
- //    })
- //
+
+//Connect to MySQL
+db.connect(err => {
+    if (err) {
+        throw err
+    }
+    console.log('Connected!')
+})
