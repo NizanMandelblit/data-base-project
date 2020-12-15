@@ -6,8 +6,9 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 var pageName;
-var counter = 7;
 const mysql = require("mysql")
+
+
 //Create connection
 const db = mysql.createConnection({
     host: 'localhost',
@@ -111,7 +112,6 @@ app.post("/update", function (req, res) {
     console.log(LastName);
     console.log(grade);
     console.log(comment);
-    var cur = 90;
 
     let sql0 = "SELECT * FROM " + placeSort + " WHERE id=" + id;
     db.query(sql0, (err, results) => {
@@ -120,9 +120,9 @@ app.post("/update", function (req, res) {
             throw err
         } else if (results.length) {
             console.log("good" + results[0]['rating'])
-            cur = results[0]['rating']
+            const cur = results[0]['rating'];
             console.log(cur)
-            var value = ((grade - cur) / 10) + cur;
+            const value = ((grade - cur) / 10) + cur;
             console.log(value)
             let sql = "UPDATE " + placeSort + " SET rating = " + value + " WHERE id=" + id;
             db.query(sql, (err, results) => {
