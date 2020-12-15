@@ -1,9 +1,9 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const app = express()
-const fs = require('fs')
+const fs = require('fs').promises
 const mysql = require("mysql")
-var $ = require("jquery");
+
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -47,17 +47,16 @@ app.get('/thanks', (req, res) => {
 app.get('/output', (req, res) => {
     pageName = "output page";
 
-    let hotel = $().getJSON("hotelrseults.json", function (json) {
-        // process the results here
-        return json;
-    });
-    let airbnb = $().getJSON("airbnb.json", function (json) {
-        // process the results here
-        return json;
-    });
-    window.onload = function () {
-        res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb});
-    }
+    let rawdatahotel = fs.readFileSync('hotelrseults.json');
+    let hotel = JSON.parse(rawdatahotel);
+   try {
+       let rawdataairbnb = fs.readFileSync('airbnbrseults.json');
+   }catch (e){
+       let rawdataairbnb=undefined
+   }
+    let airbnb = JSON.parse(rawdataairbnb);
+    res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb});
+
 })
 
 //POST functions
@@ -120,9 +119,7 @@ app.post("/search", function (req, res) {
             console.log("hotel results:")
             console.log(results[0])
             let data = JSON.stringify(results);
-            j = fs.writeFile("hotelrseults.json", data, function (err) {
-                console.log(err)
-            })
+            fs.writeFileSync("hotelrseults.json", data)
         }
     })
 
@@ -134,16 +131,14 @@ app.post("/search", function (req, res) {
             console.log("airbnb results:")
             console.log(results[0])
             let data = JSON.stringify(results);
-            fs.writeFile("airbnbrseults.json", data, function (err) {
-                console.log(err)
-            })
+            fs.writeFileSync("airbnbrseults.json", data)
         }
     })
 
 
     setTimeout(function () {
         res.redirect("/output");
-    }, 1000);
+    }, 7000);
 })
 
 
