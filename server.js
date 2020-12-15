@@ -3,6 +3,7 @@ const bodyParser = require("body-parser")
 const app = express()
 const fs = require('fs')
 const mysql = require("mysql")
+var $ = require("jquery");
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -45,12 +46,18 @@ app.get('/thanks', (req, res) => {
 })
 app.get('/output', (req, res) => {
     pageName = "output page";
-    let rawdatahotel = fs.readFileSync('hotelrseults.json');
-    let hotel = JSON.parse(rawdatahotel);
-    let rawdataairbnb = fs.readFileSync('airbnbrseults.json');
-    let airbnb = JSON.parse(rawdataairbnb);
 
-    res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb});
+    let hotel = $().getJSON("hotelrseults.json", function (json) {
+        // process the results here
+        return json;
+    });
+    let airbnb = $().getJSON("airbnb.json", function (json) {
+        // process the results here
+        return json;
+    });
+    window.onload = function () {
+        res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb});
+    }
 })
 
 //POST functions
@@ -113,7 +120,7 @@ app.post("/search", function (req, res) {
             console.log("hotel results:")
             console.log(results[0])
             let data = JSON.stringify(results);
-            fs.writeFile("hotelrseults.json", data,function (err){
+            j = fs.writeFile("hotelrseults.json", data, function (err) {
                 console.log(err)
             })
         }
@@ -127,9 +134,9 @@ app.post("/search", function (req, res) {
             console.log("airbnb results:")
             console.log(results[0])
             let data = JSON.stringify(results);
-           fs.writeFile("airbnbrseults.json", data,function (err){
-               console.log(err)
-           })
+            fs.writeFile("airbnbrseults.json", data, function (err) {
+                console.log(err)
+            })
         }
     })
 
@@ -225,3 +232,4 @@ db.connect(err => {
     }
     console.log('Connected!')
 })
+

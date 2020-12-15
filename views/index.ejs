@@ -277,63 +277,68 @@
         <!-- JSON.stringify(query)-->
 
         <div id="overlay" class="container-fluid">
-            <h1>HOTELS</h1>
-
+            <a class="btn btn-primary" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
+               aria-controls="hotels">HOTELS</a>
             <input id="myInput" type="text" placeholder="Search..">
+            <div class="collapse multi-collapse" id="hotels">
 
-            <table class="table table-hover table-dark">
-                <thead>
-                <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">name</th>
-                    <th scope="col">rating</th>
-                    <th scope="col">price</th>
-                    <th scope="col">counter</th>
-                </tr>
-                </thead>
-
-                <tbody id="myTable">
-                <% for(var i = 0; i < queryhotels.length; i++) { %>
+                <table class="table table-hover table-dark">
+                    <thead>
                     <tr>
-                        <td><%= queryhotels[i].id %></td>
-                        <td><%= queryhotels[i].name %></td>
-                        <td><%= queryhotels[i].rating %></td>
-                        <td><%= queryhotels[i].price %></td>
-                        <td><%= queryhotels[i].counter %></td>
+                        <th scope="col">id</th>
+                        <th scope="col">name</th>
+                        <th scope="col">rating</th>
+                        <th scope="col">price</th>
+                        <th scope="col">counter</th>
                     </tr>
-                <% } %>
-                </tbody>
-            </table>
+                    </thead>
+
+                    <tbody id="myTable">
+                    <% for(var i = 0; i < queryhotels.length; i++) { %>
+                        <tr>
+                            <td><%= queryhotels[i].id %></td>
+                            <td><%= queryhotels[i].name %></td>
+                            <td><%= queryhotels[i].rating %></td>
+                            <td><%= queryhotels[i].price %></td>
+                            <td><%= queryhotels[i].counter %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
+
         <div id="overlay" class="container-fluid">
-            <h1>AIRBNB</h1>
+            <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
+               aria-controls="airbnb">AIRBNB</a>
             <input id="myInputtwo" type="text" placeholder="Search..">
+            <div class="collapse multi-collapse" id="airbnb" style="">
 
-            <table class="table table-hover table-dark">
-                <thead>
-                <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">name</th>
-                    <th scope="col">rating</th>
-                    <th scope="col">price</th>
-                    <th scope="col">counter</th>
-                </tr>
-                </thead>
-
-                <tbody id="myTabletwo">
-                <% for(var i = 0; i < queryairbnb.length; i++) { %>
+                <table class="table table-hover table-dark">
+                    <thead>
                     <tr>
-                        <td><%= queryairbnb[i].id %></td>
-                        <td><%= queryairbnb[i].name %></td>
-                        <td><%= queryairbnb[i].rating %></td>
-                        <td><%= queryairbnb[i].price %></td>
-                        <td><%= queryairbnb[i].counter %></td>
+                        <th scope="col">id</th>
+                        <th scope="col">name</th>
+                        <th scope="col">rating</th>
+                        <th scope="col">price</th>
+                        <th scope="col">counter</th>
                     </tr>
-                <% } %>
-                </tbody>
-            </table>
+                    </thead>
 
+                    <tbody id="myTabletwo">
+                    <% for(var i = 0; i < queryairbnb.length; i++) { %>
+                        <tr>
+                            <td><%= queryairbnb[i].id %></td>
+                            <td><%= queryairbnb[i].name %></td>
+                            <td><%= queryairbnb[i].rating %></td>
+                            <td><%= queryairbnb[i].price %></td>
+                            <td><%= queryairbnb[i].counter %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
     <% } %>
