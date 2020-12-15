@@ -17,7 +17,7 @@
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
             crossorigin="anonymous"></script>
     <!-- adding favicon-->
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="../public/css/styles.css">
     <!--adding fonts from google -->
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Sacramento&display=swap"
           rel="stylesheet">
@@ -63,10 +63,7 @@
             <div class="form-group">
                 <label for="exampleFormControlSelect1">1.favorite food</label>
                 <!-- need to have multi choose-->
-                <select class="selectpicker form-control" multiple data-live-search="true" name="style" required>
-                    <option>Mustard</option>
-                    <option>Ketchup</option>
-                    <option>Relish</option>
+                <select id="requireform" class="selectpicker form-control" multiple data-live-search="true" name="style" required>
                     <option>Pizza/Italian</option>
                     <option>Donuts</option>
                     <option>Delicatessen</option>
@@ -153,7 +150,12 @@
                 <label class="form-check-label" for="exampleCheck1">Check me out</label>
 
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button id="sumbitbtn" type="submit" class="btn btn-primary" onclick='showHide()'>Submit</button>
+
+            <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
 
         </form>
 
@@ -196,8 +198,12 @@
                 <label for="exampleFormControlTextarea1">5.Comments:</label>
                 <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button id="sumbitbtn" type="submit" class="btn btn-primary" onclick='showHiderglr()'>Submit</button>
 
+            <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
         </form>
 
     </div>
@@ -222,8 +228,12 @@
                 <label for="exampleFormControlInput1">2.id of the place</label>
                 <input type="number" name="id" class="form-control" placeholder="e.g 132">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button id="sumbitbtn" type="submit" class="btn btn-primary" onclick='showHiderglr()'>Submit</button>
 
+            <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+            </button>
         </form>
 
     </div>
@@ -251,7 +261,6 @@
                 <th scope="col">rating</th>
                 <th scope="col">price</th>
                 <th scope="col">counter</th>
-
             </tr>
             </thead>
 

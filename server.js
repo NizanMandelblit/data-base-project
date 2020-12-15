@@ -47,7 +47,7 @@ app.get('/output', (req, res) => {
     let rawdata = fs.readFileSync('jsondata.json');
     let student = JSON.parse(rawdata);
 
-    res.render("index", {pageName: pageName,query:student});
+    res.render("index", {pageName: pageName, query: student});
 })
 
 //POST functions
@@ -61,17 +61,16 @@ app.post("/search", function (req, res) {
     var maxRateHA = req.body.maxRateHA;
     var minRateHA = req.body.minRateHA;
     var critical = req.body.critical;
-    let types=""
+    let types = ""
     console.log(style);
     console.log(style.length);
-    if (typeof style === 'string')
-    {
-        types=types+"'"+style+"'";
-    }else{
-        for (var i=0;i<style.length;i++){
-            types=types+"'"+style[i]+"'";
-            if(i<style.length-1){
-                types+=",";
+    if (typeof style === 'string') {
+        types = types + "'" + style + "'";
+    } else {
+        for (var i = 0; i < style.length; i++) {
+            types = types + "'" + style[i] + "'";
+            if (i < style.length - 1) {
+                types += ",";
             }
         }
     }
@@ -84,32 +83,35 @@ app.post("/search", function (req, res) {
     console.log(maxRateHA);
     console.log(minRateHA);
     console.log(critical);
-    minRateHA=90
-    maxNightCost=670
+    minRateHA = 90
+    maxNightCost = 670
     //let types=""
-    let sql="SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter FROM hotels JOIN restaurants WHERE hotels.rating>"+minRateHA+" AND hotels.high_price<"+maxNightCost+" GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
-    let sql2="SELECT name,type FROM restaurants WHERE type IN("+types+");"
+    let sql = "SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter FROM hotels JOIN restaurants WHERE hotels.rating>" + minRateHA + " AND hotels.high_price<" + maxNightCost + " GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
+    let sql2 = "SELECT name,type FROM restaurants WHERE type IN(" + types + ");"
     db.query(sql, (err, results) => {
-         if (err) {
-             throw err
-         } else {
-             let data = JSON.stringify(results);
-             fs.writeFileSync("jsondata.json", data)
-         }
-     })
+        if (err) {
+            throw err
+        } else {
+            let data = JSON.stringify(results);
+            fs.writeFileSync("jsondata.json", data)
+
+        }
+    })
 
 
-
-    res.redirect("/output");
+    setTimeout(function () {
+        res.redirect("/output");
+    }, 1000);
 })
+
 
 app.post("/update", function (req, res) {
     var id = req.body.id;
-    var placeSort=req.body.place;
-    var FirstName=req.body.FirstName;
-    var LastName=req.body.LastName;
-    var grade=req.body.grade;
-    var comment=req.body.comment;
+    var placeSort = req.body.place;
+    var FirstName = req.body.FirstName;
+    var LastName = req.body.LastName;
+    var grade = req.body.grade;
+    var comment = req.body.comment;
     console.log(id);
     console.log(placeSort);
     console.log(FirstName);
@@ -144,7 +146,10 @@ app.post("/update", function (req, res) {
             throw err
         } else console.log("inserted table")
     })
-    res.redirect("/thanks");
+
+    setTimeout(function () {
+        res.redirect("/thanks");
+    }, 1000);
 })
 
 
@@ -159,8 +164,11 @@ app.post("/delete", function (req, res) {
             throw err
         } else console.log("deleted table")
     })
-    //must add other tabels like reviews
-    res.redirect("/thanks");
+
+    setTimeout(function (){
+        //must add other tabels like reviews
+        res.redirect("/thanks");
+    },1000);
 })
 
 
