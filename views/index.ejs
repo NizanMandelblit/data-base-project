@@ -60,7 +60,7 @@
 
 <!--search page content-->
 <% if(pageName == "search page") { %>
-    <div class="container">
+    <div class="container p-3 my-3 bg-dark text-white">
         <form id="my-form" class="" action="/search" method="post">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">1.favorite food</label>
@@ -268,6 +268,9 @@
 
 <div class="container-fluid">
     <h1>HOTELS</h1>
+
+    <input id="myInput" type="text" placeholder="Search..">
+
     <table class="table table-hover table-dark">
         <thead>
         <tr>
@@ -279,7 +282,7 @@
         </tr>
         </thead>
 
-        <tbody>
+        <tbody id="myTable">
         <% for(var i = 0; i < queryhotels.length; i++) { %>
             <tr>
                 <td><%= queryhotels[i].id %></td>
@@ -295,6 +298,8 @@
 
     <div class="container-fluid">
         <h1>AIRBNB</h1>
+        <input id="myInput2" type="text" placeholder="Search..">
+
         <table class="table table-hover table-dark">
             <thead>
             <tr>
@@ -306,7 +311,7 @@
             </tr>
             </thead>
 
-            <tbody>
+            <tbody id="myTable2">
             <% for(var i = 0; i < queryairbnb.length; i++) { %>
                 <tr>
                     <td><%= queryairbnb[i].id %></td>
@@ -325,11 +330,17 @@
 
 
 
-<footer id="sticky-footer" class="py-4 bg-dark text-white-50">
-    <div class="container text-center">
-        <small>Copyright &copy; <a href="https://www.linkedin.com/in/nizan-mandelblit/">Nizan Mandelblit</a> ,<a href="https://www.linkedin.com/in/eldad-horvitz/">Eldad Horvitz</a> and <a href="https://www.linkedin.com/in/yitzi-jacobs-82a7b819a/">Yitzi Jacobs</a> </small>
-    </div>
-</footer>
+
+
+<div class="container-fluid">
+    <footer id="sticky-footer" class="py-4 bg-secondry text-white-50">
+        <div class="container text-center">
+            <small>Copyright &copy; <a href="https://www.linkedin.com/in/nizan-mandelblit/">Nizan Mandelblit</a> ,<a href="https://www.linkedin.com/in/eldad-horvitz/">Eldad Horvitz</a> and <a href="https://www.linkedin.com/in/yitzi-jacobs-82a7b819a/">Yitzi Jacobs</a> </small>
+        </div>
+    </footer>
+
+
+</div>
 
 
 
