@@ -1,7 +1,7 @@
 const express = require("express")
 const bodyParser = require("body-parser")
 const app = express()
-const fs = require('fs').promises
+const fs = require('fs')
 const mysql = require("mysql")
 
 app.set("view engine", "ejs");
@@ -10,7 +10,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 var pageName;
 
-var pass = '9096373'
 
 
 var counter = 2;
@@ -49,11 +48,7 @@ app.get('/output', (req, res) => {
 
     let rawdatahotel = fs.readFileSync('hotelrseults.json');
     let hotel = JSON.parse(rawdatahotel);
-   try {
-       let rawdataairbnb = fs.readFileSync('airbnbrseults.json');
-   }catch (e){
-       let rawdataairbnb=undefined
-   }
+    let rawdataairbnb = fs.readFileSync('airbnbrseults.json');
     let airbnb = JSON.parse(rawdataairbnb);
     res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb});
 
@@ -215,8 +210,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: pass,
-    database: 'newyorktrip'
+    password: '54321',
+    database: 'new_york_db'
 })
 
 
