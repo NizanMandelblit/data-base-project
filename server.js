@@ -82,11 +82,12 @@ app.post("/search", function (req, res) {
     var output_hotel = "SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter "
     var tabels_hotel = "FROM hotels JOIN restaurants"
     var conditions_hotel = " WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND hotels.rating BETWEEN " + minRateHA + " AND " + maxRateHA + " AND hotels.low_price BETWEEN " + minNightCost + " AND " + maxNightCost + " AND type IN(" + types + ") "
+    var distance_hotels= "AND ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance+" "
     var critical_hotel = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
     //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
-    var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC;"
+    var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC LIMIT 500;"
 
-    let sql1 = output_hotel + tabels_hotel + conditions_hotel;
+    let sql1 = output_hotel + tabels_hotel + conditions_hotel+distance_hotels;
     if (critical) {
         sql1 += critical_hotel;
     }
@@ -94,18 +95,21 @@ app.post("/search", function (req, res) {
     var output_airbnb = "SELECT airbnb.id,airbnb.name,airbnb.rating,airbnb.price AS price,COUNT(restaurants.id) AS counter"
     var tabels_airbnb = "FROM airbnb JOIN restaurants"
     var conditions_airbnb = "WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND airbnb.rating BETWEEN " + minRateHA + " AND " + maxRateHA + " AND airbnb.price BETWEEN " + minNightCost + " AND " + maxNightCost + " AND type IN(" + types + ")"
+    var distance_airbnb= " AND ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance
     var critical_airbnb = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
     var superhost_airbnb = "AND airbnb.id IN(SELECT id FROM airbnb WHERE host_id IN (SELECT DISTINCT host_id FROM airbnb_hosts WHERE superhost=1))"
-    var end_airbnb = " GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC;"
+    var end_airbnb = " GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC LIMIT 500;"
 
-    let sql2 = output_airbnb + " " + tabels_airbnb + " " + conditions_airbnb;
+    let sql2 = output_airbnb + " " + tabels_airbnb + " " + conditions_airbnb+distance_airbnb;
     if (critical) {
         sql2 += " " + critical_airbnb;
     }
     if (superhost) {
         sql2 += " " + superhost_airbnb;
     }
-    sql2 += " " + end_airbnb;
+    //console.log(sql1);
+    sql2 +=end_airbnb;
+    //console.log(sql2);
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel; hotel results
     db.query(sql1, (err, results) => {
         if (err) {
@@ -118,22 +122,23 @@ app.post("/search", function (req, res) {
         }
     })
 
-    //console.log(sql2); airbnb results
+    console.log(sql2);
     db.query(sql2, (err, results) => {
         if (err) {
             throw err
         } else {
             console.log("airbnb results:")
-            console.log(results[0])
+            console.log(results)
             let data = JSON.stringify(results);
             fs.writeFileSync("airbnbrseults.json", data)
+            res.redirect("/output");
         }
     })
 
 
-    setTimeout(function () {
+    /*setTimeout(function () {
         res.redirect("/output");
-    }, 7000);
+    }, 10000);*/
 })
 
 
