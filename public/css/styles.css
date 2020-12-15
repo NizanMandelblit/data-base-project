@@ -3,7 +3,15 @@
       box-sizing: border-box;
   }
 
-body {
+  .sticky {
+      position: sticky;
+      top: 10px; /* When the element reaches top: 10px, it becomes fixed. */
+      z-index: 100;
+  }
+
+
+
+  body {
     font-family: Arial;
     padding: 10px;
     background: #f1f1f1;
@@ -83,14 +91,17 @@ body {
     clear: both;
 }
 
-/* Footer */
-.footer {
-    padding: 20px;
-    text-align: center;
-    background: #ddd;
-    margin-top: 20px;
-}
 
+
+  #sticky-footer {
+      flex-shrink: none;
+      position:fixed;
+      left:0px;
+      bottom:0px;
+      height:30px;
+      width:100%;
+      background:#999;
+  }
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
     .leftcolumn, .rightcolumn {

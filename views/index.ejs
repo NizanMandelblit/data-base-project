@@ -32,17 +32,18 @@
 
 <body>
 <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow">
+<nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow navbar-fixed-top sticky">
     <div class="container">
         <a class="navbar-brand" href="/">Data-Base Project Test Site</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/search"><img src="statue-of-liberty.png">
-                       search</a>
+                        search</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/update"><img src="statue-of-liberty.png">update information</a>
@@ -60,11 +61,12 @@
 <!--search page content-->
 <% if(pageName == "search page") { %>
     <div class="container">
-        <form  id="my-form" class="" action="/search" method="post">
+        <form id="my-form" class="" action="/search" method="post">
             <div class="form-group">
                 <label for="exampleFormControlSelect1">1.favorite food</label>
                 <!-- need to have multi choose-->
-                <select id="requirelist" class="selectpicker form-control" multiple data-live-search="true" name="style" required>
+                <select id="requirelist" class="selectpicker form-control" multiple data-live-search="true" name="style"
+                        required>
                     <option>Pizza/Italian</option>
                     <option>Donuts</option>
                     <option>Delicatessen</option>
@@ -129,15 +131,19 @@
 
             <div class="form-row align-items-center">
                 <label for="exampleFormControlInput1">3.enter the requested rating for the restaurants</label>
-                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxRateRestaurant" required>
-                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minRateRestaurant" required>
+                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxRateRestaurant"
+                       required>
+                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minRateRestaurant"
+                       required>
             </div>
 
 
             <div class="form-row align-items-center">
                 <label for="exampleFormControlInput1">4.enter the requested price for a night in $</label>
-                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxNightCost" required>
-                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minNightCost" required>
+                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxNightCost"
+                       required>
+                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minNightCost"
+                       required>
             </div>
             <div class="form-row align-items-center">
                 <label for="exampleFormControlInput1">5.enter the requested rating for the hotel or airbnb</label>
@@ -158,7 +164,7 @@
                 <label class="form-check-label" for="exampleCheck1"> </label>
 
             </div>
-            <button id="sumbitbtn" type="submit" class="btn btn-primary" >Submit</button>
+            <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
 
             <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -260,8 +266,35 @@
 <% if(pageName == "output page") { %>
     <!-- JSON.stringify(query)-->
 
+<div class="container-fluid">
+    <h1>HOTELS</h1>
+    <table class="table table-hover table-dark">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">rating</th>
+            <th scope="col">price</th>
+            <th scope="col">counter</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% for(var i = 0; i < queryhotels.length; i++) { %>
+            <tr>
+                <td><%= queryhotels[i].id %></td>
+                <td><%= queryhotels[i].name %></td>
+                <td><%= queryhotels[i].rating %></td>
+                <td><%= queryhotels[i].price %></td>
+                <td><%= queryhotels[i].counter %></td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>
+
     <div class="container-fluid">
-        <h1>HOTELS</h1>
+        <h1>AIRBNB</h1>
         <table class="table table-hover table-dark">
             <thead>
             <tr>
@@ -274,50 +307,33 @@
             </thead>
 
             <tbody>
-            <% for(var i = 0; i < queryhotels.length; i++) { %>
+            <% for(var i = 0; i < queryairbnb.length; i++) { %>
                 <tr>
-                    <td><%= queryhotels[i].id %></td>
-                    <td><%= queryhotels[i].name %></td>
-                    <td><%= queryhotels[i].rating %></td>
-                    <td><%= queryhotels[i].price %></td>
-                    <td><%= queryhotels[i].counter %></td>
+                    <td><%= queryairbnb[i].id %></td>
+                    <td><%= queryairbnb[i].name %></td>
+                    <td><%= queryairbnb[i].rating %></td>
+                    <td><%= queryairbnb[i].price %></td>
+                    <td><%= queryairbnb[i].counter %></td>
                 </tr>
             <% } %>
             </tbody>
         </table>
 
-
-        <div class="container-fluid">
-            <h1>AIRBNB</h1>
-            <table class="table table-hover table-dark">
-                <thead>
-                <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">name</th>
-                    <th scope="col">rating</th>
-                    <th scope="col">price</th>
-                    <th scope="col">counter</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <% for(var i = 0; i < queryairbnb.length; i++) { %>
-                    <tr>
-                        <td><%= queryairbnb[i].id %></td>
-                        <td><%= queryairbnb[i].name %></td>
-                        <td><%= queryairbnb[i].rating %></td>
-                        <td><%= queryairbnb[i].price %></td>
-                        <td><%= queryairbnb[i].counter %></td>
-                    </tr>
-                <% } %>
-                </tbody>
-            </table>
-
     </div>
 
-<% } %>
+    <% } %>
 
-<script src="scripts.js"></script>
+
+
+<footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+    <div class="container text-center">
+        <small>Copyright &copy; Nizan Mandelblit, Eldad Horvitz and Yitzi Jacobs</small>
+    </div>
+</footer>
+
+
+
+    <script src="scripts.js"></script>
 </body>
 
 
