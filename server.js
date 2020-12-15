@@ -113,7 +113,9 @@ app.post("/search", function (req, res) {
             console.log("hotel results:")
             console.log(results[0])
             let data = JSON.stringify(results);
-            fs.writeFileSync("hotelrseults.json", data)
+            fs.writeFile("hotelrseults.json", data,function (err){
+                console.log(err)
+            })
         }
     })
 
@@ -125,14 +127,16 @@ app.post("/search", function (req, res) {
             console.log("airbnb results:")
             console.log(results[0])
             let data = JSON.stringify(results);
-            fs.writeFileSync("airbnbrseults.json", data)
+           fs.writeFile("airbnbrseults.json", data,function (err){
+               console.log(err)
+           })
         }
     })
 
 
     setTimeout(function () {
         res.redirect("/output");
-    }, 8000);
+    }, 1000);
 })
 
 

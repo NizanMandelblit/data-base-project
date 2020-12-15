@@ -31,6 +31,8 @@
 </head>
 
 <body>
+
+
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow navbar-fixed-top sticky">
     <div class="container">
@@ -55,296 +57,302 @@
         </div>
     </div>
 </nav>
+<div id="loading"></div>
 
-<h1> this is <%= pageName %></h1>
+<div class="page">
+    <h1> this is <%= pageName %></h1>
 
-<!--search page content-->
-<% if(pageName == "search page") { %>
-    <div class="container p-3 my-3 bg-dark text-white">
-        <form id="my-form" class="" action="/search" method="post">
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">1.favorite food</label>
-                <!-- need to have multi choose-->
-                <select id="requirelist" class="selectpicker form-control" multiple data-live-search="true" name="style"
-                        required>
-                    <option>Pizza/Italian</option>
-                    <option>Donuts</option>
-                    <option>Delicatessen</option>
-                    <option>Jewish/Kosher</option>
-                    <option>Sandwiches</option>
-                    <option>Russian</option>
-                    <option>Vietnamese/Cambodian/Malaysia</option>
-                    <option>Other</option>
-                    <option>Sandwiches/Salads/Mixed Buffet</option>
-                    <option>Peruvian</option>
-                    <option>Tex-Mex</option>
-                    <option>Bottled beverages, including water, sodas, juices, etc.</option>
-                    <option>Irish</option>
-                    <option>French</option>
-                    <option>German</option>
-                    <option>Ice Cream, Gelato, Yogurt, Ices</option>
-                    <option>Middle Eastern</option>
-                    <option>Juice, Smoothies, Fruit Salads</option>
-                    <option>Chicken</option>
-                    <option>Australian</option>
-                    <option>Bangladeshi</option>
-                    <option>Creole</option>
-                    <option>Hotdogs</option>
-                    <option>Soups</option>
-                    <option>Hotdogs/Pretzels</option>
-                    <option>English</option>
-                    <option>Hawaiian</option>
-                    <option>Pancakes/Waffles</option>
-                    <option>Scandinavian</option>
-                    <option>Filipino</option>
-                    <option>Californian</option>
-                    <option>Polish</option>
-                    <option>Barbecue</option>
-                    <option>Afghan</option>
-                    <option>Eastern European</option>
-                    <option>Cajun</option>
-                    <option>Chilean</option>
-                    <option>Indonesian</option>
-                    <option>Egyptian</option>
-                    <option>Moroccan</option>
-                    <option>Ethiopian</option>
-                    <option>Soups & Sandwiches</option>
-                    <option>Fruits/Vegetables</option>
-                    <option>Southwestern</option>
-                    <option>Nuts/Confectionary</option>
-                    <option>Armenian</option>
-                    <option>Chinese</option>
-                    <option>Cuban</option>
-                    <option>Not Listed/Not Applicable</option>
-                    <option>Creole/Cajun</option>
-                    <option>Portuguese</option>
-                    <option>Iranian</option>
-                    <option>Polynesian</option>
-                    <option>Czech</option>
-                </select>
+    <!--search page content-->
+    <% if(pageName == "search page") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form id="my-form" class="" action="/search" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">1.favorite food</label>
+                    <!-- need to have multi choose-->
+                    <select id="requirelist" class="selectpicker form-control" multiple data-live-search="true"
+                            name="style"
+                            required>
+                        <option>Pizza/Italian</option>
+                        <option>Donuts</option>
+                        <option>Delicatessen</option>
+                        <option>Jewish/Kosher</option>
+                        <option>Sandwiches</option>
+                        <option>Russian</option>
+                        <option>Vietnamese/Cambodian/Malaysia</option>
+                        <option>Other</option>
+                        <option>Sandwiches/Salads/Mixed Buffet</option>
+                        <option>Peruvian</option>
+                        <option>Tex-Mex</option>
+                        <option>Bottled beverages, including water, sodas, juices, etc.</option>
+                        <option>Irish</option>
+                        <option>French</option>
+                        <option>German</option>
+                        <option>Ice Cream, Gelato, Yogurt, Ices</option>
+                        <option>Middle Eastern</option>
+                        <option>Juice, Smoothies, Fruit Salads</option>
+                        <option>Chicken</option>
+                        <option>Australian</option>
+                        <option>Bangladeshi</option>
+                        <option>Creole</option>
+                        <option>Hotdogs</option>
+                        <option>Soups</option>
+                        <option>Hotdogs/Pretzels</option>
+                        <option>English</option>
+                        <option>Hawaiian</option>
+                        <option>Pancakes/Waffles</option>
+                        <option>Scandinavian</option>
+                        <option>Filipino</option>
+                        <option>Californian</option>
+                        <option>Polish</option>
+                        <option>Barbecue</option>
+                        <option>Afghan</option>
+                        <option>Eastern European</option>
+                        <option>Cajun</option>
+                        <option>Chilean</option>
+                        <option>Indonesian</option>
+                        <option>Egyptian</option>
+                        <option>Moroccan</option>
+                        <option>Ethiopian</option>
+                        <option>Soups & Sandwiches</option>
+                        <option>Fruits/Vegetables</option>
+                        <option>Southwestern</option>
+                        <option>Nuts/Confectionary</option>
+                        <option>Armenian</option>
+                        <option>Chinese</option>
+                        <option>Cuban</option>
+                        <option>Not Listed/Not Applicable</option>
+                        <option>Creole/Cajun</option>
+                        <option>Portuguese</option>
+                        <option>Iranian</option>
+                        <option>Polynesian</option>
+                        <option>Czech</option>
+                    </select>
 
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">2.enter maximum distance you want to affect the search</label>
-                <input type="double" class="form-control" placeholder="e.g 12.5" name="distance">
-            </div>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">2.enter maximum distance you want to affect the search</label>
+                    <input type="double" class="form-control" placeholder="e.g 12.5" name="distance">
+                </div>
 
-            <div class="form-row align-items-center">
-                <label for="exampleFormControlInput1">3.enter the requested rating for the restaurants</label>
-                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxRateRestaurant"
-                       required>
-                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minRateRestaurant"
-                       required>
-            </div>
+                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">3.enter the requested rating for the restaurants</label>
+                    <input id="requireform" type="number" class="form-control" placeholder="Max"
+                           name="maxRateRestaurant"
+                           required>
+                    <input id="requireform" type="number" class="form-control" placeholder="Min"
+                           name="minRateRestaurant"
+                           required>
+                </div>
 
 
-            <div class="form-row align-items-center">
-                <label for="exampleFormControlInput1">4.enter the requested price for a night in $</label>
-                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxNightCost"
-                       required>
-                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minNightCost"
-                       required>
-            </div>
-            <div class="form-row align-items-center">
-                <label for="exampleFormControlInput1">5.enter the requested rating for the hotel or airbnb</label>
-                <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxRateHA" required>
-                <input id="requireform" type="number" class="form-control" placeholder="Min" name="minRateHA" required>
-            </div>
-            <label for="exampleFormControlInput1">6.do you want to avoid restaurants with critical reviews?</label>
+                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">4.enter the requested price for a night in $</label>
+                    <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxNightCost"
+                           required>
+                    <input id="requireform" type="number" class="form-control" placeholder="Min" name="minNightCost"
+                           required>
+                </div>
+                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">5.enter the requested rating for the hotel or airbnb</label>
+                    <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxRateHA"
+                           required>
+                    <input id="requireform" type="number" class="form-control" placeholder="Min" name="minRateHA"
+                           required>
+                </div>
+                <label for="exampleFormControlInput1">6.do you want to avoid restaurants with critical reviews?</label>
 
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" name="critical">
-                <label class="form-check-label" for="exampleCheck1"> </label>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="critical">
+                    <label class="form-check-label" for="exampleCheck1"> </label>
 
-            </div>
-            <label for="exampleFormControlInput1">7.do you want to find airbnb of super hosts only?</label>
+                </div>
+                <label for="exampleFormControlInput1">7.do you want to find airbnb of super hosts only?</label>
 
-            <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" id="exampleCheck1" name="super">
-                <label class="form-check-label" for="exampleCheck1"> </label>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="super">
+                    <label class="form-check-label" for="exampleCheck1"> </label>
 
-            </div>
-            <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
 
-            <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Loading...
-            </button>
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
 
-        </form>
+            </form>
 
-    </div>
-<% } %>
+        </div>
+    <% } %>
 
-<!--update page content-->
-<% if(pageName == "update page") { %>
+    <!--update page content-->
+    <% if(pageName == "update page") { %>
 
-    <div class="container">
-        <form id="my-form" class="" action="/update" method="post">
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">1.where did you visit?</label>
-                <select class="form-control" name="place" required>
-                    <option>airbnb</option>
-                    <option>restaurants</option>
-                    <option>hotels</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">2.enter yor name:</label>
-                <div class="row">
-                    <div class="col">
-                        <input type="text" class="form-control" name="FirstName" placeholder="First name">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" name="LastName" placeholder="Last name">
+        <div class="container">
+            <form id="my-form" class="" action="/update" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
+                    <select class="form-control" name="place" required>
+                        <option>airbnb</option>
+                        <option>restaurants</option>
+                        <option>hotels</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">2.enter yor name:</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" name="FirstName" placeholder="First name">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" name="LastName" placeholder="Last name">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">3.enter the id of the place</label>
-                <input type="number" name="id" class="form-control" placeholder="e.g 132" required>
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">4.enter the grade you give to the place</label>
-                <input type="number" name="grade" min="1" max="100" class="form-control" placeholder="1-100" required>
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">5.enter your comments please:</label>
-                <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-            <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">3.enter the id of the place</label>
+                    <input type="number" name="id" class="form-control" placeholder="e.g 132" required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">4.enter the grade you give to the place</label>
+                    <input type="number" name="grade" min="1" max="100" class="form-control" placeholder="1-100"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">5.enter your comments please:</label>
+                    <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
 
-            <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Loading...
-            </button>
-        </form>
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </form>
 
-    </div>
-
-<% } %>
-
-<!--delete page content-->
-<% if(pageName == "delete page") { %>
-    <div class="container">
-
-
-        <form id="my-form" class="" action="/delete" method="post">
-            <div class="form-group">
-                <label for="exampleFormControlSelect1">1.where did you visit?</label>
-                <select name="place" class="form-control" required>
-                    <option>airbnb</option>
-                    <option>restaurants</option>
-                    <option>hotels</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">2.enter the id of the place</label>
-                <input type="number" name="id" class="form-control" placeholder="e.g 132" required>
-            </div>
-            <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
-
-            <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Loading...
-            </button>
-        </form>
-
-    </div>
-
-<% } %>
-
-<!--thanks page content-->
-<% if(pageName == "thanks page") { %>
-    <form class="" action="/thanks">
-        <h1> thank you! </h1>
-        <h2> we hope you enjoyed your trip:) </h2>
-    </form>
-<% } %>
-
-<!--output page content-->
-<% if(pageName == "output page") { %>
-    <!-- JSON.stringify(query)-->
-
-<div class="container-fluid">
-    <h1>HOTELS</h1>
-
-    <input id="myInput" type="text" placeholder="Search..">
-
-    <table class="table table-hover table-dark">
-        <thead>
-        <tr>
-            <th scope="col">id</th>
-            <th scope="col">name</th>
-            <th scope="col">rating</th>
-            <th scope="col">price</th>
-            <th scope="col">counter</th>
-        </tr>
-        </thead>
-
-        <tbody id="myTable">
-        <% for(var i = 0; i < queryhotels.length; i++) { %>
-            <tr>
-                <td><%= queryhotels[i].id %></td>
-                <td><%= queryhotels[i].name %></td>
-                <td><%= queryhotels[i].rating %></td>
-                <td><%= queryhotels[i].price %></td>
-                <td><%= queryhotels[i].counter %></td>
-            </tr>
-        <% } %>
-        </tbody>
-    </table>
-</div>
-
-    <div class="container-fluid">
-        <h1>AIRBNB</h1>
-        <input id="myInput2" type="text" placeholder="Search..">
-
-        <table class="table table-hover table-dark">
-            <thead>
-            <tr>
-                <th scope="col">id</th>
-                <th scope="col">name</th>
-                <th scope="col">rating</th>
-                <th scope="col">price</th>
-                <th scope="col">counter</th>
-            </tr>
-            </thead>
-
-            <tbody id="myTable2">
-            <% for(var i = 0; i < queryairbnb.length; i++) { %>
-                <tr>
-                    <td><%= queryairbnb[i].id %></td>
-                    <td><%= queryairbnb[i].name %></td>
-                    <td><%= queryairbnb[i].rating %></td>
-                    <td><%= queryairbnb[i].price %></td>
-                    <td><%= queryairbnb[i].counter %></td>
-                </tr>
-            <% } %>
-            </tbody>
-        </table>
-
-    </div>
+        </div>
 
     <% } %>
 
+    <!--delete page content-->
+    <% if(pageName == "delete page") { %>
+        <div class="container">
 
 
+            <form id="my-form" class="" action="/delete" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
+                    <select name="place" class="form-control" required>
+                        <option>airbnb</option>
+                        <option>restaurants</option>
+                        <option>hotels</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">2.enter the id of the place</label>
+                    <input type="number" name="id" class="form-control" placeholder="e.g 132" required>
+                </div>
+                <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
 
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </form>
 
-<div class="container-fluid">
-    <footer id="sticky-footer" class="py-4 bg-secondry text-white-50">
-        <div class="container text-center">
-            <small>Copyright &copy; <a href="https://www.linkedin.com/in/nizan-mandelblit/">Nizan Mandelblit</a> ,<a href="https://www.linkedin.com/in/eldad-horvitz/">Eldad Horvitz</a> and <a href="https://www.linkedin.com/in/yitzi-jacobs-82a7b819a/">Yitzi Jacobs</a> </small>
         </div>
-    </footer>
 
+    <% } %>
+
+    <!--thanks page content-->
+    <% if(pageName == "thanks page") { %>
+        <form class="" action="/thanks">
+            <h1> thank you! </h1>
+            <h2> we hope you enjoyed your trip:) </h2>
+        </form>
+    <% } %>
+
+    <!--output page content-->
+    <% if(pageName == "output page") { %>
+        <!-- JSON.stringify(query)-->
+
+        <div id="overlay" class="container-fluid">
+            <h1>HOTELS</h1>
+
+            <input id="myInput" type="text" placeholder="Search..">
+
+            <table class="table table-hover table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">name</th>
+                    <th scope="col">rating</th>
+                    <th scope="col">price</th>
+                    <th scope="col">counter</th>
+                </tr>
+                </thead>
+
+                <tbody id="myTable">
+                <% for(var i = 0; i < queryhotels.length; i++) { %>
+                    <tr>
+                        <td><%= queryhotels[i].id %></td>
+                        <td><%= queryhotels[i].name %></td>
+                        <td><%= queryhotels[i].rating %></td>
+                        <td><%= queryhotels[i].price %></td>
+                        <td><%= queryhotels[i].counter %></td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+        </div>
+
+        <div id="overlay" class="container-fluid">
+            <h1>AIRBNB</h1>
+            <input id="myInputtwo" type="text" placeholder="Search..">
+
+            <table class="table table-hover table-dark">
+                <thead>
+                <tr>
+                    <th scope="col">id</th>
+                    <th scope="col">name</th>
+                    <th scope="col">rating</th>
+                    <th scope="col">price</th>
+                    <th scope="col">counter</th>
+                </tr>
+                </thead>
+
+                <tbody id="myTabletwo">
+                <% for(var i = 0; i < queryairbnb.length; i++) { %>
+                    <tr>
+                        <td><%= queryairbnb[i].id %></td>
+                        <td><%= queryairbnb[i].name %></td>
+                        <td><%= queryairbnb[i].rating %></td>
+                        <td><%= queryairbnb[i].price %></td>
+                        <td><%= queryairbnb[i].counter %></td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+
+        </div>
+
+    <% } %>
+
+    <div class="container-fluid">
+        <footer id="sticky-footer" class="py-4 bg-secondry text-white-50">
+            <div class="container text-center">
+                <small>Copyright &copy; <a href="https://www.linkedin.com/in/nizan-mandelblit/">Nizan Mandelblit</a> ,<a
+                            href="https://www.linkedin.com/in/eldad-horvitz/">Eldad Horvitz</a> and <a
+                            href="https://www.linkedin.com/in/yitzi-jacobs-82a7b819a/">Yitzi Jacobs</a> </small>
+            </div>
+        </footer>
+
+
+    </div>
 
 </div>
 
-
-
-    <script src="scripts.js"></script>
+<script src="scripts.js"></script>
 </body>
 
 

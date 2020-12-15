@@ -19,10 +19,30 @@ $(document).ready(function(){
 
 
 $(document).ready(function(){
-    $("#myInput2").on("keyup", function() {
+    $("#myInputtwo").on("keyup", function() {
         var value = $(this).val().toLowerCase();
-        $("#myTable2 tr").filter(function() {
+        $("#myTabletwo tr").filter(function() {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
     });
 });
+
+
+function onReady(callback) {
+    var intervalId = window.setInterval(function() {
+        if (document.getElementsByTagName('body')[0] !== undefined) {
+            window.clearInterval(intervalId);
+            callback.call(this);
+        }
+    }, 1000);
+}
+
+function setVisible(selector, visible) {
+    document.querySelector(selector).style.display = visible ? 'block' : 'none';
+}
+
+onReady(function() {
+    setVisible('.page', true);
+    setVisible('#loading', false);
+});
+
