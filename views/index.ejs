@@ -132,8 +132,8 @@
 
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">2.enter maximum distance you want to affect the search</label>
-                    <input type="double" class="form-control" placeholder="e.g 12.5" name="distance">
+                    <label for="exampleFormControlInput1">2.enter maximum kilometers you want to affect the search</label>
+                    <input id="requireform" type="double" class="form-control" placeholder="e.g 12.5" name="distance">
                 </div>
 
                 <div class="form-row align-items-center">
@@ -190,7 +190,7 @@
     <!--update page content-->
     <% if(pageName == "update page") { %>
 
-        <div class="container">
+        <div class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/update" method="post">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">1.where did you visit?</label>
@@ -238,7 +238,7 @@
 
     <!--delete page content-->
     <% if(pageName == "delete page") { %>
-        <div class="container">
+        <div class="container p-3 my-3 bg-dark text-white">
 
 
             <form id="my-form" class="" action="/delete" method="post">
@@ -268,10 +268,12 @@
 
     <!--thanks page content-->
     <% if(pageName == "thanks page") { %>
+    <div class="container p-3 my-3 bg-dark text-white">
         <form class="" action="/thanks">
             <h1> thank you! </h1>
             <h2> we hope you enjoyed your trip:) </h2>
         </form>
+    </div>
     <% } %>
 
     <!--output page content-->

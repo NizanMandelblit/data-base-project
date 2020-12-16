@@ -85,7 +85,7 @@ app.post("/search", function (req, res) {
     var distance_hotels= "AND ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance+" "
     var critical_hotel = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
     //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
-    var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC LIMIT 500;"
+    var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC LIMIT 50;"
 
     let sql1 = output_hotel + tabels_hotel + conditions_hotel+distance_hotels;
     if (critical) {
@@ -98,7 +98,7 @@ app.post("/search", function (req, res) {
     var distance_airbnb= " AND ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance
     var critical_airbnb = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
     var superhost_airbnb = "AND airbnb.id IN(SELECT id FROM airbnb WHERE host_id IN (SELECT DISTINCT host_id FROM airbnb_hosts WHERE superhost=1))"
-    var end_airbnb = " GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC LIMIT 500;"
+    var end_airbnb = " GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC LIMIT 50;"
 
     let sql2 = output_airbnb + " " + tabels_airbnb + " " + conditions_airbnb+distance_airbnb;
     if (critical) {
@@ -158,7 +158,7 @@ app.post("/update", function (req, res) {
             console.log("bad results")
             throw err
         } else {
-            console.log("good" + results[0]['rating'])
+            console.log("good" + results[0])
             cur = results[0]['rating']
             console.log(cur)
             var value = ((grade - cur) / 10) + cur;
@@ -178,12 +178,9 @@ app.post("/update", function (req, res) {
     db.query(sql2, (err, results) => {
         if (err) {
             throw err
-        } else console.log("inserted table")
+        } else res.redirect("/thanks");
     })
 
-    setTimeout(function () {
-        res.redirect("/thanks");
-    }, 1000);
 })
 
 
@@ -196,13 +193,10 @@ app.post("/delete", function (req, res) {
     db.query(sql, (err, results) => {
         if (err) {
             throw err
-        } else console.log("deleted table")
+        } else res.redirect("/thanks");
     })
 
-    setTimeout(function () {
-        //must add other tabels like reviews
-        res.redirect("/thanks");
-    }, 1000);
+
 })
 
 
