@@ -3,7 +3,6 @@ const bodyParser = require("body-parser")
 const app = express()
 const fs = require('fs')
 const mysql = require("mysql")
-
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -33,8 +32,11 @@ app.get('/update', (req, res) => {
 })
 
 app.get('/delete', (req, res) => {
-    pageName = "delete page";
-
+    if(req.url=="/delete?password=12345"){
+        pageName = "delete page1";
+    }else{
+        pageName = "delete page0";
+    }
     res.render("index", {pageName: pageName});
 })
 
@@ -195,10 +197,7 @@ app.post("/delete", function (req, res) {
             throw err
         } else res.redirect("/thanks");
     })
-
-
 })
-
 
 app.listen(process.env.PORT | port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
@@ -209,8 +208,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '54321',
-    database: 'new_york_db'
+    password: '9096373',
+    database: 'newyorktrip'
 })
 
 

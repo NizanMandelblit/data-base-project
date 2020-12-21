@@ -132,7 +132,8 @@
 
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">2.enter maximum kilometers you want to affect the search</label>
+                    <label for="exampleFormControlInput1">2.enter maximum kilometers you want to affect the
+                        search</label>
                     <input id="requireform" type="double" class="form-control" placeholder="e.g 12.5" name="distance">
                 </div>
 
@@ -237,10 +238,23 @@
     <% } %>
 
     <!--delete page content-->
-    <% if(pageName == "delete page") { %>
-        <div class="container p-3 my-3 bg-dark text-white">
+    <% if(pageName == "delete page0") { %>
+        <div id="admindiv" class="full-screen-container">
+            <div class="login-container">
+                <h3 class="login-title">Admin Login</h3>
+                <form id="adminform">
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input id="pass" type="password" name="password">
+                    </div>
+                    <button type="submit" class="login-button">Sign In</button>
+                </form>
+            </div>
+        </div>
 
-
+    <% } %>
+    <% if(pageName == "delete page1") { %>
+        <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/delete" method="post">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">1.where did you visit?</label>
@@ -268,12 +282,12 @@
 
     <!--thanks page content-->
     <% if(pageName == "thanks page") { %>
-    <div class="container p-3 my-3 bg-dark text-white">
-        <form class="" action="/thanks">
-            <h1> thank you! </h1>
-            <h2> we hope you enjoyed your trip:) </h2>
-        </form>
-    </div>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/thanks">
+                <h1> thank you! </h1>
+                <h2> we hope you enjoyed your trip:) </h2>
+            </form>
+        </div>
     <% } %>
 
     <!--output page content-->
