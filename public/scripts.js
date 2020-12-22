@@ -51,3 +51,6 @@ function limit() {
 
 
 
+function airbnbsend(queryairbnb){
+console.log(queryairbnb)
+}

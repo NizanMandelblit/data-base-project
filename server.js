@@ -21,6 +21,10 @@ app.get('/', (req, res) => {
 
 app.get('/search', (req, res) => {
     pageName = "search page";
+  var airbnbid=  req.query.airbnbid;
+    var hotelid=  req.query.hotelid;
+    console.log(airbnbid)
+    console.log(hotelid)
 
     res.render("index", {pageName: pageName});
 })
