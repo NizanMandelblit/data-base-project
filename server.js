@@ -224,7 +224,7 @@ app.listen(process.env.PORT | port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
 //Create connection
-//Create connection
+
     const db = mysql.createConnection({
         host: '127.0.0.1',
         user: 'root',
