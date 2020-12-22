@@ -7,11 +7,9 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
-var pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
-    critical, superhost, types
+let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
+    critical, superhost, types;
 
-
-var counter = 2;
 // GET functions
 app.get('/', (req, res) => {
     pageName = "home page";
