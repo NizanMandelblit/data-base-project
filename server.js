@@ -238,6 +238,7 @@ app.listen(process.env.PORT | port, () => {
 //Connect to MySQL
     db.connect(err => {
         if (err) {
+            res.redirect("/error");
             throw err
         }
         console.log('Connected!')
