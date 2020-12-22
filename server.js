@@ -19,15 +19,22 @@ app.get('/', (req, res) => {
 
 app.get('/search', (req, res) => {
     pageName = "search page";
-    var airbnbid = req.query.airbnbid;
-    var hotelid = req.query.hotelid;
-    if(airbnbid !== 'undefined')
-        let sql1 = "eldad complete"
-    if(hotelid !== 'undefined')
-        let sql1 = "eldad complete"
-    console.log(airbnbid)
-    console.log(hotelid)
-    console.log(style)
+    const airbnbid = req.query.airbnbid;
+    const hotelid = req.query.hotelid;
+    let sql1;
+    if(airbnbid !== 'undefined') {
+        sql1 = "eldad complete aibnb"
+        console.log(sql1)
+        console.log(airbnbid)
+        console.log(style)
+    }
+    if(hotelid !== 'undefined') {
+        sql1 = "eldad complete hotel"
+        console.log(sql1)
+        console.log(hotelid)
+        console.log(style)
+    }
+
 
     res.render("index", {pageName: pageName});
 })
