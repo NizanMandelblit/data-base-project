@@ -7,11 +7,9 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
-var pageName;
+let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
+    critical, superhost, types;
 
-
-
-var counter = 2;
 // GET functions
 app.get('/', (req, res) => {
     pageName = "home page";
@@ -21,8 +19,12 @@ app.get('/', (req, res) => {
 
 app.get('/search', (req, res) => {
     pageName = "search page";
-  var airbnbid=  req.query.airbnbid;
-    var hotelid=  req.query.hotelid;
+    var airbnbid = req.query.airbnbid;
+    var hotelid = req.query.hotelid;
+    if(airbnbid !== 'undefined')
+        let sql1 = "eldad complete"
+    if(hotelid !== 'undefined')
+        let sql1 = "eldad complete"
     console.log(airbnbid)
     console.log(hotelid)
 
@@ -67,17 +69,17 @@ app.get('/output', (req, res) => {
 
 //POST functions
 app.post("/search", function (req, res) {
-    var style = req.body.style;
-    var distance = req.body.distance;
-    var maxRateRestaurant = req.body.maxRateRestaurant;
-    var minRateRestaurant = req.body.minRateRestaurant;
-    var maxNightCost = req.body.maxNightCost;
-    var minNightCost = req.body.minNightCost;
-    var maxRateHA = req.body.maxRateHA;
-    var minRateHA = req.body.minRateHA;
-    var critical = req.body.critical;
-    var superhost = req.body.super;
-    let types = ""
+    style = req.body.style;
+    distance = req.body.distance;
+    maxRateRestaurant = req.body.maxRateRestaurant;
+    minRateRestaurant = req.body.minRateRestaurant;
+    maxNightCost = req.body.maxNightCost;
+    minNightCost = req.body.minNightCost;
+    maxRateHA = req.body.maxRateHA;
+    minRateHA = req.body.minRateHA;
+    critical = req.body.critical;
+    superhost = req.body.super;
+    types = ""
     if (typeof style === 'string') {
         types = types + "'" + style + "'";
     } else {
