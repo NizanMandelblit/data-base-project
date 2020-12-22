@@ -188,7 +188,7 @@ app.post("/update", function (req, res) {
 
 app.post("/delete", function (req, res) {
     var placeSort = req.body.place;
-    var id = req.body.id;
+    var placeName = req.body.placename;
     console.log(placeSort);
     console.log(id);
     let sql = "DELETE FROM " + placeSort + " WHERE id=" + id;
