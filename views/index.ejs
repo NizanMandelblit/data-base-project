@@ -68,29 +68,27 @@
     <% if(pageName == "search page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/search" method="post">
-                <div class="form-row align-items-center">
-                    <label for="exampleFormControlInput1">1.enter the requested rating for the restaurants</label>
-                    <input id="requireform" min="0" type="number" class="form-control" placeholder="Max"
-                           name="maxRateRestaurant" onchange="limit()"
-                           required>
-                    <input id="requireform" min="0" type="number" class="form-control" placeholder="Min"
-                           name="minRateRestaurant"
-                           required>
-                </div>
-
-
-                <div class="form-row align-items-center">
-                    <label for="exampleFormControlInput1">2.enter the requested price for a night in $</label>
+                                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">1.enter the requested price for a night in $</label>
                     <input id="X" type="number"  onchange="limit()" min="0" class="form-control" placeholder="Max" name="maxNightCost"
                            required>
                     <input id="Y" type="number"  min="0" class="form-control" placeholder="Min" name="minNightCost"
                            required>
                 </div>
                 <div class="form-row align-items-center">
-                    <label for="exampleFormControlInput1">3.enter the requested rating for the hotel or airbnb</label>
+                    <label for="exampleFormControlInput1">2.enter the requested rating for the hotel or airbnb</label>
                     <input id="X2" type="number" onchange="limit()" min="0" class="form-control" placeholder="Max" name="maxRateHA"
                            required>
                     <input id="Y2" type="number" min="0" class="form-control" placeholder="Min" name="minRateHA"
+                           required>
+                </div>
+                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">3.enter the requested rating for the restaurants</label>
+                    <input id="requireform" min="0" type="number" class="form-control" placeholder="Max"
+                           name="maxRateRestaurant" onchange="limit()"
+                           required>
+                    <input id="requireform" min="0" type="number" class="form-control" placeholder="Min"
+                           name="minRateRestaurant"
                            required>
                 </div>
                 <label for="exampleFormControlInput1">4.do you want to avoid restaurants with critical reviews?</label>
@@ -290,7 +288,15 @@
             </form>
         </div>
     <% } %>
-
+    <!--thanks page content-->
+    <% if(pageName == "error page") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error">
+                <h1> error </h1>
+                <h2> we are sorry </h2>
+            </form>
+        </div>
+    <% } %>
     <!--output page content-->
     <% if(pageName == "output page") { %>
         <!-- JSON.stringify(query)-->

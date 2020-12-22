@@ -45,6 +45,11 @@ app.get('/thanks', (req, res) => {
 
     res.render("index", {pageName: pageName});
 })
+app.get('/error', (req, res) => {
+    pageName = "error page";
+
+    res.render("index", {pageName: pageName});
+})
 app.get('/output', (req, res) => {
     pageName = "output page";
 
@@ -115,6 +120,7 @@ app.post("/search", function (req, res) {
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel; hotel results
     db.query(sql1, (err, results) => {
         if (err) {
+            res.redirect("/error");
             throw err
         } else {
             console.log("hotel results:")
@@ -127,6 +133,7 @@ app.post("/search", function (req, res) {
     console.log(sql2);
     db.query(sql2, (err, results) => {
         if (err) {
+            res.redirect("/error");
             throw err
         } else {
             console.log("airbnb results:")
@@ -157,7 +164,7 @@ app.post("/update", function (req, res) {
     let sql0 = "SELECT * FROM " + placeSort + " WHERE id=" + id;
     db.query(sql0, (err, results) => {
         if (err) {
-            console.log("bad results")
+            res.redirect("/error");
             throw err
         } else {
             console.log("good" + results[0])
@@ -168,6 +175,7 @@ app.post("/update", function (req, res) {
             let sql = "UPDATE " + placeSort + " SET rating = " + value + " WHERE id=" + id;
             db.query(sql, (err, results) => {
                 if (err) {
+                    res.redirect("/error");
                     throw err
                 }
             })
@@ -179,6 +187,7 @@ app.post("/update", function (req, res) {
     let sql2 = "INSERT INTO " + placeSort + "_reviews (" + placeSort + "_id, guest_name,grade,comment) VALUES (" + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
     db.query(sql2, (err, results) => {
         if (err) {
+            res.redirect("/error");
             throw err
         } else res.redirect("/thanks");
     })
@@ -190,9 +199,10 @@ app.post("/delete", function (req, res) {
     var placeSort = req.body.place;
     var placeName = req.body.placename;
     //console.log(placeSort);
-    let sql11 = "SELECT id,name FROM " + placeSort + " WHERE name LIKE %" + placeName + "%";
+    let sql11 = "SELECT id,name FROM " + placeSort + " WHERE name LIKE '%" + placeName + "%'";
     db.query(sql11, (err, results) => {
         if (err) {
+            res.redirect("/error");
             throw err
         } else console.log(results);
     })
@@ -200,6 +210,7 @@ app.post("/delete", function (req, res) {
     let sql = "DELETE FROM " + placeSort + " WHERE id=" + id;
     db.query(sql, (err, results) => {
         if (err) {
+            res.redirect("/error");
             throw err
         } else res.redirect("/thanks");
     })*/
