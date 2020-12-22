@@ -316,7 +316,7 @@
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
 
-                            <td><%= queryhotels[i].name %></td>
+                            <td> <a  href="/search?hotelid=<%=queryhotels[i].id %>">  <%= queryhotels[i].name %> </a></td>
                             <td><%= queryhotels[i].rating %></td>
                             <td><%= queryhotels[i].price %></td>
                             <td><%= queryhotels[i].counter %></td>
@@ -337,7 +337,6 @@
                 <table class="table table-hover table-dark">
                     <thead>
                     <tr>
-
                         <th scope="col">name</th>
                         <th scope="col">rating</th>
                         <th scope="col">price</th>
@@ -348,8 +347,7 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
                         <tr>
-
-                            <td><%= queryairbnb[i].name %></td>
+                            <td> <a  href="/search?airbnbid=<%=queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a></td>
                             <td><%= queryairbnb[i].rating %></td>
                             <td><%= queryairbnb[i].price %></td>
                             <td><%= queryairbnb[i].counter %></td>
