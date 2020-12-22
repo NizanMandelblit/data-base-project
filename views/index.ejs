@@ -70,10 +70,10 @@
             <form id="my-form" class="" action="/search" method="post">
                 <div class="form-row align-items-center">
                     <label for="exampleFormControlInput1">1.enter the requested rating for the restaurants</label>
-                    <input id="requireform" type="number" class="form-control" placeholder="Max"
-                           name="maxRateRestaurant"
+                    <input id="requireform" min="0" type="number" class="form-control" placeholder="Max"
+                           name="maxRateRestaurant" onchange="limit()"
                            required>
-                    <input id="requireform" type="number" class="form-control" placeholder="Min"
+                    <input id="requireform" min="0" type="number" class="form-control" placeholder="Min"
                            name="minRateRestaurant"
                            required>
                 </div>
@@ -81,16 +81,16 @@
 
                 <div class="form-row align-items-center">
                     <label for="exampleFormControlInput1">2.enter the requested price for a night in $</label>
-                    <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxNightCost"
+                    <input id="X" type="number"  onchange="limit()" min="0" class="form-control" placeholder="Max" name="maxNightCost"
                            required>
-                    <input id="requireform" type="number" class="form-control" placeholder="Min" name="minNightCost"
+                    <input id="Y" type="number"  min="0" class="form-control" placeholder="Min" name="minNightCost"
                            required>
                 </div>
                 <div class="form-row align-items-center">
                     <label for="exampleFormControlInput1">3.enter the requested rating for the hotel or airbnb</label>
-                    <input id="requireform" type="number" class="form-control" placeholder="Max" name="maxRateHA"
+                    <input id="X2" type="number" onchange="limit()" min="0" class="form-control" placeholder="Max" name="maxRateHA"
                            required>
-                    <input id="requireform" type="number" class="form-control" placeholder="Min" name="minRateHA"
+                    <input id="Y2" type="number" min="0" class="form-control" placeholder="Min" name="minRateHA"
                            required>
                 </div>
                 <label for="exampleFormControlInput1">4.do you want to avoid restaurants with critical reviews?</label>

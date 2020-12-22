@@ -43,4 +43,11 @@ onReady(function () {
 
 });
 
+function limit() {
+    document.getElementsByName("minRateRestaurant")[0].setAttribute("max", document.getElementsByName("maxRateRestaurant")[0].value);
+    document.getElementsByName("minNightCost")[0].setAttribute("max", document.getElementsByName("maxNightCost")[0].value);
+    document.getElementsByName("minRateHA")[0].setAttribute("max", document.getElementsByName("maxRateHA")[0].value);
+}
+
+
 
