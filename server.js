@@ -7,9 +7,8 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
-var pageName;
-var style
-
+var pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
+    critical, superhost, types
 
 
 var counter = 2;
@@ -22,10 +21,15 @@ app.get('/', (req, res) => {
 
 app.get('/search', (req, res) => {
     pageName = "search page";
-  var airbnbid=  req.query.airbnbid;
-    var hotelid=  req.query.hotelid;
+    var airbnbid = req.query.airbnbid;
+    var hotelid = req.query.hotelid;
+    if(airbnbid !== 'undefined')
+        let sql1 = "eldad complete"
+    if(hotelid !== 'undefined')
+        let sql1 = "eldad complete"
     console.log(airbnbid)
     console.log(hotelid)
+    console.log(style)
 
     res.render("index", {pageName: pageName});
 })
@@ -37,9 +41,9 @@ app.get('/update', (req, res) => {
 })
 
 app.get('/delete', (req, res) => {
-    if(req.url=="/delete?password=12345"){
+    if (req.url == "/delete?password=12345") {
         pageName = "delete page1";
-    }else{
+    } else {
         pageName = "delete page0";
     }
     res.render("index", {pageName: pageName});
@@ -63,17 +67,17 @@ app.get('/output', (req, res) => {
 
 //POST functions
 app.post("/search", function (req, res) {
-    var style = req.body.style;
-    var distance = req.body.distance;
-    var maxRateRestaurant = req.body.maxRateRestaurant;
-    var minRateRestaurant = req.body.minRateRestaurant;
-    var maxNightCost = req.body.maxNightCost;
-    var minNightCost = req.body.minNightCost;
-    var maxRateHA = req.body.maxRateHA;
-    var minRateHA = req.body.minRateHA;
-    var critical = req.body.critical;
-    var superhost = req.body.super;
-    let types = ""
+    style = req.body.style;
+    distance = req.body.distance;
+    maxRateRestaurant = req.body.maxRateRestaurant;
+    minRateRestaurant = req.body.minRateRestaurant;
+    maxNightCost = req.body.maxNightCost;
+    minNightCost = req.body.minNightCost;
+    maxRateHA = req.body.maxRateHA;
+    minRateHA = req.body.minRateHA;
+    critical = req.body.critical;
+    superhost = req.body.super;
+    types = ""
     if (typeof style === 'string') {
         types = types + "'" + style + "'";
     } else {
@@ -89,12 +93,12 @@ app.post("/search", function (req, res) {
     var output_hotel = "SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter "
     var tabels_hotel = "FROM hotels JOIN restaurants"
     var conditions_hotel = " WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND hotels.rating BETWEEN " + minRateHA + " AND " + maxRateHA + " AND hotels.low_price BETWEEN " + minNightCost + " AND " + maxNightCost + " AND type IN(" + types + ") "
-    var distance_hotels= "AND ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance+" "
+    var distance_hotels = "AND ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<=" + distance + " "
     var critical_hotel = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
     //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
     var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC LIMIT 500;"
 
-    let sql1 = output_hotel + tabels_hotel + conditions_hotel+distance_hotels;
+    let sql1 = output_hotel + tabels_hotel + conditions_hotel + distance_hotels;
     if (critical) {
         sql1 += critical_hotel;
     }
@@ -102,12 +106,12 @@ app.post("/search", function (req, res) {
     var output_airbnb = "SELECT airbnb.id,airbnb.name,airbnb.rating,airbnb.price AS price,COUNT(restaurants.id) AS counter"
     var tabels_airbnb = "FROM airbnb JOIN restaurants"
     var conditions_airbnb = "WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND airbnb.rating BETWEEN " + minRateHA + " AND " + maxRateHA + " AND airbnb.price BETWEEN " + minNightCost + " AND " + maxNightCost + " AND type IN(" + types + ")"
-    var distance_airbnb= " AND ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance
+    var distance_airbnb = " AND ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<=" + distance
     var critical_airbnb = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
     var superhost_airbnb = "AND airbnb.id IN(SELECT id FROM airbnb WHERE host_id IN (SELECT DISTINCT host_id FROM airbnb_hosts WHERE superhost=1))"
     var end_airbnb = " GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC LIMIT 500;"
 
-    let sql2 = output_airbnb + " " + tabels_airbnb + " " + conditions_airbnb+distance_airbnb;
+    let sql2 = output_airbnb + " " + tabels_airbnb + " " + conditions_airbnb + distance_airbnb;
     if (critical) {
         sql2 += " " + critical_airbnb;
     }
@@ -115,7 +119,7 @@ app.post("/search", function (req, res) {
         sql2 += " " + superhost_airbnb;
     }
     //console.log(sql1);
-    sql2 +=end_airbnb;
+    sql2 += end_airbnb;
     //console.log(sql2);
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel; hotel results
     db.query(sql1, (err, results) => {
@@ -215,21 +219,21 @@ app.listen(process.env.PORT | port, () => {
 })
 
 //Create connection
-    const db = mysql.createConnection({
-        host: '127.0.0.1',
-        user: 'root',
-        password: 'matthews34',
-        database: 'nyculinarytrip'
-    })
+const db = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: 'matthews34',
+    database: 'nyculinarytrip'
+})
 
 
 //Connect to MySQL
-    db.connect(err => {
-        if (err) {
-            throw err
-        }
-        console.log('Connected!')
-    })
+db.connect(err => {
+    if (err) {
+        throw err
+    }
+    console.log('Connected!')
+})
 
 
 
