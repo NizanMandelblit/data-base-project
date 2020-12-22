@@ -19,14 +19,22 @@ app.get('/', (req, res) => {
 
 app.get('/search', (req, res) => {
     pageName = "search page";
-    var airbnbid = req.query.airbnbid;
-    var hotelid = req.query.hotelid;
-    if(airbnbid !== 'undefined')
-        let sql1 = "eldad complete"
-    if(hotelid !== 'undefined')
-        let sql1 = "eldad complete"
-    console.log(airbnbid)
-    console.log(hotelid)
+    const airbnbid = req.query.airbnbid;
+    const hotelid = req.query.hotelid;
+    let sql1;
+    if(airbnbid !== 'undefined') {
+        sql1 = "eldad complete aibnb"
+        console.log(sql1)
+        console.log(airbnbid)
+        console.log(style)
+    }
+    if(hotelid !== 'undefined') {
+        sql1 = "eldad complete hotel"
+        console.log(sql1)
+        console.log(hotelid)
+        console.log(style)
+    }
+
 
     res.render("index", {pageName: pageName});
 })
@@ -95,12 +103,12 @@ app.post("/search", function (req, res) {
     var output_hotel = "SELECT hotels.id,hotels.name,hotels.rating,hotels.low_price AS price,COUNT(restaurants.id) AS counter "
     var tabels_hotel = "FROM hotels JOIN restaurants"
     var conditions_hotel = " WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND hotels.rating BETWEEN " + minRateHA + " AND " + maxRateHA + " AND hotels.low_price BETWEEN " + minNightCost + " AND " + maxNightCost + " AND type IN(" + types + ") "
-    var distance_hotels= "AND ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance+" "
+    var distance_hotels = "AND ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<=" + distance + " "
     var critical_hotel = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
     //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
-    var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC LIMIT 50;"
+    var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC LIMIT 500;"
 
-    let sql1 = output_hotel + tabels_hotel + conditions_hotel+distance_hotels;
+    let sql1 = output_hotel + tabels_hotel + conditions_hotel + distance_hotels;
     if (critical) {
         sql1 += critical_hotel;
     }
