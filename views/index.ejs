@@ -323,10 +323,11 @@
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
 
-                            <td> <a  href="/search?hotelid=<%=queryhotels[i].id %>">  <%= queryhotels[i].name %> </a></td>
+                            <td><%= queryhotels[i].name %></td>
                             <td><%= queryhotels[i].rating %></td>
                             <td><%= queryhotels[i].price %></td>
-                            <td><%= queryhotels[i].counter %></td>
+                            <td> <a  href="/search?hotelid=<%=queryhotels[i].id %>">  <%= queryhotels[i].counter %> </a></td>
+
                         </tr>
                     <% } %>
                     </tbody>
