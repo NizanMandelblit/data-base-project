@@ -145,7 +145,7 @@ app.post("/search", function (req, res) {
 
 
 app.post("/update", function (req, res) {
-    var id = req.body.id;
+    var placeName = req.body.placename;
     var placeSort = req.body.place;
     var FirstName = req.body.FirstName;
     var LastName = req.body.LastName;
