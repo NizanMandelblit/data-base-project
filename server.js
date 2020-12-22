@@ -21,18 +21,59 @@ app.get('/search', (req, res) => {
     pageName = "search page";
     const airbnbid = req.query.airbnbid;
     const hotelid = req.query.hotelid;
-    let sql1;
-    if(airbnbid !== 'undefined') {
-        sql1 = "eldad complete aibnb"
-        console.log(sql1)
-        console.log(airbnbid)
-        console.log(style)
+
+    //
+    if(airbnbid != null) {
+        var output_airbnb = "SELECT restaurants.id,restaurants.name,restaurants.rating,restaurants.type,ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001 AS distance "
+        var tabels_airbnb = "FROM airbnb JOIN restaurants"
+        var conditions_airbnb = " WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND airbnb.id = " + airbnbid + " AND type IN(" + types + ") "
+        var distance_airbnb = "AND ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<=" + distance + " "
+        var critical_airbnb = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
+        //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
+        var end_airbnb = "ORDER BY distance ASC,restaurants.rating DESC LIMIT 50;"
+
+        let sql1 = output_airbnb + tabels_airbnb + conditions_airbnb + distance_airbnb;
+        if (critical) {
+            sql1 += critical_airbnb;
+        }
+        sql1 += end_airbnb;
+        db.query(sql1, (err, results) => {
+            if (err) {
+                res.redirect("/error");
+                throw err
+            } else {
+                console.log("restaurants by airbnb results:")
+                console.log(results)
+                //let data = JSON.stringify(results);
+                //fs.writeFileSync("hotelrseults.json", data)
+            }
+        })
     }
-    if(hotelid !== 'undefined') {
-        sql1 = "eldad complete hotel"
-        console.log(sql1)
-        console.log(hotelid)
-        console.log(style)
+    if(hotelid != null) {
+        var output_hotel = "SELECT restaurants.id,restaurants.name,restaurants.rating,restaurants.type,ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001 AS distance "
+        var tabels_hotel = "FROM hotels JOIN restaurants"
+        var conditions_hotel = " WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND hotels.id = " + hotelid + " AND type IN(" + types + ") "
+        var distance_hotels = "AND ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<=" + distance + " "
+        var critical_hotel = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
+        //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
+        var end_hotel = "ORDER BY distance ASC,restaurants.rating DESC LIMIT 50;"
+
+        let sql1 = output_hotel + tabels_hotel + conditions_hotel + distance_hotels;
+        if (critical) {
+            sql1 += critical_hotel;
+        }
+        sql1 += end_hotel;
+        db.query(sql1, (err, results) => {
+            if (err) {
+                res.redirect("/error");
+                throw err
+            } else {
+                console.log("restaurants by hotel results:")
+                console.log(results)
+                //let data = JSON.stringify(results);
+                //fs.writeFileSync("hotelrseults.json", data)
+            }
+        })
     }
 
 
@@ -151,7 +192,7 @@ app.post("/search", function (req, res) {
             throw err
         } else {
             console.log("airbnb results:")
-            console.log(results)
+            console.log(results[0])
             let data = JSON.stringify(results);
             fs.writeFileSync("airbnbrseults.json", data)
             res.redirect("/output");
