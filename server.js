@@ -8,6 +8,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 var pageName;
+var style
 
 
 
@@ -87,7 +88,7 @@ app.post("/search", function (req, res) {
     var distance_hotels= "AND ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance+" "
     var critical_hotel = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1))) "
     //maxNightCost<=max_price AND minNightCost>=min_price AND rating BETWEEN minRateHA AND maxRateHA
-    var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC LIMIT 50;"
+    var end_hotel = "GROUP BY hotels.id ORDER BY counter DESC,hotels.rating DESC,hotels.low_price ASC LIMIT 500;"
 
     let sql1 = output_hotel + tabels_hotel + conditions_hotel+distance_hotels;
     if (critical) {
@@ -100,7 +101,7 @@ app.post("/search", function (req, res) {
     var distance_airbnb= " AND ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance
     var critical_airbnb = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
     var superhost_airbnb = "AND airbnb.id IN(SELECT id FROM airbnb WHERE host_id IN (SELECT DISTINCT host_id FROM airbnb_hosts WHERE superhost=1))"
-    var end_airbnb = " GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC LIMIT 50;"
+    var end_airbnb = " GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC LIMIT 500;"
 
     let sql2 = output_airbnb + " " + tabels_airbnb + " " + conditions_airbnb+distance_airbnb;
     if (critical) {
@@ -208,13 +209,13 @@ app.post("/delete", function (req, res) {
 app.listen(process.env.PORT | port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
-//Create connection
+
 //Create connection
     const db = mysql.createConnection({
         host: '127.0.0.1',
         user: 'root',
-        password: '54321',
-        database: 'new_york_db'
+        password: 'matthews34',
+        database: 'nyculinarytrip'
     })
 
 
