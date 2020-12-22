@@ -189,35 +189,42 @@ app.post("/update", function (req, res) {
 app.post("/delete", function (req, res) {
     var placeSort = req.body.place;
     var placeName = req.body.placename;
-    console.log(placeSort);
-    console.log(id);
+    //console.log(placeSort);
+    let sql11 = "SELECT id,name FROM " + placeSort + " WHERE name LIKE %" + placeName + "%";
+    db.query(sql11, (err, results) => {
+        if (err) {
+            throw err
+        } else console.log(results);
+    })
+    /*
     let sql = "DELETE FROM " + placeSort + " WHERE id=" + id;
     db.query(sql, (err, results) => {
         if (err) {
             throw err
         } else res.redirect("/thanks");
-    })
+    })*/
 })
 
 app.listen(process.env.PORT | port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
-
-
 //Create connection
-const db = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: '9096373',
-    database: 'newyorktrip'
-})
+//Create connection
+    const db = mysql.createConnection({
+        host: '127.0.0.1',
+        user: 'root',
+        password: '54321',
+        database: 'new_york_db'
+    })
 
 
 //Connect to MySQL
-db.connect(err => {
-    if (err) {
-        throw err
-    }
-    console.log('Connected!')
-})
+    db.connect(err => {
+        if (err) {
+            throw err
+        }
+        console.log('Connected!')
+    })
+
+
 
