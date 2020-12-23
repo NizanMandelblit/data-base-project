@@ -80,6 +80,14 @@ app.get('/search', (req, res) => {
     res.render("index", {pageName: pageName});
 })
 
+
+
+app.get('/find', (req, res) => {
+    pageName = "find page";
+
+    res.render("index", {pageName: pageName});
+})
+
 app.get('/update', (req, res) => {
     pageName = "update page";
 
@@ -279,8 +287,8 @@ app.listen(process.env.PORT | port, () => {
     const db = mysql.createConnection({
         host: '127.0.0.1',
         user: 'root',
-        password: '54321',
-        database: 'new_york_db'
+        password: '9096373',
+        database: 'newyorktrip'
     })
 
 

@@ -24,7 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Sacramento&display=swap"
           rel="stylesheet">
     <!--font awsome -->
-    <script src="https://kit.fontawesome.com/34861f07f9.js" crossorigin="anonymous"></script>
+<!--    <script src="https://kit.fontawesome.com/34861f07f9.js" crossorigin="anonymous"></script>-->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
@@ -54,6 +54,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/delete"><img src="trash.png">delete information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/find"><img src="search.png">find place</a>
                 </li>
             </ul>
         </div>
@@ -355,10 +358,10 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
                         <tr>
-                            <td> <a  href="/search?airbnbid=<%=queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a></td>
+                            <td>  <%= queryairbnb[i].name %> </td>
                             <td><%= queryairbnb[i].rating %></td>
                             <td><%= queryairbnb[i].price %></td>
-                            <td><%= queryairbnb[i].counter %></td>
+                            <td><a  href="/search?airbnbid=<%=queryairbnb[i].id %>"> <%= queryairbnb[i].counter %> </a></td>
                         </tr>
                     <% } %>
                     </tbody>
@@ -379,6 +382,36 @@
 
 
     </div>
+
+    <!--find place page content-->
+    <% if(pageName == "find page") { %>
+        <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
+            <form id="my-form" class="" action="/???" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
+                    <select name="place" class="form-control" required>
+                        <option>airbnb</option>
+                        <option>restaurants</option>
+                        <option>hotels</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">2.enter the name of the place</label>
+                    <input type="text" name="placename" class="form-control" placeholder="e.g dan hotel" required>
+                </div>
+                <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
+
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </form>
+
+        </div>
+
+
+    <% } %>
+
 
 </div>
 
