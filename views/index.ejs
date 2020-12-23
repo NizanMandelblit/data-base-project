@@ -412,6 +412,71 @@
 
     <% } %>
 
+    <!--outputhotelid page content-->
+    <% if(pageName == "outputhotelid") { %>
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
+               aria-controls="hotels">HOTELS by id</a>
+            <input id="myInput" type="text" placeholder="Search..">
+            <div class="collapse multi-collapse" id="hotels">
+
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col">rating</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="myTable">
+                    <% for(var i = 0; i < queryhotels.length; i++) { %>
+                        <tr>
+
+                            <td><%= queryhotels[i].name %></td>
+                            <td><%= queryhotels[i].rating %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <% } %>
+
+
+    <!--outputairbnbid page content-->
+    <% if(pageName == "outputairbnbid") { %>
+
+
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
+               aria-controls="airbnb">AIRBNB by id</a>
+            <input id="myInputtwo" type="text" placeholder="Search..">
+            <div class="collapse multi-collapse" id="airbnb" style="">
+
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col">rating</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="myTabletwo">
+                    <% for(var i = 0; i < queryairbnb.length; i++) { %>
+                        <tr>
+                            <td>  <%= queryairbnb[i].name %> </td>
+                            <td><%= queryairbnb[i].rating %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <% } %>
+
+
+
 
 </div>
 

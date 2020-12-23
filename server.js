@@ -23,7 +23,7 @@ app.get('/search', (req, res) => {
     const hotelid = req.query.hotelid;
 
     //
-    if(airbnbid != null) {
+    if (airbnbid != null) {
         var output_airbnb = "SELECT restaurants.id,restaurants.name,restaurants.rating,restaurants.type,ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001 AS distance "
         var tabels_airbnb = "FROM airbnb JOIN restaurants"
         var conditions_airbnb = " WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND airbnb.id = " + airbnbid + " AND type IN(" + types + ") "
@@ -44,12 +44,12 @@ app.get('/search', (req, res) => {
             } else {
                 console.log("restaurants by airbnb results:")
                 console.log(results)
-                //let data = JSON.stringify(results);
-                //fs.writeFileSync("hotelrseults.json", data)
+                let data = JSON.stringify(results);
+                fs.writeFileSync("airbnbbyiddearch.json", data)
             }
         })
     }
-    if(hotelid != null) {
+    if (hotelid != null) {
         var output_hotel = "SELECT restaurants.id,restaurants.name,restaurants.rating,restaurants.type,ST_Distance_Sphere(point(hotels.latitude,hotels.longitude),point(restaurants.latitude, restaurants.longitude))*0.001 AS distance "
         var tabels_hotel = "FROM hotels JOIN restaurants"
         var conditions_hotel = " WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND hotels.id = " + hotelid + " AND type IN(" + types + ") "
@@ -70,23 +70,36 @@ app.get('/search', (req, res) => {
             } else {
                 console.log("restaurants by hotel results:")
                 console.log(results)
-                //let data = JSON.stringify(results);
-                //fs.writeFileSync("hotelrseults.json", data)
+                let data = JSON.stringify(results);
+                fs.writeFileSync("hotelbyiddearch.json", data)
             }
         })
     }
 
 
-    res.render("index", {pageName: pageName});
+    if (hotelid == null && airbnbid == null) {
+        res.render("index", {pageName: pageName});
+    } else {
+        if(hotelid){
+            pageName = "outputhotelid"
+            let rawdatahotel = fs.readFileSync('hotelbyiddearch.json');
+            let hotel = JSON.parse(rawdatahotel);
+            res.render("index", {pageName: pageName, queryhotels: hotel});
+        }else {
+            pageName = "outputairbnbid"
+            let rawdataairbnb = fs.readFileSync('airbnbbyiddearch.json');
+            let airbnb = JSON.parse(rawdataairbnb);
+            res.render("index", {pageName: pageName, queryairbnb: airbnb});
+        }
+    }
 })
-
 
 
 app.get('/find', (req, res) => {
     pageName = "find page";
     const id = req.query.id;
-    var placesort="airbnb";
-    if (placesort=== "restaurants"){
+    var placesort = "airbnb";
+    if (placesort === "restaurants") {
         let sql = "SELECT * FROM " + placeSort + " WHERE id=" + id;
         db.query(sql, (err, results) => {
             if (err) {
@@ -106,9 +119,9 @@ app.get('/update', (req, res) => {
 })
 
 app.get('/delete', (req, res) => {
-    if(req.url=="/delete?password=12345"){
+    if (req.url == "/delete?password=12345") {
         pageName = "delete page1";
-    }else{
+    } else {
         pageName = "delete page0";
     }
     res.render("index", {pageName: pageName});
@@ -181,12 +194,12 @@ app.post("/search", function (req, res) {
     var output_airbnb = "SELECT airbnb.id,airbnb.name,airbnb.rating,airbnb.price AS price,COUNT(restaurants.id) AS counter"
     var tabels_airbnb = "FROM airbnb JOIN restaurants"
     var conditions_airbnb = "WHERE restaurants.rating BETWEEN " + minRateRestaurant + " AND " + maxRateRestaurant + " AND airbnb.rating BETWEEN " + minRateHA + " AND " + maxRateHA + " AND airbnb.price BETWEEN " + minNightCost + " AND " + maxNightCost + " AND type IN(" + types + ")"
-    var distance_airbnb= " AND ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<="+distance
+    var distance_airbnb = " AND ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001<=" + distance
     var critical_airbnb = "AND restaurants.id IN(SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE restaurant_id NOT IN (SELECT DISTINCT restaurant_id FROM restaurant_inspections_connection_table WHERE violation_id IN (SELECT violation_id FROM inspections WHERE critical=1)))"
     var superhost_airbnb = "AND airbnb.id IN(SELECT id FROM airbnb WHERE host_id IN (SELECT DISTINCT host_id FROM airbnb_hosts WHERE superhost=1))"
     var end_airbnb = " GROUP BY airbnb.id ORDER BY counter DESC,airbnb.rating DESC,airbnb.price ASC LIMIT 50;"
 
-    let sql2 = output_airbnb + " " + tabels_airbnb + " " + conditions_airbnb+distance_airbnb;
+    let sql2 = output_airbnb + " " + tabels_airbnb + " " + conditions_airbnb + distance_airbnb;
     if (critical) {
         sql2 += " " + critical_airbnb;
     }
@@ -194,7 +207,7 @@ app.post("/search", function (req, res) {
         sql2 += " " + superhost_airbnb;
     }
     //console.log(sql1);
-    sql2 +=end_airbnb;
+    sql2 += end_airbnb;
     //console.log(sql2);
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel; hotel results
     db.query(sql1, (err, results) => {
@@ -304,22 +317,22 @@ app.listen(process.env.PORT | port, () => {
 })
 //Create connection
 
-    const db = mysql.createConnection({
-        host: '127.0.0.1',
-        user: 'root',
-        password: '54321',
-        database: 'new_york_db'
-    })
+const db = mysql.createConnection({
+    host: '127.0.0.1',
+    user: 'root',
+    password: '9096373',
+    database: 'newyorktrip'
+})
 
 
 //Connect to MySQL
-    db.connect(err => {
-        if (err) {
-            res.redirect("/error");
-            throw err
-        }
-        console.log('Connected!')
-    })
+db.connect(err => {
+    if (err) {
+        res.redirect("/error");
+        throw err
+    }
+    console.log('Connected!')
+})
 
 
 
