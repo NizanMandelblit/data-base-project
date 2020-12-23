@@ -84,7 +84,18 @@ app.get('/search', (req, res) => {
 
 app.get('/find', (req, res) => {
     pageName = "find page";
-
+    const id = req.query.id;
+    var placesort="airbnb";
+    if (placesort=== "restaurants"){
+        let sql = "SELECT * FROM " + placeSort + " WHERE id=" + id;
+        db.query(sql, (err, results) => {
+            if (err) {
+                res.redirect("/error");
+                throw err
+            } else res.redirect("/thanks");
+        })
+    }
+    //pageName="thanks page"
     res.render("index", {pageName: pageName});
 })
 
@@ -104,6 +115,11 @@ app.get('/delete', (req, res) => {
 })
 
 app.get('/thanks', (req, res) => {
+    pageName = "thanks page";
+
+    res.render("index", {pageName: pageName});
+})
+app.get('/info', (req, res) => {
     pageName = "thanks page";
 
     res.render("index", {pageName: pageName});
@@ -262,6 +278,18 @@ app.post("/delete", function (req, res) {
     var placeSort = req.body.place;
     var placeName = req.body.placename;
     //console.log(placeSort);
+    let sql = "DELETE FROM " + placeSort + " WHERE id=" + id;
+    db.query(sql, (err, results) => {
+        if (err) {
+            res.redirect("/error");
+            throw err
+        } else res.redirect("/thanks");
+    })
+})
+app.post("/find", function (req, res) {
+    var placeSort = req.body.place;
+    var placeName = req.body.placename;
+    //console.log(placeSort);
     let sql11 = "SELECT id,name FROM " + placeSort + " WHERE name LIKE '%" + placeName + "%'";
     db.query(sql11, (err, results) => {
         if (err) {
@@ -269,16 +297,8 @@ app.post("/delete", function (req, res) {
             throw err
         } else console.log(results);
     })
-    /*
-    let sql = "DELETE FROM " + placeSort + " WHERE id=" + id;
-    db.query(sql, (err, results) => {
-        if (err) {
-            res.redirect("/error");
-            throw err
-        } else res.redirect("/thanks");
-    })*/
-})
 
+})
 app.listen(process.env.PORT | port, () => {
     console.log(`Example app listening at http://localhost:${port}`)
 })
@@ -287,8 +307,8 @@ app.listen(process.env.PORT | port, () => {
     const db = mysql.createConnection({
         host: '127.0.0.1',
         user: 'root',
-        password: '9096373',
-        database: 'newyorktrip'
+        password: '54321',
+        database: 'new_york_db'
     })
 
 
