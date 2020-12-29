@@ -258,6 +258,21 @@
         </div>
 
     <% } %>
+    <% if(pageName == "delete page2") { %>
+        <div id="admindiv" class="full-screen-container">
+            <div class="login-container">
+                <h3 class="login-title">Admin Login</h3>
+                <form id="adminform">
+                    <div class="input-group">
+                        <label>Wrong Password, Try Again</label>
+                        <input id="pass" type="password" name="password">
+                    </div>
+                    <button type="submit" class="login-button">Sign In</button>
+                </form>
+            </div>
+        </div>
+
+    <% } %>
     <% if(pageName == "delete page1") { %>
         <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/delete" method="post">
@@ -364,7 +379,6 @@
                         <tr>
                             <td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
                             </td>
-
                             <td><%= queryairbnb[i].rating %></td>
                             <td><%= queryairbnb[i].price %></td>
                             <td><a href="/search?airbnbid=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].counter %> </a>
@@ -422,7 +436,7 @@
     <% if(pageName == "outputhotelid") { %>
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
-               aria-controls="hotels">HOTELS by id</a>
+               aria-controls="hotels">relevant restaurants close to the hotel</a>
             <input id="myInput" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="hotels">
 
@@ -430,15 +444,21 @@
                     <thead>
                     <tr>
                         <th scope="col">name</th>
+                        <th scope="col">type</th>
                         <th scope="col">rating</th>
+                        <th scope="col">distance from the hotel</th>
                     </tr>
                     </thead>
 
                     <tbody id="myTable">
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
+                            <td><a href="/info?restaurants=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                            </td>
                             <td><%= queryhotels[i].name %></td>
+                            <td><%= queryhotels[i].type %></td>
                             <td><%= queryhotels[i].rating %></td>
+                            <td><%= queryhotels[i].distance %></td>
                         </tr>
                     <% } %>
                     </tbody>
@@ -453,7 +473,7 @@
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
-               aria-controls="airbnb">AIRBNB by id</a>
+               aria-controls="airbnb">relevant restaurants close to the airbnb</a>
             <input id="myInputtwo" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="airbnb" style="">
 
@@ -461,15 +481,19 @@
                     <thead>
                     <tr>
                         <th scope="col">name</th>
+                        <th scope="col">type</th>
                         <th scope="col">rating</th>
+                        <th scope="col">distance from the airbnb</th>
                     </tr>
                     </thead>
 
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
-                        <tr>
-                            <td>  <%= queryairbnb[i].name %> </td>
+                        <tr><td><a href="/info?sort=restaurants&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            </td>
+                            <td><%= queryairbnb[i].type %></td>
                             <td><%= queryairbnb[i].rating %></td>
+                            <td><%= queryairbnb[i].distance %></td>
                         </tr>
                     <% } %>
                     </tbody>
