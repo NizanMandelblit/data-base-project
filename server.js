@@ -8,7 +8,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
-    critical, superhost, types;
+    critical, superhost, types,kindOfRequestedPlace=null;
 
 // GET functions
 app.get('/', (req, res) => {
@@ -132,11 +132,7 @@ app.get('/thanks', (req, res) => {
 
     res.render("index", {pageName: pageName});
 })
-app.get('/info', (req, res) => {
-    pageName = "thanks page";
 
-    res.render("index", {pageName: pageName});
-})
 app.get('/error', (req, res) => {
     pageName = "error page";
 
@@ -150,6 +146,53 @@ app.get('/output', (req, res) => {
     let rawdataairbnb = fs.readFileSync('airbnbrseults.json');
     let airbnb = JSON.parse(rawdataairbnb);
     res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb});
+
+})
+app.get('/info', (req, res) => {
+    pageName = "output page";
+    const id = req.query.id;
+    if(typeof(req.query.sort) != "undefined") {
+        kindOfRequestedPlace=req.query.sort;
+    }
+    if(kindOfRequestedPlace===null){
+        res.redirect("/error");
+    } else {
+        let sql="";
+        if (kindOfRequestedPlace.localeCompare("airbnb")==0){
+            sql+="SELECT * FROM airbnb JOIN airbnb_hosts ON (airbnb.host_id=airbnb_hosts.host_id) WHERE id="+id+";";
+
+        }else if (kindOfRequestedPlace.localeCompare("hotels")==0){
+            sql+="SELECT * FROM hotels WHERE id="+id+";";
+
+        }else if (kindOfRequestedPlace.localeCompare("restaurants")==0){
+            sql+="SELECT * FROM restaurants WHERE id="+id+";";
+            let sql2="SELECT * FROM restaurant_inspections_connection_table JOIN inspections ON (restaurant_inspections_connection_table.violation_id=inspections.violation_id) WHERE restaurant_id="+id+";";
+            db.query(sql2, (err, results) => {
+                if (err) {
+                    res.redirect("/error");
+                    throw err
+                } else {
+                    console.log(results)
+                    //let data = JSON.stringify(results);
+                    //fs.writeFileSync("hotelrseults.json", data)
+                }
+            })
+        }
+        db.query(sql, (err, results) => {
+            if (err) {
+                res.redirect("/error");
+                throw err
+            } else {
+                console.log(results)
+                //let data = JSON.stringify(results);
+                //fs.writeFileSync("hotelrseults.json", data)
+
+            }
+        })
+
+    }
+
+    res.redirect("/thanks");
 
 })
 
@@ -297,6 +340,7 @@ app.post("/delete", function (req, res) {
 app.post("/find", function (req, res) {
     pageName = '';
     var placeSort = req.body.place;
+    kindOfRequestedPlace=placeSort;
     var placeName = req.body.placename;
     //console.log(placeSort);
     let sql11 = "SELECT id,name FROM " + placeSort + " WHERE name LIKE '%" + placeName + "%'";
@@ -310,7 +354,7 @@ app.post("/find", function (req, res) {
             fs.writeFileSync("findoutput.json", data)
             let rawdata = fs.readFileSync('findoutput.json');
             data = JSON.parse(rawdata);
-            console.log(results);
+            //console.log(results);
             res.render("index", {pageName: pageName, query: data});
         }
     })
@@ -324,8 +368,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '9096373',
-    database: 'newyorktrip'
+    password: '54321',
+    database: 'new_york_db'
 })
 
 

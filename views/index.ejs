@@ -328,7 +328,8 @@
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
 
-                            <td><%= queryhotels[i].name %></td>
+                            <td><a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                            </td>
                             <td><%= queryhotels[i].rating %></td>
                             <td><%= queryhotels[i].price %></td>
                             <td><a href="/search?hotelid=<%= queryhotels[i].id %>">  <%= queryhotels[i].counter %> </a>
@@ -361,7 +362,9 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
                         <tr>
-                            <td>  <%= queryairbnb[i].name %> </td>
+                            <td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            </td>
+
                             <td><%= queryairbnb[i].rating %></td>
                             <td><%= queryairbnb[i].price %></td>
                             <td><a href="/search?airbnbid=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].counter %> </a>
@@ -481,7 +484,7 @@
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
-               aria-controls="airbnb">AIRBNB by id</a>
+               aria-controls="airbnb">push to see the results</a>
             <input id="myInputtwo" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="airbnb" style="">
                 <table class="table table-hover table-dark">
@@ -493,7 +496,7 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < query.length; i++) { %>
                     <tr>
-                        <td><a href="/search?id=<%= query[i].id %>">  <%= query[i].name %> </a></td>
+                        <td><a href="/info?id=<%= query[i].id %>">  <%= query[i].name %> </a></td>
                     </tr>
                     <% } %>
                     </tbody>
