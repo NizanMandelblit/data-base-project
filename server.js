@@ -80,12 +80,12 @@ app.get('/search', (req, res) => {
     if (hotelid == null && airbnbid == null) {
         res.render("index", {pageName: pageName});
     } else {
-        if(hotelid){
+        if (hotelid) {
             pageName = "outputhotelid"
             let rawdatahotel = fs.readFileSync('hotelbyiddearch.json');
             let hotel = JSON.parse(rawdatahotel);
             res.render("index", {pageName: pageName, queryhotels: hotel});
-        }else {
+        } else {
             pageName = "outputairbnbid"
             let rawdataairbnb = fs.readFileSync('airbnbbyiddearch.json');
             let airbnb = JSON.parse(rawdataairbnb);
@@ -235,11 +235,6 @@ app.post("/search", function (req, res) {
             res.redirect("/output");
         }
     })
-
-
-    /*setTimeout(function () {
-        res.redirect("/output");
-    }, 10000);*/
 })
 
 
@@ -300,6 +295,7 @@ app.post("/delete", function (req, res) {
     })
 })
 app.post("/find", function (req, res) {
+    pageName = '';
     var placeSort = req.body.place;
     var placeName = req.body.placename;
     //console.log(placeSort);
@@ -308,7 +304,15 @@ app.post("/find", function (req, res) {
         if (err) {
             res.redirect("/error");
             throw err
-        } else console.log(results);
+        } else {
+            pageName = 'findoutput';
+            let data = JSON.stringify(results);
+            fs.writeFileSync("findoutput.json", data)
+            let rawdata = fs.readFileSync('findoutput.json');
+            data = JSON.parse(rawdata);
+            console.log(results);
+            res.render("index", {pageName: pageName, query: data});
+        }
     })
 
 })
