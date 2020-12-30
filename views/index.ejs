@@ -50,13 +50,13 @@
                         search</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/find?selection=/update"><img src="refresh.png">add review</a>
+                    <a class="nav-link" href="/find?selection=update"><img src="refresh.png">add review</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/find?selection=/delete0"><img src="trash.png">delete information</a>
+                    <a class="nav-link" href="/find?selection=delete"><img src="trash.png">delete information</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/find?selection=/info"><img src="search.png">get information for a place</a>
+                    <a class="nav-link" href="/find?selection=info"><img src="search.png">get information for a place</a>
                 </li>
             </ul>
         </div>
@@ -279,7 +279,7 @@
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">1.where did you visit?</label>
                     <select name="place" class="form-control" required>
-                        <option>airbnb</option>
+                        <option>airbnb!!!!!!!!!!!!!!!!!!!!!!!!</option>
                         <option>restaurants</option>
                         <option>hotels</option>
                     </select>
@@ -406,8 +406,9 @@
 
     <!--find place page content-->
     <% if(pageName == "find page") { %>
+
         <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
-            <form id="my-form" class="" action="/find" method="post">
+            <form id="my-form" class="" action="/find?selection=<%=varselected%>" method="post">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">1.where did you visit?</label>
                     <select name="place" class="form-control" required>
@@ -453,7 +454,7 @@
                     <tbody id="myTable">
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
-                            <td><a href="/info?restaurants=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                            <td><a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
                             </td>
                             <td><%= queryhotels[i].name %></td>
                             <td><%= queryhotels[i].type %></td>
@@ -489,7 +490,7 @@
 
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
-                        <tr><td><a href="/info?sort=restaurants&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                        <tr><td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
                             </td>
                             <td><%= queryairbnb[i].type %></td>
                             <td><%= queryairbnb[i].rating %></td>
@@ -520,7 +521,7 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < query.length; i++) { %>
                     <tr>
-                        <td><a href="/info?id=<%= query[i].id %>">  <%= query[i].name %> </a></td>
+                        <td><a href="/<%=varselected%>?id=<%= query[i].id %>&placeSort=<%=placeSort%>">  <%= query[i].name %> </a></td>
                     </tr>
                     <% } %>
                     </tbody>

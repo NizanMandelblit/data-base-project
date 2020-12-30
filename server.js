@@ -8,8 +8,8 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
-    critical, superhost, types,kindOfRequestedPlace=null,select=null;
-
+    critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", idd;
+var ff,gg,upid,upps;
 // GET functions
 app.get('/', (req, res) => {
     pageName = "home page";
@@ -97,6 +97,8 @@ app.get('/search', (req, res) => {
 
 app.get('/find', (req, res) => {
     pageName = "find page";
+    selection = req.query.selection;
+    /*
     const id = req.query.id;
     var placesort = "airbnb";
     if (placesort === "restaurants") {
@@ -109,22 +111,47 @@ app.get('/find', (req, res) => {
         })
     }
     //pageName="thanks page"
-    res.render("index", {pageName: pageName});
+
+     */
+    res.render("index", {pageName: pageName, varselected: selection});
 })
-/*
+
 app.get('/update', (req, res) => {
     pageName = "update page";
-
+    if (typeof (req.query.placeSort) != "undefined"){
+        upps = req.query.placeSort;
+    }
+    if (typeof (req.query.placeSort) != "undefined"){
+        upid = req.query.id;
+    }
     res.render("index", {pageName: pageName});
-})*/
+})
 
 app.get('/delete', (req, res) => {
+    if (typeof (req.query.placeSort) != "undefined"){
+         gg = req.query.placeSort;
+    }
+    if (typeof (req.query.placeSort) != "undefined"){
+         ff = req.query.id;
+    }
+
     if (typeof (req.query.password) == "undefined") {
         pageName = "delete page0";
-    }else {
+    } else {
         const password = req.query.password;
         if (password.localeCompare("12345") === 0) {
-            pageName = "delete page1";
+            var id=ff;
+            var placeSort=gg;
+            //console.log(placeSort);
+            let sql = "DELETE FROM " + placeSort + " WHERE id=" + id+";";
+            db.query(sql, (err, results) => {
+                if (err) {
+                    res.redirect("/error");
+                    throw err
+                }
+            })
+            //console.log(sql);
+            pageName = "thanks page";
         } else {
             pageName = "delete page2";
         }
@@ -156,30 +183,31 @@ app.get('/output', (req, res) => {
 
 })
 app.get('/info', (req, res) => {
+
     pageName = "output page";
     const id = req.query.id;
-    if(typeof(req.query.sort) != "undefined") {
-        kindOfRequestedPlace=req.query.sort;
+    if (typeof (req.query.sort) != "undefined") {
+        kindOfRequestedPlace = req.query.sort;
     }
-    if(kindOfRequestedPlace===null){
+    if (kindOfRequestedPlace === null) {
         res.redirect("/error");
     } else {
-        let sql="";
-        if (kindOfRequestedPlace.localeCompare("airbnb")==0){
-            sql="SELECT * FROM airbnb JOIN airbnb_hosts ON (airbnb.host_id=airbnb_hosts.host_id) WHERE id="+id+";";
+        let sql = "";
+        if (kindOfRequestedPlace.localeCompare("airbnb") == 0) {
+            sql = "SELECT * FROM airbnb JOIN airbnb_hosts ON (airbnb.host_id=airbnb_hosts.host_id) WHERE id=" + id + ";";
 
-        }else if (kindOfRequestedPlace.localeCompare("hotels")==0){
-            sql="SELECT * FROM hotels WHERE id="+id+";";
+        } else if (kindOfRequestedPlace.localeCompare("hotels") == 0) {
+            sql = "SELECT * FROM hotels WHERE id=" + id + ";";
 
-        }else if (kindOfRequestedPlace.localeCompare("restaurants")==0){
-            sql="SELECT * FROM restaurants WHERE id="+id+";";
-            let sql2="SELECT * FROM restaurant_inspections_connection_table JOIN inspections ON (restaurant_inspections_connection_table.violation_id=inspections.violation_id) WHERE restaurant_id="+id+";";
+        } else if (kindOfRequestedPlace.localeCompare("restaurants") == 0) {
+            sql = "SELECT * FROM restaurants WHERE id=" + id + ";";
+            let sql2 = "SELECT * FROM restaurant_inspections_connection_table JOIN inspections ON (restaurant_inspections_connection_table.violation_id=inspections.violation_id) WHERE restaurant_id=" + id + ";";
             db.query(sql2, (err, results) => {
                 if (err) {
                     res.redirect("/error");
                     throw err
                 } else {
-                    console.log(results)
+                    console.log(results)//list of inspections
                     //let data = JSON.stringify(results);
                     //fs.writeFileSync("hotelrseults.json", data)
                 }
@@ -190,7 +218,7 @@ app.get('/info', (req, res) => {
                 res.redirect("/error");
                 throw err
             } else {
-                console.log(results)
+                console.log(results)//information for a certain place
                 //let data = JSON.stringify(results);
                 //fs.writeFileSync("hotelrseults.json", data)
 
@@ -198,8 +226,8 @@ app.get('/info', (req, res) => {
         })
 
     }
-    kindOfRequestedPlace=null;
-    res.redirect("/thanks");
+    //kindOfRequestedPlace=null;
+    //res.redirect("/thanks");
 
 })
 
@@ -288,27 +316,28 @@ app.post("/search", function (req, res) {
 })
 
 
-app.get("/update", function (req, res) {
-    var id = req.query.placename;
-    var placeSort = kindOfRequestedPlace;
-    var FirstName = req.query.FirstName;
-    var LastName = req.query.LastName;
-    var grade = req.query.grade;
-    var comment = req.query.comment;
+app.post("/update", function (req, res) {
+    var id = upid;
+    var placeSort = upps;
+    var FirstName = req.body.FirstName;
+    var LastName = req.body.LastName;
+    var grade = req.body.grade;
+    var comment = req.body.comment;
 
     var cur = 90;
 
     let sql0 = "SELECT * FROM " + placeSort + " WHERE id=" + id;
+
     db.query(sql0, (err, results) => {
         if (err) {
             res.redirect("/error");
             throw err
         } else {
-            console.log("good" + results[0])
+            //console.log("good" + results[0])
             cur = results[0]['rating']
-            console.log(cur)
+            //console.log(cur)
             var value = ((grade - cur) / 10) + cur;
-            console.log(value)
+            //console.log(value)
             let sql = "UPDATE " + placeSort + " SET rating = " + value + " WHERE id=" + id;
             db.query(sql, (err, results) => {
                 if (err) {
@@ -334,7 +363,7 @@ app.get("/update", function (req, res) {
 
 app.post("/delete", function (req, res) {
     var placeSort = kindOfRequestedPlace;
-    var id = req.query.id;
+    var id = idd;
     //console.log(placeSort);
     let sql = "DELETE FROM " + placeSort + " WHERE id=" + id;
     db.query(sql, (err, results) => {
@@ -346,8 +375,9 @@ app.post("/delete", function (req, res) {
 })
 app.post("/find", function (req, res) {
     pageName = '';
+    var selection = req.query.selection;
     var placeSort = req.body.place;
-    kindOfRequestedPlace=placeSort;
+    kindOfRequestedPlace = placeSort;
     var placeName = req.body.placename;
     //console.log(placeSort);
     let sql11 = "SELECT id,name FROM " + placeSort + " WHERE name LIKE '%" + placeName + "%'";
@@ -362,7 +392,7 @@ app.post("/find", function (req, res) {
             let rawdata = fs.readFileSync('findoutput.json');
             data = JSON.parse(rawdata);
             //console.log(results);
-            res.render("index", {pageName: pageName, query: data});
+            res.render("index", {pageName: pageName, query: data, varselected: selection,placeSort: placeSort});
         }
     })
 
