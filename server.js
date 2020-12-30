@@ -8,7 +8,7 @@ app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
-    critical, superhost, types,kindOfRequestedPlace=null;
+    critical, superhost, types,kindOfRequestedPlace=null,select=null;
 
 // GET functions
 app.get('/', (req, res) => {
@@ -119,11 +119,18 @@ app.get('/update', (req, res) => {
 })*/
 
 app.get('/delete', (req, res) => {
-    if (req.url == "/delete?password=12345") {
-        pageName = "delete page1";
-    } else {
-        pageName = "delete page2";
+    if (typeof (req.query.password) == "undefined") {
+        pageName = "delete page0";
+    }else {
+        const password = req.query.password;
+        if (password.localeCompare("12345") === 0) {
+            pageName = "delete page1";
+        } else {
+            pageName = "delete page2";
+        }
     }
+
+
     res.render("index", {pageName: pageName});
 })
 
