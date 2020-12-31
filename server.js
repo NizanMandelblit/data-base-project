@@ -349,7 +349,7 @@ app.post("/update", function (req, res) {
     })
 
 
-    var finalname = FirstName + " " + LastName
+    var finalname = FirstName + " " + LastName;
     let sql2 = "INSERT INTO " + placeSort + "_reviews (" + placeSort + "_id, guest_name,grade,comment) VALUES (" + id + ",'" + finalname + "'," + grade + ",'" + comment + "');"
     db.query(sql2, (err, results) => {
         if (err) {

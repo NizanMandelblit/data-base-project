@@ -198,16 +198,9 @@
 
         <div class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/update" method="post">
+
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
-                    <select class="form-control" name="place" required>
-                        <option>airbnb</option>
-                        <option>restaurants</option>
-                        <option>hotels</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">2.enter yor name:</label>
+                    <label for="exampleFormControlSelect1">1.enter yor name:</label>
                     <div class="row">
                         <div class="col">
                             <input type="text" class="form-control" name="FirstName" placeholder="First name" maxlength="20">
@@ -217,17 +210,14 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">3.enter the name of the place</label>
-                    <input type="text" name="placename" class="form-control" placeholder="e.g dan hotel" required>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">4.enter the grade you give to the place</label>
+                    <label for="exampleFormControlInput1">2.enter the grade you give to the place</label>
                     <input type="number" name="grade" min="1" max="100" class="form-control" placeholder="1-100"
                            required>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">5.enter your comments please:</label>
+                    <label for="exampleFormControlTextarea1">3.enter your comments please:</label>
                     <textarea maxlength="60" class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
                 <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
@@ -509,7 +499,7 @@
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
-               aria-controls="airbnb">push to see the results</a>
+               aria-controls="airbnb">click to see the results</a>
             <input id="myInputtwo" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="airbnb" style="">
                 <table class="table table-hover table-dark">
