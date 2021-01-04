@@ -17,6 +17,11 @@ app.get('/error3', (req, res) => {
     res.render("index", {pageName: pageName});
 })
 
+app.get('/error1', (req, res) => {
+    pageName = "error page1";
+    res.render("index", {pageName: pageName});
+})
+
 app.get('/error2', (req, res) => {
     pageName = "error page2";
     res.render("index", {pageName: pageName});
@@ -328,6 +333,8 @@ app.post("/search", function (req, res) {
     //console.log(sql2);
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel; hotel results
     let empty = 0
+    let myTimeOut = setTimeout(() =>
+        res.redirect('error1'), 30000)
     db.query(sql1, (err, results) => {
         if (err) {
             res.redirect("/error");
@@ -356,11 +363,16 @@ app.post("/search", function (req, res) {
             console.log(results[0])
             let data = JSON.stringify(results);
             fs.writeFileSync("airbnbrseults.json", data)
+            clearTimeout(myTimeOut);
             res.redirect("/output");
+
         }
+
         if (empty === 2) {
             console.log("no results found")
+            clearTimeout(myTimeOut);
             res.redirect('/error3')
+
         }
     })
 })
