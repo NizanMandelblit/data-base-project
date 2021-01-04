@@ -52,7 +52,7 @@ app.get('/search', (req, res) => {
             if (err) {
                 res.redirect("/error");
                 throw err
-            } else if (results.empty()) {
+            } else if (!results.length) {
                 console.log('no airbnb found')
                 empty++
             } else {
@@ -81,7 +81,7 @@ app.get('/search', (req, res) => {
             if (err) {
                 res.redirect("/error");
                 throw err
-            } else if (results.empty()) {
+            } else if (!results.length) {
                 console.log('no hotels found')
                 empty++
             } else {
