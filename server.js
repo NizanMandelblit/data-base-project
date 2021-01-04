@@ -11,13 +11,18 @@ let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCos
     critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", idd;
 var ff, gg, upid, upps;
 // GET functions
-app.get('/', (req, res) => {
-    pageName = "home page";
 
-    res.render("index", {pageName: pageName});
-})
 app.get('/error3', (req, res) => {
     pageName = "error page3";
+    res.render("index", {pageName: pageName});
+})
+
+app.get('/error2', (req, res) => {
+    pageName = "error page2";
+    res.render("index", {pageName: pageName});
+})
+app.get('/', (req, res) => {
+    pageName = "home page";
 
     res.render("index", {pageName: pageName});
 })
@@ -55,7 +60,6 @@ app.get('/search', (req, res) => {
                 let rawdataairbnb = fs.readFileSync('airbnbbyiddearch.json');
                 let airbnb = JSON.parse(rawdataairbnb);
                 res.render("index", {pageName: pageName, queryairbnb: airbnb});
-
             }
         })
     }
@@ -86,12 +90,10 @@ app.get('/search', (req, res) => {
                 let rawdatahotel = fs.readFileSync('hotelbyiddearch.json');
                 let hotel = JSON.parse(rawdatahotel);
                 res.render("index", {pageName: pageName, queryhotels: hotel});
-
             }
         })
+
     }
-
-
     if (hotelid == null && airbnbid == null) {
         res.render("index", {pageName: pageName});
     }
@@ -251,7 +253,11 @@ app.get('/info', (req, res) => {
                     fs.writeFileSync("restaurantsinfoB.json", data)
                     let rawdataB = fs.readFileSync('restaurantsinfoB.json');
                     dataB = JSON.parse(rawdataB);
-                    res.render("index", {pageName: "inforestaurants", queryrestaurantsA: dataA, queryrestaurantsB: dataB});
+                    res.render("index", {
+                        pageName: "inforestaurants",
+                        queryrestaurantsA: dataA,
+                        queryrestaurantsB: dataB
+                    });
                 }
             })
         }
@@ -317,13 +323,18 @@ app.post("/search", function (req, res) {
         sql2 += " " + superhost_airbnb;
     }
     //console.log(sql1);
+
     sql2 += end_airbnb;
     //console.log(sql2);
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel; hotel results
+    let empty = 0
     db.query(sql1, (err, results) => {
         if (err) {
             res.redirect("/error");
             throw err
+        } else if (!results.length) {
+            console.log('no hotels found')
+            empty++
         } else {
             console.log("hotel results:")
             console.log(results[0])
@@ -337,12 +348,19 @@ app.post("/search", function (req, res) {
         if (err) {
             res.redirect("/error");
             throw err
+        } else if (!results.length) {
+            console.log('no airbnbs found')
+            empty++
         } else {
             console.log("airbnb results:")
             console.log(results[0])
             let data = JSON.stringify(results);
             fs.writeFileSync("airbnbrseults.json", data)
             res.redirect("/output");
+        }
+        if (empty === 2) {
+            console.log("no results found")
+            res.redirect('/error3')
         }
     })
 })
@@ -417,6 +435,9 @@ app.post("/find", function (req, res) {
         if (err) {
             res.redirect("/error");
             throw err
+        } else if (!results.length) {
+            console.log('no matches found')
+            res.redirect('/error2')
         } else {
             pageName = 'findoutput';
             let data = JSON.stringify(results);
