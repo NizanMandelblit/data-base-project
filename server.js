@@ -195,12 +195,43 @@ app.get('/info', (req, res) => {
         let sql = "";
         if (kindOfRequestedPlace.localeCompare("airbnb") == 0) {
             sql = "SELECT * FROM airbnb JOIN airbnb_hosts ON (airbnb.host_id=airbnb_hosts.host_id) WHERE id=" + id + ";";
+            db.query(sql, (err, results) => {
+                if (err) {
+                    res.redirect("/error");
+                    throw err
+                } else {
+                    console.log(results)//information for a certain place
+                    //let data = JSON.stringify(results);
+                    //fs.writeFileSync("hotelrseults.json", data)
 
+                }
+            })
         } else if (kindOfRequestedPlace.localeCompare("hotels") == 0) {
             sql = "SELECT * FROM hotels WHERE id=" + id + ";";
+            db.query(sql, (err, results) => {
+                if (err) {
+                    res.redirect("/error");
+                    throw err
+                } else {
+                    console.log(results)//information for a certain place
+                    //let data = JSON.stringify(results);
+                    //fs.writeFileSync("hotelrseults.json", data)
 
+                }
+            })
         } else if (kindOfRequestedPlace.localeCompare("restaurants") == 0) {
             sql = "SELECT * FROM restaurants WHERE id=" + id + ";";
+            db.query(sql, (err, results) => {
+                if (err) {
+                    res.redirect("/error");
+                    throw err
+                } else {
+                    console.log(results)//information for a certain place
+                    //let data = JSON.stringify(results);
+                    //fs.writeFileSync("hotelrseults.json", data)
+
+                }
+            })
             let sql2 = "SELECT * FROM restaurant_inspections_connection_table JOIN inspections ON (restaurant_inspections_connection_table.violation_id=inspections.violation_id) WHERE restaurant_id=" + id + ";";
             db.query(sql2, (err, results) => {
                 if (err) {
@@ -213,17 +244,7 @@ app.get('/info', (req, res) => {
                 }
             })
         }
-        db.query(sql, (err, results) => {
-            if (err) {
-                res.redirect("/error");
-                throw err
-            } else {
-                console.log(results)//information for a certain place
-                //let data = JSON.stringify(results);
-                //fs.writeFileSync("hotelrseults.json", data)
 
-            }
-        })
 
     }
     //kindOfRequestedPlace=null;
