@@ -56,7 +56,8 @@
                     <a class="nav-link" href="/find?selection=delete"><img src="trash.png">delete information</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/find?selection=info"><img src="search.png">get information for a place</a>
+                    <a class="nav-link" href="/find?selection=info"><img src="search.png">get information for a
+                        place</a>
                 </li>
             </ul>
         </div>
@@ -203,10 +204,12 @@
                     <label for="exampleFormControlSelect1">1.enter yor name:</label>
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" name="FirstName" placeholder="First name" maxlength="20">
+                            <input type="text" class="form-control" name="FirstName" placeholder="First name"
+                                   maxlength="20">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" name="LastName" placeholder="Last name" maxlength="20" >
+                            <input type="text" class="form-control" name="LastName" placeholder="Last name"
+                                   maxlength="20">
                         </div>
                     </div>
                 </div>
@@ -218,7 +221,8 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlTextarea1">3.enter your comments please:</label>
-                    <textarea maxlength="60" class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <textarea maxlength="60" class="form-control" name="comment" id="exampleFormControlTextarea1"
+                              rows="3"></textarea>
                 </div>
                 <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
 
@@ -334,7 +338,8 @@
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
 
-                            <td><a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                            <td>
+                                <a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
                             </td>
                             <td><%= queryhotels[i].rating %></td>
                             <td><%= queryhotels[i].price %></td>
@@ -383,12 +388,11 @@
 
     <% } %>
 
-
     <!--find place page content-->
     <% if(pageName == "find page") { %>
 
         <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
-            <form id="my-form" class="" action="/find?selection=<%=varselected%>" method="post">
+            <form id="my-form" class="" action="/find?selection=<%= varselected %>" method="post">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">1.where did you visit?</label>
                     <select name="place" class="form-control" required>
@@ -434,7 +438,8 @@
                     <tbody id="myTable">
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
-                            <td><a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                            <td>
+                                <a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
                             </td>
                             <td><%= queryhotels[i].name %></td>
                             <td><%= queryhotels[i].type %></td>
@@ -450,7 +455,6 @@
 
     <!--outputairbnbid page content-->
     <% if(pageName == "outputairbnbid") { %>
-
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
@@ -470,7 +474,8 @@
 
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
-                        <tr><td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                        <tr>
+                            <td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
                             </td>
                             <td><%= queryairbnb[i].type %></td>
                             <td><%= queryairbnb[i].rating %></td>
@@ -500,9 +505,11 @@
                     </thead>
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < query.length; i++) { %>
-                    <tr>
-                        <td><a href="/<%=varselected%>?id=<%= query[i].id %>&placeSort=<%=placeSort%>">  <%= query[i].name %> </a></td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <a href="/<%= varselected %>?id=<%= query[i].id %>&placeSort=<%= placeSort %>">  <%= query[i].name %> </a>
+                            </td>
+                        </tr>
                     <% } %>
                     </tbody>
                 </table>
@@ -513,20 +520,51 @@
 
 </div>
 
+<% if(pageName == "infoairbnb") { %>
+    <div id="overlay" class="container-fluid">
+        <!--AIRBNB-->
+        <% for(var i = 0; i < queryairbnb.length; i++) { %>
+            Name:  <%= queryairbnb[i].name %><br>
+            Price:  <%= queryairbnb[i].price %><br>
+            Rating:  <%= queryairbnb[i].rating %><br>
+            Host Name:  <%= queryairbnb[i].host_name %><br>
+            Superhost:  <%= queryairbnb[i].superhost %><br>
 
-
-
-<% if(pageName == "info") { %>
-
-<div id="overlay" class="container-fluid">
-
-
-
-</div>
+        <% } %>
+    </div>
 
 <% } %>
 
+<% if(pageName == "infohotel") { %>
+    <!--HOTEL-->
 
+    <% for(var i = 0; i < queryhotel.length; i++) { %>
+        Name:  <%= queryhotel[i].name %><br>
+        number of stars :<%= queryhotel[i].star_rating %><br>
+        maximum price:  <%= queryhotel[i].high_price %><br>
+        minimum price:  <%= queryhotel[i].low_price %><br>
+        rating:  <%= queryhotel[i].rating %><br>
+
+    <% } %>
+<% } %>
+<!--RESTURANTS-->
+<% if(pageName == "inforestaurants") { %>
+
+    <% for(var i = 0; i < queryrestaurantsA.length; i++) { %>
+        Name:  <%= queryrestaurantsA[i].name %><br>
+        boro :<%= queryrestaurantsA[i].boro %><br>
+        building number:  <%= queryrestaurantsA[i].building %><br>
+        cuisine:  <%= queryrestaurantsA[i].type %><br>
+        rating:  <%= queryrestaurantsA[i].rating %><br>
+
+    <% } %>
+
+    <% for(var i = 0; i < queryrestaurantsB.length; i++) { %>
+        review:  <%= queryrestaurantsA[i].description %><br>
+        is the review critical :<%= queryrestaurantsA[i].critical %><br>
+
+    <% } %>
+<% } %>
 <div class="container-fluid">
     <footer id="sticky-footer" class="py-1 bg-secondry text-white-50">
         <div class="container text-center">
