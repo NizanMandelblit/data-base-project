@@ -16,6 +16,11 @@ app.get('/', (req, res) => {
 
     res.render("index", {pageName: pageName});
 })
+app.get('/error3', (req, res) => {
+    pageName = "error page3";
+
+    res.render("index", {pageName: pageName});
+})
 
 app.get('/search', (req, res) => {
     pageName = "search page";
