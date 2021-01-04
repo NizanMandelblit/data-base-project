@@ -299,12 +299,39 @@
             </form>
         </div>
     <% } %>
-    <!--thanks page content-->
+    <!--error page content-->
     <% if(pageName == "error page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/error">
                 <h1> error </h1>
                 <h2> we are sorry </h2>
+            </form>
+        </div>
+    <% } %>
+    <!--error1 page content-->
+    <% if(pageName == "error page1") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error1">
+                <h1> error </h1>
+                <h2> your request takes a long time, try to be more specific </h2>
+            </form>
+        </div>
+    <% } %>
+    <!--error2 page content-->
+    <% if(pageName == "error page2") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error2">
+                <h1> error </h1>
+                <h2> no place was found </h2>
+            </form>
+        </div>
+    <% } %>
+    <!--error3 page content-->
+    <% if(pageName == "error page3") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error3">
+                <h1> error </h1>
+                <h2> nothing matches your preferences try to be less specific </h2>
             </form>
         </div>
     <% } %>
