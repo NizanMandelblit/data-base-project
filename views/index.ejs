@@ -344,7 +344,7 @@
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
-               aria-controls="hotels">HOTELS</a>
+               aria-controls="hotels">click to see HOTELS results</a>
             <input id="myInput" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="hotels">
 
@@ -381,7 +381,7 @@
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
-               aria-controls="airbnb">AIRBNB</a>
+               aria-controls="airbnb">click to see AIRBNB results</a>
             <input id="myInputtwo" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="airbnb" style="">
 
@@ -419,7 +419,7 @@
         <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/find?selection=<%= varselected %>" method="post">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
+                    <label for="exampleFormControlSelect1">1.what type of place you want?</label>
                     <select name="place" class="form-control" required>
                         <option>airbnb</option>
                         <option>restaurants</option>
@@ -464,9 +464,8 @@
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
                             <td>
-                                <a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                                <a href="/info?sort=restaurants&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
                             </td>
-                            <td><%= queryhotels[i].name %></td>
                             <td><%= queryhotels[i].type %></td>
                             <td><%= queryhotels[i].rating %></td>
                             <td><%= queryhotels[i].distance %></td>
@@ -501,7 +500,7 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
                         <tr>
-                            <td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            <td><a href="/info?sort=restaurants&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
                             </td>
                             <td><%= queryairbnb[i].type %></td>
                             <td><%= queryairbnb[i].rating %></td>

@@ -28,6 +28,11 @@ app.get('/', (req, res) => {
 
     res.render("index", {pageName: pageName});
 })
+app.get('/error3', (req, res) => {
+    pageName = "error page3";
+
+    res.render("index", {pageName: pageName});
+})
 
 app.get('/search', (req, res) => {
     pageName = "search page";
@@ -464,8 +469,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '123456', //nizan: at my perosnal pc its 123456, Eldad:
-    database: 'ny_db'
+    password: '54321', //nizan: at my perosnal pc its 123456, Eldad:
+    database: 'new_york_db'
 })
 
 
