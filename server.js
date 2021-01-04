@@ -3,7 +3,6 @@ const bodyParser = require("body-parser")
 const app = express()
 const fs = require('fs')
 const mysql = require("mysql")
-//const res = require("express");
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
@@ -11,20 +10,10 @@ const port = 3001
 let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
     critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", idd;
 var ff, gg, upid, upps;
-
 // GET functions
-app.get('/error3', (req, res) => {
-    pageName = "error page3";
-    res.render("index", {pageName: pageName});
-})
-
-app.get('/error2', (req, res) => {
-    pageName = "error page2";
-    res.render("index", {pageName: pageName});
-})
-
 app.get('/', (req, res) => {
     pageName = "home page";
+
     res.render("index", {pageName: pageName});
 })
 
@@ -32,7 +21,7 @@ app.get('/search', (req, res) => {
     pageName = "search page";
     const airbnbid = req.query.airbnbid;
     const hotelid = req.query.hotelid;
-    let empty = 0
+
     //
     if (airbnbid != null) {
         var output_airbnb = "SELECT restaurants.id,restaurants.name,restaurants.rating,restaurants.type,ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001 AS distance "
@@ -52,9 +41,6 @@ app.get('/search', (req, res) => {
             if (err) {
                 res.redirect("/error");
                 throw err
-            } else if (!results.length) {
-                console.log('no airbnb found')
-                empty++
             } else {
                 console.log("restaurants by airbnb results:")
                 console.log(results[0])
@@ -81,9 +67,6 @@ app.get('/search', (req, res) => {
             if (err) {
                 res.redirect("/error");
                 throw err
-            } else if (!results.length) {
-                console.log('no hotels found')
-                empty++
             } else {
                 console.log("restaurants by hotel results:")
                 console.log(results[0])
@@ -210,7 +193,7 @@ app.get('/info', (req, res) => {
         res.redirect("/error");
     } else {
         let sql = "";
-        if (kindOfRequestedPlace.localeCompare("airbnb") === 0) {
+        if (kindOfRequestedPlace.localeCompare("airbnb") == 0) {
             sql = "SELECT * FROM airbnb JOIN airbnb_hosts ON (airbnb.host_id=airbnb_hosts.host_id) WHERE id=" + id + ";";
             db.query(sql, (err, results) => {
                 if (err) {
@@ -218,12 +201,14 @@ app.get('/info', (req, res) => {
                     throw err
                 } else {
                     console.log(results)//information for a certain place
-                    //let data = JSON.stringify(results);
-                    //fs.writeFileSync("hotelrseults.json", data)
-
+                    let data = JSON.stringify(results);
+                    fs.writeFileSync("airbnbinfo.json", data)
+                    let rawdata = fs.readFileSync('airbnbinfo.json');
+                    data = JSON.parse(rawdata);
+                    res.render("index", {pageName: "infoairbnb", queryairbnb: data});
                 }
             })
-        } else if (kindOfRequestedPlace.localeCompare("hotels") === 0) {
+        } else if (kindOfRequestedPlace.localeCompare("hotels") == 0) {
             sql = "SELECT * FROM hotels WHERE id=" + id + ";";
             db.query(sql, (err, results) => {
                 if (err) {
@@ -231,12 +216,14 @@ app.get('/info', (req, res) => {
                     throw err
                 } else {
                     console.log(results)//information for a certain place
-                    //let data = JSON.stringify(results);
-                    //fs.writeFileSync("hotelrseults.json", data)
-
+                    let data = JSON.stringify(results);
+                    fs.writeFileSync("hotelinfo.json", data)
+                    let rawdata = fs.readFileSync('hotelinfo.json');
+                    data = JSON.parse(rawdata);
+                    res.render("index", {pageName: "infohotel", queryhotel: data});
                 }
             })
-        } else if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
+        } else if (kindOfRequestedPlace.localeCompare("restaurants") == 0) {
             sql = "SELECT * FROM restaurants WHERE id=" + id + ";";
             db.query(sql, (err, results) => {
                 if (err) {
@@ -244,9 +231,10 @@ app.get('/info', (req, res) => {
                     throw err
                 } else {
                     console.log(results)//information for a certain place
-                    //let data = JSON.stringify(results);
-                    //fs.writeFileSync("hotelrseults.json", data)
-
+                    let data = JSON.stringify(results);
+                    fs.writeFileSync("restaurantsinfoA.json", data)
+                    let rawdataA = fs.readFileSync('restaurantsinfoA.json');
+                   dataA = JSON.parse(rawdataA);
                 }
             })
             let sql2 = "SELECT * FROM restaurant_inspections_connection_table JOIN inspections ON (restaurant_inspections_connection_table.violation_id=inspections.violation_id) WHERE restaurant_id=" + id + ";";
@@ -256,8 +244,11 @@ app.get('/info', (req, res) => {
                     throw err
                 } else {
                     console.log(results)//list of inspections
-                    //let data = JSON.stringify(results);
-                    //fs.writeFileSync("hotelrseults.json", data)
+                    let data = JSON.stringify(results);
+                    fs.writeFileSync("restaurantsinfoB.json", data)
+                    let rawdataB = fs.readFileSync('restaurantsinfoB.json');
+                    dataB = JSON.parse(rawdataB);
+                    res.render("index", {pageName: "inforestaurants", queryrestaurantsA: dataA, queryrestaurantsB: dataB});
                 }
             })
         }
@@ -326,14 +317,10 @@ app.post("/search", function (req, res) {
     sql2 += end_airbnb;
     //console.log(sql2);
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel; hotel results
-    let empty = 0
     db.query(sql1, (err, results) => {
         if (err) {
             res.redirect("/error");
             throw err
-        } else if (!results.length) {
-            console.log('no hotels found')
-            empty++
         } else {
             console.log("hotel results:")
             console.log(results[0])
@@ -347,19 +334,12 @@ app.post("/search", function (req, res) {
         if (err) {
             res.redirect("/error");
             throw err
-        } else if (!results.length) {
-            console.log('no airbnbs found')
-            empty++
         } else {
             console.log("airbnb results:")
             console.log(results[0])
             let data = JSON.stringify(results);
             fs.writeFileSync("airbnbrseults.json", data)
             res.redirect("/output");
-        }
-        if (empty === 2) {
-            console.log("no results found")
-            res.redirect('/error3')
         }
     })
 })
@@ -379,7 +359,7 @@ app.post("/update", function (req, res) {
 
     db.query(sql0, (err, results) => {
         if (err) {
-            res.redirect("/error3");
+            res.redirect("/error");
             throw err
         } else {
             //console.log("good" + results[0])
@@ -434,9 +414,6 @@ app.post("/find", function (req, res) {
         if (err) {
             res.redirect("/error");
             throw err
-        } else if (!results.length) {
-            console.log('no matches found')
-            res.redirect('/error2')
         } else {
             pageName = 'findoutput';
             let data = JSON.stringify(results);
@@ -457,15 +434,15 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: 'matthews34',
-    database: 'nyculinarytrip'
+    password: '123456', //nizan: at my perosnal pc its 123456, Eldad:
+    database: 'ny_db'
 })
 
 
 //Connect to MySQL
 db.connect(err => {
     if (err) {
-        res.redirect("/error");
+        //res.redirect("/error");
         throw err
     }
     console.log('Connected!')
