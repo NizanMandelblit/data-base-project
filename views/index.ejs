@@ -245,6 +245,7 @@
                     <button type="submit" class="login-button">Sign In</button>
                 </form>
             </div>
+
         </div>
 
     <% } %>
@@ -382,17 +383,6 @@
 
     <% } %>
 
-    <div class="container-fluid">
-        <footer id="sticky-footer" class="py-4 bg-secondry text-white-50">
-            <div class="container text-center">
-                <small>Copyright &copy; <a href="https://www.linkedin.com/in/nizan-mandelblit/">Nizan Mandelblit</a> ,<a
-                            href="https://www.linkedin.com/in/eldad-horvitz/">Eldad Horvitz</a> and <a
-                            href="https://www.linkedin.com/in/yitzi-jacobs-82a7b819a/">Yitzi Jacobs</a> </small>
-            </div>
-        </footer>
-
-
-    </div>
 
     <!--find place page content-->
     <% if(pageName == "find page") { %>
@@ -522,6 +512,31 @@
     <% } %>
 
 </div>
+
+
+
+
+<% if(pageName == "info") { %>
+
+<div id="overlay" class="container-fluid">
+
+
+
+</div>
+
+<% } %>
+
+
+<div class="container-fluid">
+    <footer id="sticky-footer" class="py-1 bg-secondry text-white-50">
+        <div class="container text-center">
+            <small>Copyright &copy; <a href="https://www.linkedin.com/in/nizan-mandelblit/">Nizan Mandelblit</a> ,<a
+                        href="https://www.linkedin.com/in/eldad-horvitz/">Eldad Horvitz</a> and <a
+                        href="https://www.linkedin.com/in/yitzi-jacobs-82a7b819a/">Yitzi Jacobs</a> </small>
+        </div>
+    </footer>
+</div>
+
 
 <script src="scripts.js"></script>
 </body>
