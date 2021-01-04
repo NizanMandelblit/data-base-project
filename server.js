@@ -3,13 +3,15 @@ const bodyParser = require("body-parser")
 const app = express()
 const fs = require('fs')
 const mysql = require("mysql")
+const res = require("express");
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 const port = 3001
 let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
     critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", idd;
-var ff,gg,upid,upps;
+var ff, gg, upid, upps;
+
 // GET functions
 app.get('/', (req, res) => {
     pageName = "home page";
@@ -21,7 +23,7 @@ app.get('/search', (req, res) => {
     pageName = "search page";
     const airbnbid = req.query.airbnbid;
     const hotelid = req.query.hotelid;
-
+    let empty = 0
     //
     if (airbnbid != null) {
         var output_airbnb = "SELECT restaurants.id,restaurants.name,restaurants.rating,restaurants.type,ST_Distance_Sphere(point(airbnb.latitude,airbnb.longitude),point(restaurants.latitude, restaurants.longitude))*0.001 AS distance "
@@ -41,6 +43,9 @@ app.get('/search', (req, res) => {
             if (err) {
                 res.redirect("/error");
                 throw err
+            } else if (results.empty()) {
+                console.log('no airbnb found')
+                empty++
             } else {
                 console.log("restaurants by airbnb results:")
                 console.log(results[0])
@@ -67,6 +72,9 @@ app.get('/search', (req, res) => {
             if (err) {
                 res.redirect("/error");
                 throw err
+            } else if (results.empty()) {
+                console.log('no hotels found')
+                empty++
             } else {
                 console.log("restaurants by hotel results:")
                 console.log(results[0])
@@ -118,21 +126,21 @@ app.get('/find', (req, res) => {
 
 app.get('/update', (req, res) => {
     pageName = "update page";
-    if (typeof (req.query.placeSort) != "undefined"){
+    if (typeof (req.query.placeSort) != "undefined") {
         upps = req.query.placeSort;
     }
-    if (typeof (req.query.placeSort) != "undefined"){
+    if (typeof (req.query.placeSort) != "undefined") {
         upid = req.query.id;
     }
     res.render("index", {pageName: pageName});
 })
 
 app.get('/delete', (req, res) => {
-    if (typeof (req.query.placeSort) != "undefined"){
-         gg = req.query.placeSort;
+    if (typeof (req.query.placeSort) != "undefined") {
+        gg = req.query.placeSort;
     }
-    if (typeof (req.query.placeSort) != "undefined"){
-         ff = req.query.id;
+    if (typeof (req.query.placeSort) != "undefined") {
+        ff = req.query.id;
     }
 
     if (typeof (req.query.password) == "undefined") {
@@ -140,10 +148,10 @@ app.get('/delete', (req, res) => {
     } else {
         const password = req.query.password;
         if (password.localeCompare("12345") === 0) {
-            var id=ff;
-            var placeSort=gg;
+            var id = ff;
+            var placeSort = gg;
             //console.log(placeSort);
-            let sql = "DELETE FROM " + placeSort + " WHERE id=" + id+";";
+            let sql = "DELETE FROM " + placeSort + " WHERE id=" + id + ";";
             db.query(sql, (err, results) => {
                 if (err) {
                     res.redirect("/error");
@@ -309,10 +317,14 @@ app.post("/search", function (req, res) {
     sql2 += end_airbnb;
     //console.log(sql2);
     //let sql=output_hotel+tabels_hotel+conditions_hotel+end_hotel; hotel results
+    let empty = 0
     db.query(sql1, (err, results) => {
         if (err) {
             res.redirect("/error");
             throw err
+        } else if (results.empty()) {
+            console.log('no hotels found')
+            empty++
         } else {
             console.log("hotel results:")
             console.log(results[0])
@@ -326,6 +338,9 @@ app.post("/search", function (req, res) {
         if (err) {
             res.redirect("/error");
             throw err
+        } else if (results.empty()) {
+            console.log('no airbnbs found')
+            empty++
         } else {
             console.log("airbnb results:")
             console.log(results[0])
@@ -334,7 +349,11 @@ app.post("/search", function (req, res) {
             res.redirect("/output");
         }
     })
-})
+    if (empty === 2){
+        console.log("no results found")
+        res.redirect('/error4')
+    }
+        })
 
 
 app.post("/update", function (req, res) {
@@ -413,7 +432,7 @@ app.post("/find", function (req, res) {
             let rawdata = fs.readFileSync('findoutput.json');
             data = JSON.parse(rawdata);
             //console.log(results);
-            res.render("index", {pageName: pageName, query: data, varselected: selection,placeSort: placeSort});
+            res.render("index", {pageName: pageName, query: data, varselected: selection, placeSort: placeSort});
         }
     })
 
@@ -426,8 +445,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '54321',
-    database: 'new_york_db'
+    password: 'matthews34',
+    database: 'nyculinarytrip'
 })
 
 
