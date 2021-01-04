@@ -1,5 +1,4 @@
 .idea
-airbnbrseults.json
-hotelrseults.json
+*.json
 # Project exclude paths
 /node_modules/
