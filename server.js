@@ -22,13 +22,13 @@ app.get('/search', (req, res) => {
     const airbnbid = req.query.airbnbid;
     const hotelid = req.query.hotelid;
     let sql1;
-    if(airbnbid !== 'undefined') {
+    if(airbnbid != null) {
         sql1 = "eldad complete aibnb"
         console.log(sql1)
         console.log(airbnbid)
         console.log(style)
     }
-    if(hotelid !== 'undefined') {
+    if(hotelid != null) {
         sql1 = "eldad complete hotel"
         console.log(sql1)
         console.log(hotelid)
