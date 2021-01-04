@@ -24,7 +24,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Sacramento&display=swap"
           rel="stylesheet">
     <!--font awsome -->
-    <script src="https://kit.fontawesome.com/34861f07f9.js" crossorigin="anonymous"></script>
+    <!--    <script src="https://kit.fontawesome.com/34861f07f9.js" crossorigin="anonymous"></script>-->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
@@ -50,10 +50,13 @@
                         search</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/update"><img src="refresh.png">add review</a>
+                    <a class="nav-link" href="/find?selection=update"><img src="refresh.png">add review</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/delete"><img src="trash.png">delete information</a>
+                    <a class="nav-link" href="/find?selection=delete"><img src="trash.png">delete information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/find?selection=info"><img src="search.png">get information for a place</a>
                 </li>
             </ul>
         </div>
@@ -69,28 +72,28 @@
         <div class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/search" method="post">
                 <div class="form-row align-items-center">
-                    <label for="exampleFormControlInput1">1.enter the requested rating for the restaurants</label>
+                    <label for="exampleFormControlInput1">1.enter the requested price for a night in $</label>
+                    <input id="X" type="number" onchange="limit()" min="0" class="form-control" placeholder="Max"
+                           name="maxNightCost"
+                           required>
+                    <input id="Y" type="number" min="0" class="form-control" placeholder="Min" name="minNightCost"
+                           required>
+                </div>
+                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">2.enter the requested rating for the hotel or airbnb</label>
+                    <input id="X2" type="number" onchange="limit()" min="0" class="form-control" placeholder="Max"
+                           name="maxRateHA"
+                           required>
+                    <input id="Y2" type="number" min="0" class="form-control" placeholder="Min" name="minRateHA"
+                           required>
+                </div>
+                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">3.enter the requested rating for the restaurants</label>
                     <input id="requireform" min="0" type="number" class="form-control" placeholder="Max"
                            name="maxRateRestaurant" onchange="limit()"
                            required>
                     <input id="requireform" min="0" type="number" class="form-control" placeholder="Min"
                            name="minRateRestaurant"
-                           required>
-                </div>
-
-
-                <div class="form-row align-items-center">
-                    <label for="exampleFormControlInput1">2.enter the requested price for a night in $</label>
-                    <input id="X" type="number"  onchange="limit()" min="0" class="form-control" placeholder="Max" name="maxNightCost"
-                           required>
-                    <input id="Y" type="number"  min="0" class="form-control" placeholder="Min" name="minNightCost"
-                           required>
-                </div>
-                <div class="form-row align-items-center">
-                    <label for="exampleFormControlInput1">3.enter the requested rating for the hotel or airbnb</label>
-                    <input id="X2" type="number" onchange="limit()" min="0" class="form-control" placeholder="Max" name="maxRateHA"
-                           required>
-                    <input id="Y2" type="number" min="0" class="form-control" placeholder="Min" name="minRateHA"
                            required>
                 </div>
                 <label for="exampleFormControlInput1">4.do you want to avoid restaurants with critical reviews?</label>
@@ -174,7 +177,8 @@
                 <div class="form-group">
                     <label for="exampleFormControlInput1">7.enter maximum kilometers you want to affect the
                         search</label>
-                    <input id="requireform" type="double" class="form-control" placeholder="e.g 12.5" name="distance">
+                    <input id="requireform" type="double" class="form-control" placeholder="e.g 12.5" name="distance"
+                           required>
                 </div>
 
                 <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
@@ -194,37 +198,27 @@
 
         <div class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/update" method="post">
+
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
-                    <select class="form-control" name="place" required>
-                        <option>airbnb</option>
-                        <option>restaurants</option>
-                        <option>hotels</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect1">2.enter yor name:</label>
+                    <label for="exampleFormControlSelect1">1.enter yor name:</label>
                     <div class="row">
                         <div class="col">
-                            <input type="text" class="form-control" name="FirstName" placeholder="First name">
+                            <input type="text" class="form-control" name="FirstName" placeholder="First name" maxlength="20">
                         </div>
                         <div class="col">
-                            <input type="text" class="form-control" name="LastName" placeholder="Last name">
+                            <input type="text" class="form-control" name="LastName" placeholder="Last name" maxlength="20" >
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">3.enter the name of the place</label>
-                    <input type="text" name="placename" class="form-control" placeholder="e.g dan hotel" required>
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlInput1">4.enter the grade you give to the place</label>
+                    <label for="exampleFormControlInput1">2.enter the grade you give to the place</label>
                     <input type="number" name="grade" min="1" max="100" class="form-control" placeholder="1-100"
                            required>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">5.enter your comments please:</label>
-                    <textarea class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <label for="exampleFormControlTextarea1">3.enter your comments please:</label>
+                    <textarea maxlength="60" class="form-control" name="comment" id="exampleFormControlTextarea1" rows="3"></textarea>
                 </div>
                 <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
 
@@ -254,13 +248,28 @@
         </div>
 
     <% } %>
+    <% if(pageName == "delete page2") { %>
+        <div id="admindiv" class="full-screen-container">
+            <div class="login-container">
+                <h3 class="login-title">Admin Login</h3>
+                <form id="adminform">
+                    <div class="input-group">
+                        <label>Wrong Password, Try Again</label>
+                        <input id="pass" type="password" name="password">
+                    </div>
+                    <button type="submit" class="login-button">Sign In</button>
+                </form>
+            </div>
+        </div>
+
+    <% } %>
     <% if(pageName == "delete page1") { %>
         <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/delete" method="post">
                 <div class="form-group">
                     <label for="exampleFormControlSelect1">1.where did you visit?</label>
                     <select name="place" class="form-control" required>
-                        <option>airbnb</option>
+                        <option>airbnb!!!!!!!!!!!!!!!!!!!!!!!!</option>
                         <option>restaurants</option>
                         <option>hotels</option>
                     </select>
@@ -290,7 +299,15 @@
             </form>
         </div>
     <% } %>
-
+    <!--thanks page content-->
+    <% if(pageName == "error page") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error">
+                <h1> error </h1>
+                <h2> we are sorry </h2>
+            </form>
+        </div>
+    <% } %>
     <!--output page content-->
     <% if(pageName == "output page") { %>
         <!-- JSON.stringify(query)-->
@@ -316,10 +333,13 @@
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
 
-                            <td> <a  href="/search?hotelid=<%=queryhotels[i].id %>">  <%= queryhotels[i].name %> </a></td>
+                            <td><a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                            </td>
                             <td><%= queryhotels[i].rating %></td>
                             <td><%= queryhotels[i].price %></td>
-                            <td><%= queryhotels[i].counter %></td>
+                            <td><a href="/search?hotelid=<%= queryhotels[i].id %>">  <%= queryhotels[i].counter %> </a>
+                            </td>
+
                         </tr>
                     <% } %>
                     </tbody>
@@ -347,10 +367,12 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
                         <tr>
-                            <td> <a  href="/search?airbnbid=<%=queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a></td>
+                            <td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            </td>
                             <td><%= queryairbnb[i].rating %></td>
                             <td><%= queryairbnb[i].price %></td>
-                            <td><%= queryairbnb[i].counter %></td>
+                            <td><a href="/search?airbnbid=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].counter %> </a>
+                            </td>
                         </tr>
                     <% } %>
                     </tbody>
@@ -371,6 +393,133 @@
 
 
     </div>
+
+    <!--find place page content-->
+    <% if(pageName == "find page") { %>
+
+        <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
+            <form id="my-form" class="" action="/find?selection=<%=varselected%>" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
+                    <select name="place" class="form-control" required>
+                        <option>airbnb</option>
+                        <option>restaurants</option>
+                        <option>hotels</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">2.enter the name of the place</label>
+                    <input type="text" name="placename" class="form-control" placeholder="e.g dan hotel" required>
+                </div>
+                <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
+
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </form>
+
+        </div>
+
+    <% } %>
+
+    <!--outputhotelid page content-->
+    <% if(pageName == "outputhotelid") { %>
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
+               aria-controls="hotels">relevant restaurants close to the hotel</a>
+            <input id="myInput" type="text" placeholder="Search..">
+            <div class="collapse multi-collapse" id="hotels">
+
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col">type</th>
+                        <th scope="col">rating</th>
+                        <th scope="col">distance from the hotel</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="myTable">
+                    <% for(var i = 0; i < queryhotels.length; i++) { %>
+                        <tr>
+                            <td><a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                            </td>
+                            <td><%= queryhotels[i].name %></td>
+                            <td><%= queryhotels[i].type %></td>
+                            <td><%= queryhotels[i].rating %></td>
+                            <td><%= queryhotels[i].distance %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <% } %>
+
+    <!--outputairbnbid page content-->
+    <% if(pageName == "outputairbnbid") { %>
+
+
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
+               aria-controls="airbnb">relevant restaurants close to the airbnb</a>
+            <input id="myInputtwo" type="text" placeholder="Search..">
+            <div class="collapse multi-collapse" id="airbnb" style="">
+
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col">type</th>
+                        <th scope="col">rating</th>
+                        <th scope="col">distance from the airbnb</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="myTabletwo">
+                    <% for(var i = 0; i < queryairbnb.length; i++) { %>
+                        <tr><td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            </td>
+                            <td><%= queryairbnb[i].type %></td>
+                            <td><%= queryairbnb[i].rating %></td>
+                            <td><%= queryairbnb[i].distance %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <% } %>
+
+    <!--findoutput page content-->
+    <% if(pageName == "findoutput") { %>
+
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
+               aria-controls="airbnb">click to see the results</a>
+            <input id="myInputtwo" type="text" placeholder="Search..">
+            <div class="collapse multi-collapse" id="airbnb" style="">
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                    </tr>
+                    </thead>
+                    <tbody id="myTabletwo">
+                    <% for(var i = 0; i < query.length; i++) { %>
+                    <tr>
+                        <td><a href="/<%=varselected%>?id=<%= query[i].id %>&placeSort=<%=placeSort%>">  <%= query[i].name %> </a></td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <% } %>
 
 </div>
 
