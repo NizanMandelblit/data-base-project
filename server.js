@@ -233,6 +233,8 @@ app.get('/info', (req, res) => {
                     console.log(results)//information for a certain place
                     let data = JSON.stringify(results);
                     fs.writeFileSync("restaurantsinfoA.json", data)
+                    let rawdataA = fs.readFileSync('restaurantsinfoA.json');
+                   dataA = JSON.parse(rawdataA);
                 }
             })
             let sql2 = "SELECT * FROM restaurant_inspections_connection_table JOIN inspections ON (restaurant_inspections_connection_table.violation_id=inspections.violation_id) WHERE restaurant_id=" + id + ";";
@@ -245,9 +247,7 @@ app.get('/info', (req, res) => {
                     let data = JSON.stringify(results);
                     fs.writeFileSync("restaurantsinfoB.json", data)
                     let rawdataB = fs.readFileSync('restaurantsinfoB.json');
-                    let rawdataA = fs.readFileSync('restaurantsinfoB.json');
                     dataB = JSON.parse(rawdataB);
-                    dataA = JSON.parse(rawdatA);
                     res.render("index", {pageName: "inforestaurants", queryrestaurantsA: dataA, queryrestaurantsB: dataB});
                 }
             })
