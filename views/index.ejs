@@ -466,9 +466,8 @@
                     <% for(var i = 0; i < queryhotels.length; i++) { %>
                         <tr>
                             <td>
-                                <a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                                <a href="/info?sort=restaurants&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
                             </td>
-                            <td><%= queryhotels[i].name %></td>
                             <td><%= queryhotels[i].type %></td>
                             <td><%= queryhotels[i].rating %></td>
                             <td><%= queryhotels[i].distance %></td>
@@ -502,7 +501,7 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
                         <tr>
-                            <td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            <td><a href="/info?sort=restaurants&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
                             </td>
                             <td><%= queryairbnb[i].type %></td>
                             <td><%= queryairbnb[i].rating %></td>
