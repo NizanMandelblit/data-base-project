@@ -51,6 +51,11 @@ app.get('/search', (req, res) => {
                 console.log(results[0])
                 let data = JSON.stringify(results);
                 fs.writeFileSync("airbnbbyiddearch.json", data)
+                pageName = "outputairbnbid"
+                let rawdataairbnb = fs.readFileSync('airbnbbyiddearch.json');
+                let airbnb = JSON.parse(rawdataairbnb);
+                res.render("index", {pageName: pageName, queryairbnb: airbnb});
+
             }
         })
     }
@@ -77,6 +82,11 @@ app.get('/search', (req, res) => {
                 console.log(results[0])
                 let data = JSON.stringify(results);
                 fs.writeFileSync("hotelbyiddearch.json", data)
+                pageName = "outputhotelid"
+                let rawdatahotel = fs.readFileSync('hotelbyiddearch.json');
+                let hotel = JSON.parse(rawdatahotel);
+                res.render("index", {pageName: pageName, queryhotels: hotel});
+
             }
         })
     }
@@ -84,18 +94,6 @@ app.get('/search', (req, res) => {
 
     if (hotelid == null && airbnbid == null) {
         res.render("index", {pageName: pageName});
-    } else {
-        if (hotelid) {
-            pageName = "outputhotelid"
-            let rawdatahotel = fs.readFileSync('hotelbyiddearch.json');
-            let hotel = JSON.parse(rawdatahotel);
-            res.render("index", {pageName: pageName, queryhotels: hotel});
-        } else {
-            pageName = "outputairbnbid"
-            let rawdataairbnb = fs.readFileSync('airbnbbyiddearch.json');
-            let airbnb = JSON.parse(rawdataairbnb);
-            res.render("index", {pageName: pageName, queryairbnb: airbnb});
-        }
     }
 })
 
