@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Data-Base Project Test Site </title>
+    <title>Data-Base Project Site </title>
     <!--bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -70,7 +70,15 @@
 
 <div class="page">
 
-
+    <!--bye page content-->
+    <% if(pageName === "home page") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/">
+                <h1> welcome! </h1>
+                <h2> We Hope you will have a nice experience </h2>
+            </form>
+        </div>
+    <% } %>
     <!--search page content-->
     <% if(pageName == "search page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
