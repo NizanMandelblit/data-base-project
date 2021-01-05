@@ -69,7 +69,7 @@
 
 
     <!--search page content-->
-    <% if(pageName === "search page") { %>
+    <% if(pageName == "search page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/search" method="post">
                 <div class="form-row align-items-center">
@@ -196,6 +196,7 @@
 
     <!--update page content-->
     <% if(pageName === "update page") { %>
+
         <div class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/update" method="post">
 
@@ -248,6 +249,7 @@
                     <button type="submit" class="login-button">Sign In</button>
                 </form>
             </div>
+
         </div>
 
     <% } %>
@@ -303,55 +305,54 @@
         </div>
     <% } %>
     <!--error page content-->
-    <% if(pageName == "error page") { %>
+    <% if(pageName === "error page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/error">
-                <h1> error </h1>
+                <h1> Error </h1>
                 <h2> we are sorry </h2>
             </form>
         </div>
     <% } %>
     <!--error1 page content-->
-    <% if(pageName == "error page1") { %>
+    <% if(pageName === "error page1") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/error1">
-                <h1> error </h1>
-                <h2> your request takes a long time, try to be more specific </h2>
+                <h1> Error </h1>
+                <h2> We're sorry but your request took too long, try to be more specific please. </h2>
             </form>
         </div>
     <% } %>
     <!--error2 page content-->
-    <% if(pageName == "error page2") { %>
+    <% if(pageName === "error page2") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/error2">
-                <h1> error </h1>
-                <h2> no place was found </h2>
+                <h1> Error </h1>
+                <h2> We're Sorry, no place matches your search. Please try again.</h2>
             </form>
         </div>
     <% } %>
     <!--error3 page content-->
-    <% if(pageName == "error page3") { %>
+    <% if(pageName === "error page3") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/error3">
-                <h1> error </h1>
-                <h2> nothing matches your preferences try to be less specific </h2>
+                <h1> Error </h1>
+                <h2> We're Sorry, no results match your preferences. Please try to be less specific </h2>
             </form>
         </div>
     <% } %>
     <!--output page content-->
-    <% if(pageName == "output page") { %>
+    <% if(pageName === "output page") { %>
         <!-- JSON.stringify(query)-->
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
-               aria-controls="hotels">click to see HOTELS results</a>
+               aria-controls="hotels">HOTELS</a>
             <input id="myInput" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="hotels">
 
                 <table class="table table-hover table-dark">
                     <thead>
                     <tr>
-
                         <th scope="col">name</th>
                         <th scope="col">rating</th>
                         <th scope="col">price</th>
@@ -381,7 +382,7 @@
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
-               aria-controls="airbnb">click to see AIRBNB results</a>
+               aria-controls="airbnb">AIRBNB</a>
             <input id="myInputtwo" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="airbnb" style="">
 
@@ -414,12 +415,12 @@
     <% } %>
 
     <!--find place page content-->
-    <% if(pageName == "find page") { %>
+    <% if(pageName === "find page") { %>
 
         <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/find?selection=<%= varselected %>" method="post">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">1.what type of place you want?</label>
+                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
                     <select name="place" class="form-control" required>
                         <option>airbnb</option>
                         <option>restaurants</option>
@@ -432,18 +433,18 @@
                 </div>
                 <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
 
-            <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
-                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Loading...
-            </button>
-        </form>
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </form>
 
-    </div>
+        </div>
 
     <% } %>
 
     <!--outputhotelid page content-->
-    <% if(pageName == "outputhotelid") { %>
+    <% if(pageName === "outputhotelid") { %>
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
                aria-controls="hotels">relevant restaurants close to the hotel</a>
@@ -478,8 +479,7 @@
     <% } %>
 
     <!--outputairbnbid page content-->
-    <% if(pageName == "outputairbnbid") { %>
-
+    <% if(pageName === "outputairbnbid") { %>
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
@@ -500,7 +500,8 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
                         <tr>
-                            <td><a href="/info?sort=restaurants&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            <td>
+                                <a href="/info?sort=restaurants&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
                             </td>
                             <td><%= queryairbnb[i].type %></td>
                             <td><%= queryairbnb[i].rating %></td>
@@ -515,7 +516,7 @@
     <% } %>
 
     <!--findoutput page content-->
-    <% if(pageName == "findoutput") { %>
+    <% if(pageName === "findoutput") { %>
 
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
@@ -530,11 +531,11 @@
                     </thead>
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < query.length; i++) { %>
-                    <tr>
-                        <td>
-                            <a href="/<%= varselected %>?id=<%= query[i].id %>&placeSort=<%= placeSort %>">  <%= query[i].name %> </a>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <a href="/<%= varselected %>?id=<%= query[i].id %>&placeSort=<%= placeSort %>">  <%= query[i].name %> </a>
+                            </td>
+                        </tr>
                     <% } %>
                     </tbody>
                 </table>
@@ -545,7 +546,7 @@
 
 </div>
 
-<% if(pageName == "infoairbnb") { %>
+<% if(pageName === "infoairbnb") { %>
     <div id="overlay" class="container-fluid">
         <!--AIRBNB-->
         <% for(var i = 0; i < queryairbnb.length; i++) { %>
@@ -560,7 +561,7 @@
 
 <% } %>
 
-<% if(pageName == "infohotel") { %>
+<% if(pageName === "infohotel") { %>
     <!--HOTEL-->
 
     <% for(var i = 0; i < queryhotel.length; i++) { %>
@@ -573,7 +574,7 @@
     <% } %>
 <% } %>
 <!--RESTURANTS-->
-<% if(pageName == "inforestaurants") { %>
+<% if(pageName === "inforestaurants") { %>
 
     <% for(var i = 0; i < queryrestaurantsA.length; i++) { %>
         Name:  <%= queryrestaurantsA[i].name %><br>
