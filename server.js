@@ -458,6 +458,13 @@ app.post("/delete", function (req, res) {
             throw err
         } else res.redirect("/thanks")
     })
+    let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + deleteID
+    db.query(sql1, (err) => {
+        if (err) {
+            res.redirect("/error")
+            throw err
+        } else res.redirect("/thanks")
+    })
 })
 
 //find place in order to update,view info or delete
