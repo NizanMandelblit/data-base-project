@@ -38,7 +38,7 @@
 <!-- Navigation -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow navbar-fixed-top sticky">
     <div class="container">
-        <a class="navbar-brand" href="/"><img src="statue-of-liberty.png"> Data-Base Project Test Site</a>
+        <a class="navbar-brand" href="/"><img src="statue-of-liberty.png">New York Cuilnary Trip</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                 aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -60,7 +60,7 @@
                         place</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/bye"><img src="search.png">Sign Out</a>
+                    <a class="nav-link" href="/bye"><img src="exit.png">Sign Out</a>
                 </li>
             </ul>
         </div>
@@ -70,13 +70,11 @@
 
 <div class="page">
 
-    <!--bye page content-->
+    <!--יhome page content-->
     <% if(pageName === "home page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
-            <form class="" action="/">
-                <h1> welcome! </h1>
-                <h2> We Hope you will have a nice experience </h2>
-            </form>
+            <h1 style="position: center">WELCOME</h1>
+            <p> this site will provide you informtion </p>
         </div>
     <% } %>
     <!--search page content-->
@@ -374,10 +372,10 @@
         <!-- JSON.stringify(query)-->
 
         <div id="overlay" class="container-fluid">
-            <a class="btn btn-primary" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
                aria-controls="hotels">HOTELS</a>
-            <input id="myInput" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="hotels">
+                <input id="myInput" type="text" placeholder="Search..">
 
                 <table class="table table-hover table-dark">
                     <thead>
@@ -410,10 +408,10 @@
 
 
         <div id="overlay" class="container-fluid">
-            <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
                aria-controls="airbnb">AIRBNB</a>
-            <input id="myInputtwo" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="airbnb" style="">
+                <input id="myInputtwo" type="text" placeholder="Search..">
 
                 <table class="table table-hover table-dark">
                     <thead>
@@ -548,10 +546,11 @@
     <% if(pageName === "findoutput") { %>
 
         <div id="overlay" class="container-fluid">
-            <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
                aria-controls="airbnb">click to see the results</a>
-            <input id="myInputtwo" type="text" placeholder="Search..">
             <div class="collapse multi-collapse" id="airbnb" style="">
+                <input id="myInputtwo" type="text" placeholder="Search..">
+
                 <table class="table table-hover table-dark">
                     <thead>
                     <tr>
@@ -576,7 +575,7 @@
 </div>
 
 <% if(pageName === "infoairbnb") { %>
-    <div id="overlay" class="container-fluid">
+    <div class="container p-3 my-3 bg-dark text-white">
         <!--AIRBNB-->
         <% for(var i = 0; i < queryairbnb.length; i++) { %>
             Name:  <%= queryairbnb[i].name %><br>
@@ -584,14 +583,15 @@
             Rating:  <%= queryairbnb[i].rating %><br>
             Host Name:  <%= queryairbnb[i].host_name %><br>
             Superhost - add if else:  <%= queryairbnb[i].superhost %><br>
-            user reviews : <a href="/rev?id=<%=queryairbnb[i].id %>&sort=airbnb">Click Here</a>
+            user reviews : <a href="/rev?id=<%= queryairbnb[i].id %>&sort=airbnb">Click Here</a>
         <% } %>
     </div>
 
 <% } %>
 
 <% if(pageName === "infohotel") { %>
-    <!--HOTEL-->
+    <!--info HOTEL-->
+<div class="container p-3 my-3 bg-dark text-white">
 
     <% for(var i = 0; i < queryhotel.length; i++) { %>
         Name:  <%= queryhotel[i].name %><br>
@@ -599,13 +599,15 @@
         maximum price:  <%= queryhotel[i].high_price %><br>
         minimum price:  <%= queryhotel[i].low_price %><br>
         rating:  <%= queryhotel[i].rating %><br>
-        user reviews : <a href="/rev?id=<%=queryhotel[i].id %>&sort=hotels">Click Here</a>
+        user reviews : <a href="/rev?id=<%= queryhotel[i].id %>&sort=hotels">Click Here</a>
 
 
     <% } %>
+</div>
 <% } %>
 <!--RESTURANTS-->
 <% if(pageName === "inforestaurants") { %>
+<div class="container p-3 my-3 bg-dark text-white">
 
     <% for(var i = 0; i < queryrestaurantsA.length; i++) { %>
         Name:  <%= queryrestaurantsA[i].name %><br>
@@ -613,7 +615,7 @@
         building number:  <%= queryrestaurantsA[i].building %><br>
         cuisine:  <%= queryrestaurantsA[i].type %><br>
         rating:  <%= queryrestaurantsA[i].rating %><br>
-        user reviews : <a href="/rev?id=<%=queryrestaurantsA[i].id %>&sort=restaurants">Click Here</a>
+        user reviews : <a href="/rev?id=<%= queryrestaurantsA[i].id %>&sort=restaurants">Click Here</a>
 
     <% } %>
 
@@ -621,42 +623,48 @@
         inspection:  <%= queryrestaurantsB[i].description %><br>
         is the review critical - change to if else :<%= queryrestaurantsB[i].critical %><br>
     <% } %>
+</div>
 <% } %>
-
 
 <!--REVIEWS-->
 <% if(pageName === "revhotel") { %>
-    <!--HOTEL-->
+<div class="container p-3 my-3 bg-dark text-white">
+
+<!--HOTEL-->
     <% for(var i = 0; i < queryhotel.length; i++) { %>
         reviewer: <%= queryhotel[i].guest_name %><br>
         grade:  <%= queryhotel[i].grade %><br>
         comment:  <%= queryhotel[i].comment %><br>
 
     <% } %>
+</div>
 <% } %>
 
-
 <% if(pageName === "revairbnb") { %>
-    <!--HOTEL-->
+<div class="container p-3 my-3 bg-dark text-white">
+
+<!--airbnb-->
     <% for(var i = 0; i < queryairbnb.length; i++) { %>
         reviewer: :<%= queryairbnb[i].guest_name %><br>
         grade:  <%= queryairbnb[i].grade %><br>
         comment:  <%= queryairbnb[i].comment %><br>
 
     <% } %>
+</div>
 <% } %>
 
-
 <% if(pageName === "revrestaurants") { %>
-    <!--HOTEL-->
+<div class="container p-3 my-3 bg-dark text-white">
+
+<!--HOTEL-->
     <% for(var i = 0; i < queryrestaurants.length; i++) { %>
         reviewer: :<%= queryrestaurants[i].guest_name %><br>
         grade:  <%= queryrestaurants[i].grade %><br>
         comment:  <%= queryrestaurants[i].comment %><br>
 
     <% } %>
+</div>
 <% } %>
-
 
 <div class="container-fluid">
     <footer id="sticky-footer" class="py-1 bg-secondry text-white-50">
