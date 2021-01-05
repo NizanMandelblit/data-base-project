@@ -11,7 +11,7 @@ const port = 3001
 //global variables
 let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
     critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", id, placeType, updateID, deleteID,
-    updatePlace, dataA, dataB
+    updatePlace
 
 // GET functions
 
@@ -32,10 +32,14 @@ app.get('/error3', (req, res) => {
     pageName = "error page3"
     res.render("index", {pageName: pageName})
 })
+
+//exit page
 app.get('/bye', (req, res) => {
     pageName = "bye page"
+    db.end();
     res.render("index", {pageName: pageName})
 })
+
 //home page
 app.get('/', (req, res) => {
     pageName = "home page"
@@ -174,6 +178,8 @@ app.get('/output', (req, res) => {
 app.get('/info', (req, res) => {
     pageName = "output page"
     const id = req.query.id
+    let dataA
+    let dataB
     if (typeof (req.query.sort) != "undefined") {
         kindOfRequestedPlace = req.query.sort
     }
@@ -459,8 +465,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '54321',
-    database: 'new_york_db'
+    password: '123456',
+    database: 'ny_db'
 })
 
 //Connect to MySQL
