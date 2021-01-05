@@ -13,7 +13,7 @@ let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCos
     critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", id, placeType, updateID, deleteID,
     updatePlace
 
-//GET functions
+// GET functions
 
 //time out page
 app.get('/error1', (req, res) => {
@@ -38,6 +38,8 @@ app.get('/bye', (req, res) => {
     pageName = "bye page"
     db.end();
     res.render("index", {pageName: pageName})
+    setTimeout(() =>
+        process.exit(0), 1000)
 })
 
 //home page
