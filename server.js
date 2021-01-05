@@ -249,7 +249,7 @@ app.get('/info', (req, res) => {
     }
 })
 app.get('/rev', (req, res) => {
-    pageName = "output page"
+    pageName = "rev page"
     const id = req.query.id
     let dataA
     let dataB
@@ -267,12 +267,12 @@ app.get('/rev', (req, res) => {
                     res.redirect("/error")
                     throw err
                 } else {
-                    console.log(results)/*
+                    console.log(results)
                     let data = JSON.stringify(results)
-                    fs.writeFileSync("airbnbinfo.json", data)
-                    let rawdata = fs.readFileSync('airbnbinfo.json')
-                    data = JSON.parse(rawdata)*/
-                    res.render("index", {pageName: "infoairbnb", queryairbnb: data})
+                    fs.writeFileSync("airbnbrev.json", data)
+                    let rawdata = fs.readFileSync('airbnbrev.json')
+                    data = JSON.parse(rawdata)
+                    res.render("index", {pageName: "revairbnb", queryairbnb: data})
                 }
             })
         } else if (kindOfRequestedPlace.localeCompare("hotels") === 0) {
@@ -283,12 +283,11 @@ app.get('/rev', (req, res) => {
                     throw err
                 } else {
                     console.log(results)
-                    /*
                     let data = JSON.stringify(results)
-                    fs.writeFileSync("hotelinfo.json", data)
-                    let rawdata = fs.readFileSync('hotelinfo.json')
-                    data = JSON.parse(rawdata)*/
-                    res.render("index", {pageName: "infohotel", queryhotel: data})
+                    fs.writeFileSync("hotelrev.json", data)
+                    let rawdata = fs.readFileSync('hotelrev.json')
+                    data = JSON.parse(rawdata)
+                    res.render("index", {pageName: "revhotel", queryhotel: data})
                 }
             })
         } else if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
@@ -298,11 +297,12 @@ app.get('/rev', (req, res) => {
                     res.redirect("/error")
                     throw err
                 } else {
-                    console.log(results)/*
+                    console.log(results)
                     let data = JSON.stringify(results)
-                    fs.writeFileSync("restaurantsinfoA.json", data)
-                    let rawdataA = fs.readFileSync('restaurantsinfoA.json')
-                    dataA = JSON.parse(rawdataA)*/
+                    fs.writeFileSync("restaurantsrev.json", data)
+                    let rawdata = fs.readFileSync('crev.json')
+                    data = JSON.parse(rawdata)
+                    res.render("index", {pageName: "revrestaurants", queryrestaurants: data})
                 }
             })
 

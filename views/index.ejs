@@ -567,7 +567,7 @@
             Rating:  <%= queryairbnb[i].rating %><br>
             Host Name:  <%= queryairbnb[i].host_name %><br>
             Superhost:  <%= queryairbnb[i].superhost %><br>
-
+            Review : <a href="/rev?id=<%=queryairbnb[i].id %>&sort=airbnb">Click Here</a>
         <% } %>
     </div>
 
@@ -582,6 +582,8 @@
         maximum price:  <%= queryhotel[i].high_price %><br>
         minimum price:  <%= queryhotel[i].low_price %><br>
         rating:  <%= queryhotel[i].rating %><br>
+        Review : <a href="/rev?id=<%=queryhotel[i].id %>&sort=hotel">Click Here</a>
+
 
     <% } %>
 <% } %>
@@ -600,9 +602,45 @@
     <% for(var i = 0; i < queryrestaurantsB.length; i++) { %>
         review:  <%= queryrestaurantsB[i].description %><br>
         is the review critical :<%= queryrestaurantsB[i].critical %><br>
+        Review : <a href="/rev?id=<%=queryrestaurantsA[i].id %>&sort=restaurant">Click Here</a>
+    <% } %>
+<% } %>
+
+
+<!--REVIEWS-->
+<% if(pageName === "revhotel") { %>
+    <!--HOTEL-->
+    <% for(var i = 0; i < queryhotel.length; i++) { %>
+        reviewer: :<%= queryhotel[i].guest_name %><br>
+        grade:  <%= queryhotel[i].grade %><br>
+        comment:  <%= queryhotel[i].comment %><br>
 
     <% } %>
 <% } %>
+
+
+<% if(pageName === "revairbnb") { %>
+    <!--HOTEL-->
+    <% for(var i = 0; i < queryairbnb.length; i++) { %>
+        reviewer: :<%= queryairbnb[i].guest_name %><br>
+        grade:  <%= queryairbnb[i].grade %><br>
+        comment:  <%= queryairbnb[i].comment %><br>
+
+    <% } %>
+<% } %>
+
+
+<% if(pageName === "revrestaurants") { %>
+    <!--HOTEL-->
+    <% for(var i = 0; i < queryrestaurants.length; i++) { %>
+        reviewer: :<%= queryrestaurants[i].guest_name %><br>
+        grade:  <%= queryrestaurants[i].grade %><br>
+        comment:  <%= queryrestaurants[i].comment %><br>
+
+    <% } %>
+<% } %>
+
+
 <div class="container-fluid">
     <footer id="sticky-footer" class="py-1 bg-secondry text-white-50">
         <div class="container text-center">
