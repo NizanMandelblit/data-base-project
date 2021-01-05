@@ -32,7 +32,10 @@ app.get('/error3', (req, res) => {
     pageName = "error page3"
     res.render("index", {pageName: pageName})
 })
-
+app.get('/error4', (req, res) => {
+    pageName = "error page4"
+    res.render("index", {pageName: pageName})
+})
 //exit page
 app.get('/bye', (req, res) => {
     pageName = "bye page"
@@ -268,6 +271,8 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
+                }else if (!results.length) {
+                    res.redirect("/error4")
                 } else {
                     console.log(results)
                     let data = JSON.stringify(results)
@@ -283,6 +288,8 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
+                }else if (!results.length) {
+                    res.redirect("/error4")
                 } else {
                     console.log(results)
                     let data = JSON.stringify(results)
@@ -298,6 +305,8 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
+                }else if (!results.length) {
+                    res.redirect("/error4")
                 } else {
                     console.log(results)
                     let data = JSON.stringify(results)
