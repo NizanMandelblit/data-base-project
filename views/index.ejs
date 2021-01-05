@@ -308,7 +308,7 @@
     <% if(pageName === "error page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/error">
-                <h1> error </h1>
+                <h1> Error </h1>
                 <h2> we are sorry </h2>
             </form>
         </div>
@@ -317,8 +317,8 @@
     <% if(pageName === "error page1") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/error1">
-                <h1> error </h1>
-                <h2> your request takes a long time, try to be more specific </h2>
+                <h1> Error </h1>
+                <h2> We're sorry but your request took too long, try to be more specific please. </h2>
             </form>
         </div>
     <% } %>
@@ -326,8 +326,8 @@
     <% if(pageName === "error page2") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/error2">
-                <h1> error </h1>
-                <h2> no place was found </h2>
+                <h1> Error </h1>
+                <h2> We're Sorry, no place matches your search. Please try again.</h2>
             </form>
         </div>
     <% } %>
@@ -335,8 +335,8 @@
     <% if(pageName === "error page3") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/error3">
-                <h1> error </h1>
-                <h2> nothing matches your preferences try to be less specific </h2>
+                <h1> Error </h1>
+                <h2> We're Sorry, no results match your preferences. Please try to be less specific </h2>
             </form>
         </div>
     <% } %>
@@ -353,7 +353,6 @@
                 <table class="table table-hover table-dark">
                     <thead>
                     <tr>
-
                         <th scope="col">name</th>
                         <th scope="col">rating</th>
                         <th scope="col">price</th>
@@ -501,7 +500,8 @@
                     <tbody id="myTabletwo">
                     <% for(var i = 0; i < queryairbnb.length; i++) { %>
                         <tr>
-                            <td><a href="/info?sort=restaurants&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            <td>
+                                <a href="/info?sort=restaurants&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
                             </td>
                             <td><%= queryairbnb[i].type %></td>
                             <td><%= queryairbnb[i].rating %></td>

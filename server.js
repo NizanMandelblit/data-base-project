@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
     res.render("index", {pageName: pageName})
 })
 
-//search destination by name page
+//search destination
 app.get('/search', (req, res) => {
     pageName = "search page"
     const airbnbid = req.query.airbnbid
@@ -146,33 +146,29 @@ app.get('/delete', (req, res) => {
             pageName = "delete page2"
         }
     }
-
     res.render("index", {pageName: pageName})
 })
 
 app.get('/thanks', (req, res) => {
     pageName = "thanks page"
-
     res.render("index", {pageName: pageName})
 })
 
 app.get('/error', (req, res) => {
     pageName = "error page"
-
     res.render("index", {pageName: pageName})
 })
+
 app.get('/output', (req, res) => {
     pageName = "output page"
-
     let rawDataHotel = fs.readFileSync('hotelrseults.json')
     let hotel = JSON.parse(rawDataHotel)
     let rawDataAirbnb = fs.readFileSync('airbnbrseults.json')
     let airbnb = JSON.parse(rawDataAirbnb)
     res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb})
-
 })
-app.get('/info', (req, res) => {
 
+app.get('/info', (req, res) => {
     pageName = "output page"
     const id = req.query.id
     if (typeof (req.query.sort) != "undefined") {
