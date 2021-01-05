@@ -596,13 +596,13 @@
         building number:  <%= queryrestaurantsA[i].building %><br>
         cuisine:  <%= queryrestaurantsA[i].type %><br>
         rating:  <%= queryrestaurantsA[i].rating %><br>
+        Review : <a href="/rev?id=<%=queryrestaurantsA[i].id %>&sort=restaurant">Click Here</a>
 
     <% } %>
 
     <% for(var i = 0; i < queryrestaurantsB.length; i++) { %>
         review:  <%= queryrestaurantsB[i].description %><br>
         is the review critical :<%= queryrestaurantsB[i].critical %><br>
-        Review : <a href="/rev?id=<%=queryrestaurantsA[i].id %>&sort=restaurant">Click Here</a>
     <% } %>
 <% } %>
 
