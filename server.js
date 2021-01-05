@@ -198,20 +198,6 @@ app.get('/info', (req, res) => {
                     fs.writeFileSync("airbnbinfo.json", data)
                     let rawdata = fs.readFileSync('airbnbinfo.json')
                     data = JSON.parse(rawdata)
-                    //res.render("index", {pageName: "infoairbnb", queryairbnb: data})
-                }
-            })
-            sql1 = "SELECT * FROM airbnb_reviews WHERE airbnb_id=" + id + ""
-            db.query(sql1, (err, results) => {
-                if (err) {
-                    res.redirect("/error")
-                    throw err
-                } else {
-                    console.log(results)/*
-                    let data = JSON.stringify(results)
-                    fs.writeFileSync("airbnbinfo.json", data)
-                    let rawdata = fs.readFileSync('airbnbinfo.json')
-                    data = JSON.parse(rawdata)*/
                     res.render("index", {pageName: "infoairbnb", queryairbnb: data})
                 }
             })
@@ -226,21 +212,6 @@ app.get('/info', (req, res) => {
                     fs.writeFileSync("hotelinfo.json", data)
                     let rawdata = fs.readFileSync('hotelinfo.json')
                     data = JSON.parse(rawdata)
-                    //res.render("index", {pageName: "infohotel", queryhotel: data})
-                }
-            })
-            sql1 = "SELECT * FROM hotels_reviews WHERE hotels_id=" + id + ""
-            db.query(sql1, (err, results) => {
-                if (err) {
-                    res.redirect("/error")
-                    throw err
-                } else {
-                    console.log(results)
-                    /*
-                    let data = JSON.stringify(results)
-                    fs.writeFileSync("hotelinfo.json", data)
-                    let rawdata = fs.readFileSync('hotelinfo.json')
-                    data = JSON.parse(rawdata)*/
                     res.render("index", {pageName: "infohotel", queryhotel: data})
                 }
             })
@@ -255,19 +226,6 @@ app.get('/info', (req, res) => {
                     fs.writeFileSync("restaurantsinfoA.json", data)
                     let rawdataA = fs.readFileSync('restaurantsinfoA.json')
                     dataA = JSON.parse(rawdataA)
-                }
-            })
-            sql1 = "SELECT * FROM restaurants_reviews WHERE restaurants_id=" + id + ""
-            db.query(sql1, (err, results) => {
-                if (err) {
-                    res.redirect("/error")
-                    throw err
-                } else {
-                    console.log(results)/*
-                    let data = JSON.stringify(results)
-                    fs.writeFileSync("restaurantsinfoA.json", data)
-                    let rawdataA = fs.readFileSync('restaurantsinfoA.json')
-                    dataA = JSON.parse(rawdataA)*/
                 }
             })
             let sql2 = "SELECT * FROM restaurant_inspections_connection_table JOIN inspections ON (restaurant_inspections_connection_table.violation_id=inspections.violation_id) WHERE restaurant_id=" + id + ""
@@ -290,7 +248,67 @@ app.get('/info', (req, res) => {
         }
     }
 })
+app.get('/rev', (req, res) => {
+    pageName = "output page"
+    const id = req.query.id
+    let dataA
+    let dataB
+    if (typeof (req.query.sort) != "undefined") {
+        kindOfRequestedPlace = req.query.sort
+    }
+    if (kindOfRequestedPlace === null) {
+        res.redirect("/error")
+    } else {
+        let sql1 = ""
+        if (kindOfRequestedPlace.localeCompare("airbnb") === 0) {
+            sql1 = "SELECT * FROM airbnb_reviews WHERE airbnb_id=" + id + ""
+            db.query(sql1, (err, results) => {
+                if (err) {
+                    res.redirect("/error")
+                    throw err
+                } else {
+                    console.log(results)/*
+                    let data = JSON.stringify(results)
+                    fs.writeFileSync("airbnbinfo.json", data)
+                    let rawdata = fs.readFileSync('airbnbinfo.json')
+                    data = JSON.parse(rawdata)*/
+                    res.render("index", {pageName: "infoairbnb", queryairbnb: data})
+                }
+            })
+        } else if (kindOfRequestedPlace.localeCompare("hotels") === 0) {
+            sql1 = "SELECT * FROM hotels_reviews WHERE hotels_id=" + id + ""
+            db.query(sql1, (err, results) => {
+                if (err) {
+                    res.redirect("/error")
+                    throw err
+                } else {
+                    console.log(results)
+                    /*
+                    let data = JSON.stringify(results)
+                    fs.writeFileSync("hotelinfo.json", data)
+                    let rawdata = fs.readFileSync('hotelinfo.json')
+                    data = JSON.parse(rawdata)*/
+                    res.render("index", {pageName: "infohotel", queryhotel: data})
+                }
+            })
+        } else if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
+            sql1 = "SELECT * FROM restaurants_reviews WHERE restaurants_id=" + id + ""
+            db.query(sql1, (err, results) => {
+                if (err) {
+                    res.redirect("/error")
+                    throw err
+                } else {
+                    console.log(results)/*
+                    let data = JSON.stringify(results)
+                    fs.writeFileSync("restaurantsinfoA.json", data)
+                    let rawdataA = fs.readFileSync('restaurantsinfoA.json')
+                    dataA = JSON.parse(rawdataA)*/
+                }
+            })
 
+        }
+    }
+})
 //POST functions
 app.post("/search", function (req, res) {
     style = req.body.style
@@ -465,8 +483,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '123456',
-    database: 'ny_db'
+    password: '54321',
+    database: 'new_york_db'
 })
 
 //Connect to MySQL
