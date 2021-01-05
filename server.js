@@ -13,7 +13,7 @@ let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCos
     critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", id, placeType, updateID, deleteID,
     updatePlace
 
-// GET functions
+//GET functions
 
 //time out page
 app.get('/error1', (req, res) => {
