@@ -137,7 +137,7 @@ app.get('/delete', (req, res) => {
     if (typeof (req.query.placeSort) != "undefined") {
         placeType = req.query.placeSort
     }
-    if (typeof (req.query.placeSort) != "undefined") {
+    if (typeof (req.query.id) != "undefined") {
         id = req.query.id
     }
 
@@ -159,7 +159,17 @@ app.get('/delete', (req, res) => {
                             //throw err
                         }
                     })
-                    pageName = "thanks page"}
+                    if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
+                        let sql1 = "DELETE FROM restaurant_inspections_connection_table WHERE restaurant_id=" + id + ""
+                        db.query(sql1, (err) => {
+                            if (err) {
+                                res.redirect("/error")
+                                //throw err
+                            }
+                        })
+                    }
+                    pageName = "thanks page"
+                }
             })
 
         } else {
