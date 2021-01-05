@@ -33,6 +33,13 @@ app.get('/error3', (req, res) => {
     res.render("index", {pageName: pageName})
 })
 
+//exit page
+app.get('/bye', (req, res) => {
+    pageName = "bye page"
+    db.end();
+    res.render("index", {pageName: pageName})
+})
+
 //home page
 app.get('/', (req, res) => {
     pageName = "home page"
