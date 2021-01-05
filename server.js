@@ -274,7 +274,7 @@ app.get('/rev', (req, res) => {
                 }else if (!results.length) {
                     res.redirect("/error4")
                 } else {
-                    console.log(results)
+                    //console.log(results)
                     let data = JSON.stringify(results)
                     fs.writeFileSync("airbnbrev.json", data)
                     let rawdata = fs.readFileSync('airbnbrev.json')
@@ -291,7 +291,7 @@ app.get('/rev', (req, res) => {
                 }else if (!results.length) {
                     res.redirect("/error4")
                 } else {
-                    console.log(results)
+                    //console.log(results)
                     let data = JSON.stringify(results)
                     fs.writeFileSync("hotelrev.json", data)
                     let rawdata = fs.readFileSync('hotelrev.json')
@@ -308,7 +308,7 @@ app.get('/rev', (req, res) => {
                 }else if (!results.length) {
                     res.redirect("/error4")
                 } else {
-                    console.log(results)
+                    //console.log(results)
                     let data = JSON.stringify(results)
                     fs.writeFileSync("restaurantsrev.json", data)
                     let rawdata = fs.readFileSync('crev.json')
