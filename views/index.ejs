@@ -651,7 +651,7 @@
         <!--airbnb-->
         <% for(var i = 0; i < queryairbnb.length; i++) { %>
         review <%= (i+1) %>: <br>
-        reviewer: :<%= queryairbnb[i].guest_name %><br>
+        reviewer: <%= queryairbnb[i].guest_name %><br>
         grade: <%= queryairbnb[i].grade %><br>
         comment: <%= queryairbnb[i].comment %><br><br>
 
@@ -665,7 +665,7 @@
         <!--resturant-->
         <% for(var i = 0; i < queryrestaurants.length; i++) { %>
             review <%= (i+1) %>: <br>
-            reviewer: :<%= queryrestaurants[i].guest_name %><br>
+            reviewer: <%= queryrestaurants[i].guest_name %><br>
         grade: <%= queryrestaurants[i].grade %><br>
         comment: <%= queryrestaurants[i].comment %><br><br>
 
