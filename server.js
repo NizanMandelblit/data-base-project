@@ -32,10 +32,14 @@ app.get('/error3', (req, res) => {
     pageName = "error page3"
     res.render("index", {pageName: pageName})
 })
+
+//exit page
 app.get('/bye', (req, res) => {
     pageName = "bye page"
+    db.end();
     res.render("index", {pageName: pageName})
 })
+
 //home page
 app.get('/', (req, res) => {
     pageName = "home page"
@@ -419,8 +423,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '54321',
-    database: 'new_york_db'
+    password: 'matthews34',
+    database: 'nyculinarytrip'
 })
 
 //Connect to MySQL
