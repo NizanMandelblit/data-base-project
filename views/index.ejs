@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Data-Base Project Test Site </title>
+    <title>Data-Base Project Site </title>
     <!--bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
@@ -70,7 +70,15 @@
 
 <div class="page">
 
-
+    <!--bye page content-->
+    <% if(pageName === "home page") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/">
+                <h1> welcome! </h1>
+                <h2> We Hope you will have a nice experience </h2>
+            </form>
+        </div>
+    <% } %>
     <!--search page content-->
     <% if(pageName == "search page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
@@ -576,7 +584,7 @@
             Rating:  <%= queryairbnb[i].rating %><br>
             Host Name:  <%= queryairbnb[i].host_name %><br>
             Superhost:  <%= queryairbnb[i].superhost %><br>
-            Review : <a href="/rev?id=<%=queryairbnb[i].id %>&sort=airbnb">Click Here</a>
+            user reviews : <a href="/rev?id=<%=queryairbnb[i].id %>&sort=airbnb">Click Here</a>
         <% } %>
     </div>
 
@@ -591,7 +599,7 @@
         maximum price:  <%= queryhotel[i].high_price %><br>
         minimum price:  <%= queryhotel[i].low_price %><br>
         rating:  <%= queryhotel[i].rating %><br>
-        Review : <a href="/rev?id=<%=queryhotel[i].id %>&sort=hotels">Click Here</a>
+        user reviews : <a href="/rev?id=<%=queryhotel[i].id %>&sort=hotels">Click Here</a>
 
 
     <% } %>
@@ -605,12 +613,12 @@
         building number:  <%= queryrestaurantsA[i].building %><br>
         cuisine:  <%= queryrestaurantsA[i].type %><br>
         rating:  <%= queryrestaurantsA[i].rating %><br>
-        Review : <a href="/rev?id=<%=queryrestaurantsA[i].id %>&sort=restaurants">Click Here</a>
+        user reviews : <a href="/rev?id=<%=queryrestaurantsA[i].id %>&sort=restaurants">Click Here</a>
 
     <% } %>
 
     <% for(var i = 0; i < queryrestaurantsB.length; i++) { %>
-        review:  <%= queryrestaurantsB[i].description %><br>
+        inspection:  <%= queryrestaurantsB[i].description %><br>
         is the review critical :<%= queryrestaurantsB[i].critical %><br>
     <% } %>
 <% } %>
