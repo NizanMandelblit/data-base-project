@@ -151,9 +151,17 @@ app.get('/delete', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                }
+                }else{
+                    let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + id + ""
+                    db.query(sql1, (err) => {
+                        if (err) {
+                            res.redirect("/error")
+                            //throw err
+                        }
+                    })
+                    pageName = "thanks page"}
             })
-            pageName = "thanks page"
+
         } else {
             pageName = "delete page2"
         }
@@ -456,15 +464,18 @@ app.post("/delete", function (req, res) {
         if (err) {
             res.redirect("/error")
             throw err
-        } else res.redirect("/thanks")
+        }else {
+            let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + deleteID
+            console.log(sql1)
+            db.query(sql1, (err) => {
+                if (err) {
+                    res.redirect("/error")
+                    throw err
+                } else {res.redirect("/thanks")}
+            })
+        }
     })
-    let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + deleteID
-    db.query(sql1, (err) => {
-        if (err) {
-            res.redirect("/error")
-            throw err
-        } else res.redirect("/thanks")
-    })
+
 })
 
 //find place in order to update,view info or delete
