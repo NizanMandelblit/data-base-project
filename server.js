@@ -7,6 +7,10 @@ app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({extended: true}))
 const port = 3001
+let result = {}
+fs.writeFileSync('hotelrseults.json', JSON.stringify(result))
+fs.writeFileSync('airbnbrseults.json', JSON.stringify(result))
+
 
 //global variables
 let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
@@ -198,6 +202,7 @@ app.get('/output', (req, res) => {
     let hotel = JSON.parse(rawDataHotel)
     let rawDataAirbnb = fs.readFileSync('airbnbrseults.json')
     let airbnb = JSON.parse(rawDataAirbnb)
+
     res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb})
 })
 
@@ -407,7 +412,7 @@ app.post("/search", function (req, res) {
             throw err
         } else if (!results.length && !timedOut) {
             empty++
-        } else if(!timedOut) {
+        } else if (!timedOut) {
             let data = JSON.stringify(results)
             fs.writeFileSync("hotelrseults.json", data)
         }
@@ -419,7 +424,7 @@ app.post("/search", function (req, res) {
             throw err
         } else if (!results.length && !timedOut) {
             empty++
-        } else if(!timedOut){
+        } else if (!timedOut) {
             let data = JSON.stringify(results)
             fs.writeFileSync("airbnbrseults.json", data)
             clearTimeout(myTimeOut)
