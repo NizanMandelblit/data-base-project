@@ -372,7 +372,8 @@
         <!-- JSON.stringify(query)-->
 
         <div id="overlay" class="container-fluid">
-            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#hotels" role="button"
+               aria-expanded="false"
                aria-controls="hotels">HOTELS</a>
             <div class="collapse multi-collapse" id="hotels">
                 <input id="myInput" type="text" placeholder="Search..">
@@ -408,7 +409,8 @@
 
 
         <div id="overlay" class="container-fluid">
-            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#airbnb" role="button"
+               aria-expanded="false"
                aria-controls="airbnb">AIRBNB</a>
             <div class="collapse multi-collapse" id="airbnb" style="">
                 <input id="myInputtwo" type="text" placeholder="Search..">
@@ -546,7 +548,8 @@
     <% if(pageName === "findoutput") { %>
 
         <div id="overlay" class="container-fluid">
-            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#airbnb" role="button"
+               aria-expanded="false"
                aria-controls="airbnb">click to see the results</a>
             <div class="collapse multi-collapse" id="airbnb" style="">
                 <input id="myInputtwo" type="text" placeholder="Search..">
@@ -582,7 +585,9 @@
             Price:  <%= queryairbnb[i].price %><br>
             Rating:  <%= queryairbnb[i].rating %><br>
             Host Name:  <%= queryairbnb[i].host_name %><br>
-            Superhost - add if else:  <%= queryairbnb[i].superhost %><br>
+            <% if(queryairbnb[i].superhost.toString() === "1") { %>
+                this is a Superhost<br>
+            <% } %>
             user reviews : <a href="/rev?id=<%= queryairbnb[i].id %>&sort=airbnb">Click Here</a>
         <% } %>
     </div>
@@ -591,79 +596,81 @@
 
 <% if(pageName === "infohotel") { %>
     <!--info HOTEL-->
-<div class="container p-3 my-3 bg-dark text-white">
+    <div class="container p-3 my-3 bg-dark text-white">
 
-    <% for(var i = 0; i < queryhotel.length; i++) { %>
-        Name:  <%= queryhotel[i].name %><br>
-        number of stars :<%= queryhotel[i].star_rating %><br>
-        maximum price:  <%= queryhotel[i].high_price %><br>
-        minimum price:  <%= queryhotel[i].low_price %><br>
-        rating:  <%= queryhotel[i].rating %><br>
-        user reviews : <a href="/rev?id=<%= queryhotel[i].id %>&sort=hotels">Click Here</a>
+        <% for(var i = 0; i < queryhotel.length; i++) { %>
+            Name:  <%= queryhotel[i].name %><br>
+            number of stars :<%= queryhotel[i].star_rating %><br>
+            maximum price:  <%= queryhotel[i].high_price %><br>
+            minimum price:  <%= queryhotel[i].low_price %><br>
+            rating:  <%= queryhotel[i].rating %><br>
+            user reviews : <a href="/rev?id=<%= queryhotel[i].id %>&sort=hotels">Click Here</a>
 
-
-    <% } %>
-</div>
+        <% } %>
+    </div>
 <% } %>
 <!--RESTURANTS-->
 <% if(pageName === "inforestaurants") { %>
-<div class="container p-3 my-3 bg-dark text-white">
-
-    <% for(var i = 0; i < queryrestaurantsA.length; i++) { %>
-        Name:  <%= queryrestaurantsA[i].name %><br>
-        boro :<%= queryrestaurantsA[i].boro %><br>
-        building number:  <%= queryrestaurantsA[i].building %><br>
-        cuisine:  <%= queryrestaurantsA[i].type %><br>
-        rating:  <%= queryrestaurantsA[i].rating %><br>
-        user reviews : <a href="/rev?id=<%= queryrestaurantsA[i].id %>&sort=restaurants">Click Here</a>
-
-    <% } %>
-
-    <% for(var i = 0; i < queryrestaurantsB.length; i++) { %>
-        inspection:  <%= queryrestaurantsB[i].description %><br>
-        is the review critical - change to if else :<%= queryrestaurantsB[i].critical %><br>
-    <% } %>
-</div>
+    <div class="container p-3 my-3 bg-dark text-white">
+        <% for(var i = 0; i < queryrestaurantsA.length; i++) { %>
+            Name:  <%= queryrestaurantsA[i].name %><br>
+            boro :<%= queryrestaurantsA[i].boro %><br>
+            building number:  <%= queryrestaurantsA[i].building %><br>
+            cuisine:  <%= queryrestaurantsA[i].type %><br>
+            rating:  <%= queryrestaurantsA[i].rating %><br>
+            user reviews : <a href="/rev?id=<%= queryrestaurantsA[i].id %>&sort=restaurants">Click Here</a><br>
+        <% } %>
+        <h1>Inspections</h1><br>
+        <% for(var i = 0; i < queryrestaurantsB.length; i++) { %>
+        inspection <%=  i+1 %> : <%= queryrestaurantsB[i].description %><br>
+        <% if(queryrestaurantsB[i].critical.toString() === "1") { %>
+            this review is a critical review<br>
+        <% } %><br>
+        <% } %>
+    </div>
 <% } %>
 
 <!--REVIEWS-->
 <% if(pageName === "revhotel") { %>
-<div class="container p-3 my-3 bg-dark text-white">
+    <div class="container p-3 my-3 bg-dark text-white">
+        <h1>reviews</h1>
+        <!--HOTEL-->
+        <% for(var i = 0; i < queryhotel.length; i++) { %>
+            review <%= (i+1) %>: <br>
+            reviewer: <%= queryhotel[i].guest_name %><br>
+        grade: <%= queryhotel[i].grade %><br>
+        comment: <%= queryhotel[i].comment %><br><br>
 
-<!--HOTEL-->
-    <% for(var i = 0; i < queryhotel.length; i++) { %>
-        reviewer: <%= queryhotel[i].guest_name %><br>
-        grade:  <%= queryhotel[i].grade %><br>
-        comment:  <%= queryhotel[i].comment %><br>
-
-    <% } %>
-</div>
+        <% } %>
+    </div>
 <% } %>
 
 <% if(pageName === "revairbnb") { %>
-<div class="container p-3 my-3 bg-dark text-white">
+    <div class="container p-3 my-3 bg-dark text-white">
+        <h1>reviews</h1>
+        <!--airbnb-->
+        <% for(var i = 0; i < queryairbnb.length; i++) { %>
+        review <%= (i+1) %>: <br>
+        reviewer: <%= queryairbnb[i].guest_name %><br>
+        grade: <%= queryairbnb[i].grade %><br>
+        comment: <%= queryairbnb[i].comment %><br><br>
 
-<!--airbnb-->
-    <% for(var i = 0; i < queryairbnb.length; i++) { %>
-        reviewer: :<%= queryairbnb[i].guest_name %><br>
-        grade:  <%= queryairbnb[i].grade %><br>
-        comment:  <%= queryairbnb[i].comment %><br>
-
-    <% } %>
-</div>
+        <% } %>
+    </div>
 <% } %>
 
 <% if(pageName === "revrestaurants") { %>
-<div class="container p-3 my-3 bg-dark text-white">
+    <div class="container p-3 my-3 bg-dark text-white">
+        <h1>reviews</h1>
+        <!--resturant-->
+        <% for(var i = 0; i < queryrestaurants.length; i++) { %>
+            review <%= (i+1) %>: <br>
+            reviewer: <%= queryrestaurants[i].guest_name %><br>
+        grade: <%= queryrestaurants[i].grade %><br>
+        comment: <%= queryrestaurants[i].comment %><br><br>
 
-<!--HOTEL-->
-    <% for(var i = 0; i < queryrestaurants.length; i++) { %>
-        reviewer: :<%= queryrestaurants[i].guest_name %><br>
-        grade:  <%= queryrestaurants[i].grade %><br>
-        comment:  <%= queryrestaurants[i].comment %><br>
-
-    <% } %>
-</div>
+        <% } %>
+    </div>
 <% } %>
 
 <div class="container-fluid">
