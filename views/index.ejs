@@ -46,17 +46,16 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/search"><img src="search.png"> search</a>
+                    <a class="nav-link" href="/search"><img src="search.png"> Find Destination</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/find?selection=update"><img src="refresh.png"> add review</a>
+                    <a class="nav-link" href="/find?selection=update"><img src="refresh.png"> Add Review</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/find?selection=delete"><img src="trash.png"> delete information</a>
+                    <a class="nav-link" href="/find?selection=delete"><img src="trash.png"> Delete Information</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/find?selection=info"><img src="information.png"> get information for a
-                        place</a>
+                    <a class="nav-link" href="/find?selection=info"><img src="information.png"> Get Information</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/bye"><img src="exit.png"> Sign Out</a>
@@ -71,9 +70,9 @@
 
     <!--יhome page content-->
     <% if(pageName === "home page") { %>
-        <div class="container p-3 my-3 bg-dark text-white">
-            <h1 style="position: center">WELCOME</h1>
-            <p> this site will provide you informtion </p>
+        <div class="container p-3 my-3 bg-transparent text-white">
+            <h1 class="welcome" style="position: center">WELCOME</h1>
+            <h2 class="welcome"> Find your dream destination in New York that meets all your culinary needs</h2>
         </div>
     <% } %>
     <!--search page content-->
@@ -81,7 +80,7 @@
         <div class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/search" method="post">
                 <div class="form-row align-items-center">
-                    <label for="exampleFormControlInput1">1.enter the requested price for a night in $</label>
+                    <label for="exampleFormControlInput1">1.Please provide a price range per night in $</label>
                     <input id="X" type="number" onchange="limit()" min="0" class="form-control" placeholder="Max"
                            name="maxNightCost"
                            required>
@@ -89,7 +88,8 @@
                            required>
                 </div>
                 <div class="form-row align-items-center">
-                    <label for="exampleFormControlInput1">2.enter the requested rating for the hotel or airbnb</label>
+                    <label for="exampleFormControlInput1">2.Please provide a range for your preferred hotel and airbnb
+                        ratings</label>
                     <input id="X2" type="number" onchange="limit()" min="0" class="form-control" placeholder="Max"
                            name="maxRateHA"
                            required>
@@ -97,7 +97,8 @@
                            required>
                 </div>
                 <div class="form-row align-items-center">
-                    <label for="exampleFormControlInput1">3.enter the requested rating for the restaurants</label>
+                    <label for="exampleFormControlInput1">3.Please provide a range for your preferred restaurant
+                        rating</label>
                     <input id="requireform" min="0" type="number" class="form-control" placeholder="Max"
                            name="maxRateRestaurant" onchange="limit()"
                            required>
@@ -105,14 +106,14 @@
                            name="minRateRestaurant"
                            required>
                 </div>
-                <label for="exampleFormControlInput1">4.do you want to avoid restaurants with critical reviews?</label>
+                <label for="exampleFormControlInput1">4.Avoid restaurants with critical reviews</label>
 
                 <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1" name="critical">
                     <label class="form-check-label" for="exampleCheck1"> </label>
 
                 </div>
-                <label for="exampleFormControlInput1">5.do you want to find airbnb of super hosts only?</label>
+                <label for="exampleFormControlInput1">5.Show airbnb destinations of super hosts only</label>
 
                 <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1" name="super">
@@ -121,7 +122,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">6.favorite food</label>
+                    <label for="exampleFormControlSelect1">6.Please select the food types you're interested in</label>
                     <!-- need to have multi choose-->
                     <select id="requirelist" class="selectpicker form-control" multiple data-live-search="true"
                             name="style"
@@ -184,8 +185,9 @@
 
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">7.enter maximum kilometers you want to affect the
-                        search</label>
+                    <label for="exampleFormControlInput1">7.Please enter the maximum distance in kilometers you are
+                        willing to travel to restaurants
+                    </label>
                     <input id="requireform" type="double" class="form-control" placeholder="e.g 12.5" name="distance"
                            required>
                 </div>
@@ -209,7 +211,7 @@
             <form id="my-form" class="" action="/update" method="post">
 
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">1.enter yor name:</label>
+                    <label for="exampleFormControlSelect1">1.Please enter your name:</label>
                     <div class="row">
                         <div class="col">
                             <input type="text" class="form-control" name="FirstName" placeholder="First name"
@@ -223,12 +225,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">2.enter the grade you give to the place</label>
+                    <label for="exampleFormControlInput1">2.Please enter your rating</label>
                     <input type="number" name="grade" min="1" max="100" class="form-control" placeholder="1-100"
                            required>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlTextarea1">3.enter your comments please:</label>
+                    <label for="exampleFormControlTextarea1">3.Enter additional comments if you'd like:</label>
                     <textarea maxlength="60" class="form-control" name="comment" id="exampleFormControlTextarea1"
                               rows="3"></textarea>
                 </div>
@@ -361,8 +363,8 @@
     <% if(pageName === "bye page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
             <form class="" action="/bye">
-                <h1> good bye! </h1>
-                <h2> We Hope to see you again soon.. </h2>
+                <h1> Good Bye! </h1>
+                <h2> We hope to see you again soon.. </h2>
             </form>
         </div>
     <% } %>
@@ -448,7 +450,7 @@
         <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/find?selection=<%= varselected %>" method="post">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
+                    <label for="exampleFormControlSelect1">1.Please choose type of place</label>
                     <select name="place" class="form-control" required>
                         <option>airbnb</option>
                         <option>restaurants</option>
@@ -456,7 +458,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">2.enter the name of the place</label>
+                    <label for="exampleFormControlInput1">2.Please enter the name of the place</label>
                     <input type="text" name="placename" class="form-control" placeholder="e.g dan hotel" required>
                 </div>
                 <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
@@ -512,7 +514,8 @@
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
                aria-controls="airbnb">relevant restaurants close to the airbnb</a>
-x            <div class="collapse multi-collapse" id="airbnb" style="">
+            x
+            <div class="collapse multi-collapse" id="airbnb" style="">
                 <input id="myInput" type="text" placeholder="Search..">
 
                 <table class="table table-hover table-dark">
@@ -621,10 +624,10 @@ x            <div class="collapse multi-collapse" id="airbnb" style="">
         <% } %>
         <h1>Inspections</h1><br>
         <% for(var i = 0; i < queryrestaurantsB.length; i++) { %>
-        inspection <%=  i+1 %> : <%= queryrestaurantsB[i].description %><br>
-        <% if(queryrestaurantsB[i].critical.toString() === "1") { %>
-            this review is a critical review<br>
-        <% } %><br>
+            inspection <%= i + 1 %> : <%= queryrestaurantsB[i].description %><br>
+            <% if(queryrestaurantsB[i].critical.toString() === "1") { %>
+                this review is a critical review<br>
+            <% } %><br>
         <% } %>
     </div>
 <% } %>
@@ -635,10 +638,10 @@ x            <div class="collapse multi-collapse" id="airbnb" style="">
         <h1>reviews</h1>
         <!--HOTEL-->
         <% for(var i = 0; i < queryhotel.length; i++) { %>
-            review <%= (i+1) %>: <br>
+            review <%= (i + 1) %>: <br>
             reviewer: <%= queryhotel[i].guest_name %><br>
-        grade: <%= queryhotel[i].grade %><br>
-        comment: <%= queryhotel[i].comment %><br><br>
+            grade: <%= queryhotel[i].grade %><br>
+            comment: <%= queryhotel[i].comment %><br><br>
 
         <% } %>
     </div>
@@ -649,10 +652,10 @@ x            <div class="collapse multi-collapse" id="airbnb" style="">
         <h1>reviews</h1>
         <!--airbnb-->
         <% for(var i = 0; i < queryairbnb.length; i++) { %>
-        review <%= (i+1) %>: <br>
-        reviewer: <%= queryairbnb[i].guest_name %><br>
-        grade: <%= queryairbnb[i].grade %><br>
-        comment: <%= queryairbnb[i].comment %><br><br>
+            review <%= (i + 1) %>: <br>
+            reviewer: <%= queryairbnb[i].guest_name %><br>
+            grade: <%= queryairbnb[i].grade %><br>
+            comment: <%= queryairbnb[i].comment %><br><br>
 
         <% } %>
     </div>
@@ -663,10 +666,10 @@ x            <div class="collapse multi-collapse" id="airbnb" style="">
         <h1>reviews</h1>
         <!--resturant-->
         <% for(var i = 0; i < queryrestaurants.length; i++) { %>
-            review <%= (i+1) %>: <br>
+            review <%= (i + 1) %>: <br>
             reviewer: <%= queryrestaurants[i].guest_name %><br>
-        grade: <%= queryrestaurants[i].grade %><br>
-        comment: <%= queryrestaurants[i].comment %><br><br>
+            grade: <%= queryrestaurants[i].grade %><br>
+            comment: <%= queryrestaurants[i].comment %><br><br>
 
         <% } %>
     </div>
