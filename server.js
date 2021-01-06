@@ -13,7 +13,7 @@ let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCos
     critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", id, placeType, updateID, deleteID,
     updatePlace
 
-//*** GET functions ***//
+// GET functions
 
 //time out page
 app.get('/error1', (req, res) => {
@@ -32,11 +32,13 @@ app.get('/error3', (req, res) => {
     pageName = "error page3"
     res.render("index", {pageName: pageName})
 })
-//no reviews found
+
+// no reviews found
 app.get('/error4', (req, res) => {
     pageName = "error page4"
     res.render("index", {pageName: pageName})
 })
+
 //exit page
 app.get('/bye', (req, res) => {
     pageName = "bye page"
@@ -116,13 +118,13 @@ app.get('/search', (req, res) => {
         res.render("index", {pageName: pageName})
     }
 })
-//splits into 3-get information on a place, delete a place, add review.
+
 app.get('/find', (req, res) => {
     pageName = "find page"
     selection = req.query.selection
     res.render("index", {pageName: pageName, varselected: selection})
 })
-// update information
+
 app.get('/update', (req, res) => {
     pageName = "update page"
     if (typeof (req.query.placeSort) != "undefined") {
@@ -133,7 +135,7 @@ app.get('/update', (req, res) => {
     }
     res.render("index", {pageName: pageName})
 })
-//delete a place, after login as admin.
+
 app.get('/delete', (req, res) => {
     if (typeof (req.query.placeSort) != "undefined") {
         placeType = req.query.placeSort
@@ -179,7 +181,7 @@ app.get('/delete', (req, res) => {
     }
     res.render("index", {pageName: pageName})
 })
-//thanks page after submitting a form.
+
 app.get('/thanks', (req, res) => {
     pageName = "thanks page"
     res.render("index", {pageName: pageName})
@@ -189,7 +191,7 @@ app.get('/error', (req, res) => {
     pageName = "error page"
     res.render("index", {pageName: pageName})
 })
-//display the requested query results.
+
 app.get('/output', (req, res) => {
     pageName = "output page"
     let rawDataHotel = fs.readFileSync('hotelrseults.json')
@@ -198,7 +200,7 @@ app.get('/output', (req, res) => {
     let airbnb = JSON.parse(rawDataAirbnb)
     res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb})
 })
-//seek information about a place.
+
 app.get('/info', (req, res) => {
     pageName = "output page"
     const id = req.query.id
@@ -272,7 +274,6 @@ app.get('/info', (req, res) => {
         }
     }
 })
-//reveiws query reviews about a place.
 app.get('/rev', (req, res) => {
     pageName = "rev page"
     const id = req.query.id
@@ -294,7 +295,7 @@ app.get('/rev', (req, res) => {
                 } else if (!results.length) {
                     res.redirect("/error4")
                 } else {
-                    //console.log(results)
+                    console.log(results)
                     let data = JSON.stringify(results)
                     fs.writeFileSync("airbnbrev.json", data)
                     let rawdata = fs.readFileSync('airbnbrev.json')
@@ -340,7 +341,6 @@ app.get('/rev', (req, res) => {
         }
     }
 })
-
 //POST functions
 app.post("/search", function (req, res) {
     style = req.body.style
@@ -493,7 +493,6 @@ app.post("/delete", function (req, res) {
             })
         }
     })
-
 })
 
 //find place in order to update,view info or delete
@@ -530,8 +529,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '9096373',
-    database: 'newyorktrip'
+    password: 'matthews34',
+    database: 'nyculinarytrip'
 })
 
 //Connect to MySQL
