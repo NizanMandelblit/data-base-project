@@ -72,8 +72,10 @@
     <!--יhome page content-->
     <% if(pageName === "home page") { %>
         <div class="container p-3 my-3 bg-dark text-white">
-            <h1 style="position: center">WELCOME</h1>
-            <p> this site will provide you informtion </p>
+            <h1 style="position: center">WELCOME!</h1><br>
+            <p> this site will provide you information for the best vacation exactly for you</p>
+            <p> we hope you will enjoy using this application </p>
+
         </div>
     <% } %>
     <!--search page content-->
@@ -448,7 +450,7 @@
         <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
             <form id="my-form" class="" action="/find?selection=<%= varselected %>" method="post">
                 <div class="form-group">
-                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
+                    <label for="exampleFormControlSelect1">1.Please choose the type of place</label>
                     <select name="place" class="form-control" required>
                         <option>airbnb</option>
                         <option>restaurants</option>
@@ -456,7 +458,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">2.enter the name of the place</label>
+                    <label for="exampleFormControlInput1">2.Enter the name of the place</label>
                     <input type="text" name="placename" class="form-control" placeholder="e.g dan hotel" required>
                 </div>
                 <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
@@ -475,7 +477,7 @@
     <% if(pageName === "outputhotelid") { %>
         <div id="overlay" class="container-fluid">
             <a class="btn btn-primary" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
-               aria-controls="hotels">relevant restaurants close to the hotel</a>
+               aria-controls="hotels"> click to see relevant restaurants close to the hotel</a>
             <div class="collapse multi-collapse" id="hotels">
                 <input id="myInput" type="text" placeholder="Search..">
 
