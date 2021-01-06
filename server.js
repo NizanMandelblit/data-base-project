@@ -137,7 +137,7 @@ app.get('/delete', (req, res) => {
     if (typeof (req.query.placeSort) != "undefined") {
         placeType = req.query.placeSort
     }
-    if (typeof (req.query.placeSort) != "undefined") {
+    if (typeof (req.query.id) != "undefined") {
         id = req.query.id
     }
 
@@ -151,9 +151,27 @@ app.get('/delete', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
+                }else{
+                    let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + id + ""
+                    db.query(sql1, (err) => {
+                        if (err) {
+                            res.redirect("/error")
+                            //throw err
+                        }
+                    })
+                    if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
+                        let sql1 = "DELETE FROM restaurant_inspections_connection_table WHERE restaurant_id=" + id + ""
+                        db.query(sql1, (err) => {
+                            if (err) {
+                                res.redirect("/error")
+                                //throw err
+                            }
+                        })
+                    }
+                    pageName = "thanks page"
                 }
             })
-            pageName = "thanks page"
+
         } else {
             pageName = "delete page2"
         }
@@ -274,7 +292,7 @@ app.get('/rev', (req, res) => {
                 }else if (!results.length) {
                     res.redirect("/error4")
                 } else {
-                    console.log(results)
+                    //console.log(results)
                     let data = JSON.stringify(results)
                     fs.writeFileSync("airbnbrev.json", data)
                     let rawdata = fs.readFileSync('airbnbrev.json')
@@ -291,7 +309,7 @@ app.get('/rev', (req, res) => {
                 }else if (!results.length) {
                     res.redirect("/error4")
                 } else {
-                    console.log(results)
+                    //console.log(results)
                     let data = JSON.stringify(results)
                     fs.writeFileSync("hotelrev.json", data)
                     let rawdata = fs.readFileSync('hotelrev.json')
@@ -308,7 +326,7 @@ app.get('/rev', (req, res) => {
                 }else if (!results.length) {
                     res.redirect("/error4")
                 } else {
-                    console.log(results)
+                    //console.log(results)
                     let data = JSON.stringify(results)
                     fs.writeFileSync("restaurantsrev.json", data)
                     let rawdata = fs.readFileSync('crev.json')
@@ -456,8 +474,18 @@ app.post("/delete", function (req, res) {
         if (err) {
             res.redirect("/error")
             throw err
-        } else res.redirect("/thanks")
+        }else {
+            let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + deleteID
+            console.log(sql1)
+            db.query(sql1, (err) => {
+                if (err) {
+                    res.redirect("/error")
+                    throw err
+                } else {res.redirect("/thanks")}
+            })
+        }
     })
+
 })
 
 //find place in order to update,view info or delete
@@ -494,8 +522,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '123456',
-    database: 'ny_db'
+    password: '54321',
+    database: 'new_york_db'
 })
 
 //Connect to MySQL
