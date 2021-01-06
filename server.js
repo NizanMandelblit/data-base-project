@@ -152,8 +152,8 @@ app.get('/delete', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                }else{
-                    let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + id + ""
+                } else {
+                    let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE " + kindOfRequestedPlace + "_id=" + id + ""
                     db.query(sql1, (err) => {
                         if (err) {
                             res.redirect("/error")
@@ -291,7 +291,7 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                }else if (!results.length) {
+                } else if (!results.length) {
                     res.redirect("/error4")
                 } else {
                     //console.log(results)
@@ -308,7 +308,7 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                }else if (!results.length) {
+                } else if (!results.length) {
                     res.redirect("/error4")
                 } else {
                     //console.log(results)
@@ -325,7 +325,7 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                }else if (!results.length) {
+                } else if (!results.length) {
                     res.redirect("/error4")
                 } else {
                     //console.log(results)
@@ -395,16 +395,19 @@ app.post("/search", function (req, res) {
 
     sql2 += end_airbnb
     let empty = 0
-    let myTimeOut = setTimeout(() =>
+    let timedOut = false
+    let myTimeOut = setTimeout(() => {
             res.redirect('error1')
+            timedOut = true
+        }
         , 30000)
     db.query(sql1, (err, results) => {
         if (err) {
             res.redirect("/error")
             throw err
-        } else if (!results.length) {
+        } else if (!results.length && !timedOut) {
             empty++
-        } else {
+        } else if(!timedOut) {
             let data = JSON.stringify(results)
             fs.writeFileSync("hotelrseults.json", data)
         }
@@ -414,16 +417,16 @@ app.post("/search", function (req, res) {
         if (err) {
             res.redirect("/error")
             throw err
-        } else if (!results.length) {
+        } else if (!results.length && !timedOut) {
             empty++
-        } else {
+        } else if(!timedOut){
             let data = JSON.stringify(results)
             fs.writeFileSync("airbnbrseults.json", data)
             clearTimeout(myTimeOut)
             res.redirect("/output")
         }
         //if no results were found
-        if (empty === 2) {
+        if (empty === 2 && !timedOut) {
             clearTimeout(myTimeOut)
             res.redirect('/error3')
         }
@@ -477,14 +480,16 @@ app.post("/delete", function (req, res) {
         if (err) {
             res.redirect("/error")
             throw err
-        }else {
-            let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + deleteID
+        } else {
+            let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE " + kindOfRequestedPlace + "_id=" + deleteID
             console.log(sql1)
             db.query(sql1, (err) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                } else {res.redirect("/thanks")}
+                } else {
+                    res.redirect("/thanks")
+                }
             })
         }
     })
