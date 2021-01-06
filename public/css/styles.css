@@ -4,6 +4,14 @@ table {
     table-layout: fixed;
 }
 
+h1.welcome {
+    color: darkblue;
+}
+
+small {
+    color: blue;
+}
+
 td, th {
     border: 1px solid #dddddd;
     text-align: left;
@@ -30,24 +38,37 @@ tr:nth-child(even) {
 }
 
 
-.page    { display: none; padding: 0 0.5em; }
-.page h1 { font-size: 2em; line-height: 1em; margin-top: 1.1em; font-weight: bold; }
-.page p  { font-size: 1.5em; line-height: 1.275em; margin-top: 0.15em; }
+.page {
+    display: none;
+    padding: 0 0.5em;
+}
+
+.page h1 {
+    font-size: 2em;
+    line-height: 1em;
+    margin-top: 1.1em;
+    font-weight: bold;
+}
+
+.page p {
+    font-size: 1.5em;
+    line-height: 1.275em;
+    margin-top: 0.15em;
+}
 
 
+* {
+    box-sizing: border-box;
+}
 
-  * {
-      box-sizing: border-box;
-  }
-
-  .sticky {
-      position: sticky;
-      top: 10px; /* When the element reaches top: 10px, it becomes fixed. */
-      z-index: 100;
-  }
+.sticky {
+    position: sticky;
+    top: 10px; /* When the element reaches top: 10px, it becomes fixed. */
+    z-index: 100;
+}
 
 
-  body {
+body {
     font-family: Arial;
     padding: 10px;
     background: #f1f1f1;
@@ -65,14 +86,15 @@ tr:nth-child(even) {
     background: white;
 }
 
-  #sticky-footer {
-      position:fixed;
-      left:0px;
-      bottom:0px;
-      height:30px;
-      width:100%;
-      background: #cfcdcd;
-  }
+#sticky-footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    height: 30px;
+    width: 100%;
+    background: #cfcdcd;
+}
+
 /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 800px) {
     .leftcolumn, .rightcolumn {
@@ -88,7 +110,6 @@ tr:nth-child(even) {
         width: 100%;
     }
 }
-
 
 
 /* ADMIN LOGIN CSS*/
@@ -170,4 +191,5 @@ tr:nth-child(even) {
 .login-button:focus {
     background-color: hsla(201, 100%, 50%, 0.5)
 }
+
 /* END ADMIN LOGIN CSS*/
