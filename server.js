@@ -13,7 +13,7 @@ let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCos
     critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", id, placeType, updateID, deleteID,
     updatePlace
 
-//*** GET functions ***//
+// GET functions
 
 //time out page
 app.get('/error1', (req, res) => {
@@ -32,11 +32,13 @@ app.get('/error3', (req, res) => {
     pageName = "error page3"
     res.render("index", {pageName: pageName})
 })
-//no reviews found
+
+// no reviews found
 app.get('/error4', (req, res) => {
     pageName = "error page4"
     res.render("index", {pageName: pageName})
 })
+
 //exit page
 app.get('/bye', (req, res) => {
     pageName = "bye page"
