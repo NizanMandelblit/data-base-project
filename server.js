@@ -274,6 +274,7 @@ app.get('/info', (req, res) => {
         }
     }
 })
+
 app.get('/rev', (req, res) => {
     pageName = "rev page"
     const id = req.query.id
@@ -341,6 +342,7 @@ app.get('/rev', (req, res) => {
         }
     }
 })
+
 //POST functions
 app.post("/search", function (req, res) {
     style = req.body.style
@@ -407,7 +409,7 @@ app.post("/search", function (req, res) {
             throw err
         } else if (!results.length && !timedOut) {
             empty++
-        } else if(!timedOut) {
+        } else if (!timedOut) {
             let data = JSON.stringify(results)
             fs.writeFileSync("hotelrseults.json", data)
         }
@@ -419,7 +421,7 @@ app.post("/search", function (req, res) {
             throw err
         } else if (!results.length && !timedOut) {
             empty++
-        } else if(!timedOut){
+        } else if (!timedOut) {
             let data = JSON.stringify(results)
             fs.writeFileSync("airbnbrseults.json", data)
             clearTimeout(myTimeOut)
@@ -471,28 +473,6 @@ app.post("/update", function (req, res) {
         } else res.redirect("/thanks")
     })
 
-})
-
-//delete place from DB
-app.post("/delete", function (req, res) {
-    let sql = "DELETE FROM " + kindOfRequestedPlace + " WHERE id=" + deleteID
-    db.query(sql, (err) => {
-        if (err) {
-            res.redirect("/error")
-            throw err
-        } else {
-            let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE " + kindOfRequestedPlace + "_id=" + deleteID
-            console.log(sql1)
-            db.query(sql1, (err) => {
-                if (err) {
-                    res.redirect("/error")
-                    throw err
-                } else {
-                    res.redirect("/thanks")
-                }
-            })
-        }
-    })
 })
 
 //find place in order to update,view info or delete

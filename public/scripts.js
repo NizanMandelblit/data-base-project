@@ -50,7 +50,6 @@ function limit() {
 }
 
 
-
-function airbnbsend(queryairbnb){
-console.log(queryairbnb)
+function airbnbsend(queryairbnb) {
+    console.log(queryairbnb)
 }
