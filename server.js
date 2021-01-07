@@ -346,7 +346,7 @@ app.get('/rev', (req, res) => {
                     //console.log(results)
                     let data = JSON.stringify(results)
                     fs.writeFileSync("restaurantsrev.json", data)
-                    let rawdata = fs.readFileSync('crev.json')
+                    let rawdata = fs.readFileSync('restaurantsrev.json')
                     data = JSON.parse(rawdata)
                     res.render("index", {pageName: "revrestaurants", queryrestaurants: data})
                 }
