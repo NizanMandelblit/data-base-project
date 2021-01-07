@@ -150,6 +150,7 @@ app.get('/delete', (req, res) => {
 
     if (typeof (req.query.password) == "undefined") {
         pageName = "delete page0"
+        res.render("index", {pageName: pageName})
     } else {
         const password = req.query.password
         if (password.localeCompare("12345") === 0) {
@@ -164,27 +165,35 @@ app.get('/delete', (req, res) => {
                         if (err) {
                             res.redirect("/error")
                             //throw err
+                        }else if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
+                                let sql1 = "DELETE FROM restaurant_inspections_connection_table WHERE restaurant_id=" + id + ""
+                                db.query(sql1, (err) => {
+                                    if (err) {
+                                        res.redirect("/error")
+                                        //throw err
+                                    }else{
+                                        pageName = "thanks page"
+                                        res.render("index", {pageName: pageName})
+                                    }
+                                })
+                            } else{
+                            pageName = "thanks page"
+                            res.render("index", {pageName: pageName})
                         }
+
+
                     })
-                    if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
-                        let sql1 = "DELETE FROM restaurant_inspections_connection_table WHERE restaurant_id=" + id + ""
-                        db.query(sql1, (err) => {
-                            if (err) {
-                                res.redirect("/error")
-                                //throw err
-                            }
-                        })
-                    }
-                    pageName = "thanks page"
                 }
             })
 
         } else {
             pageName = "delete page2"
+            res.render("index", {pageName: pageName})
         }
     }
-    res.render("index", {pageName: pageName})
+
 })
+
 //thanks page after submitting a form.
 app.get('/thanks', (req, res) => {
     pageName = "thanks page"
