@@ -155,43 +155,58 @@ app.get('/delete', (req, res) => {
         const password = req.query.password
         if (password.localeCompare("12345") === 0) {
             let sql = "DELETE FROM " + placeType + " WHERE id=" + id + ""
-            db.query(sql, (err) => {
-                if (err) {
-                    res.redirect("/error")
-                    throw err
-                }else{
-                    let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + id + ""
-                    db.query(sql1, (err) => {
-                        if (err) {
-                            res.redirect("/error")
-                            //throw err
-                        }else if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
-                                let sql1 = "DELETE FROM restaurant_inspections_connection_table WHERE restaurant_id=" + id + ""
-                                db.query(sql1, (err) => {
+            let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE " + kindOfRequestedPlace + "_id=" + id + ""
+            //check if restaurant to delete from connection table
+            if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
+                let sql2 = "DELETE FROM restaurant_inspections_connection_table WHERE restaurant_id=" + id + ""
+                db.query(sql2, (err) => {
+                    if (err) {
+                        res.redirect("/error")
+                        throw err
+                    } else {
+                        db.query(sql1, (err) => {
+                            if (err) {
+                                res.redirect("/error")
+                                //throw err
+                            } else {
+                                db.query(sql, (err) => {
                                     if (err) {
                                         res.redirect("/error")
                                         //throw err
-                                    }else{
+                                    } else {
                                         pageName = "thanks page"
                                         res.render("index", {pageName: pageName})
                                     }
                                 })
-                            } else{
-                            pageName = "thanks page"
-                            res.render("index", {pageName: pageName})
-                        }
-
-
-                    })
-                }
-            })
-
+                            }
+                        })
+                    }
+                })
+            //if not restaurant
+            } else {
+                db.query(sql1, (err) => {
+                    if (err) {
+                        res.redirect("/error")
+                        //throw err
+                    } else {
+                        db.query(sql, (err) => {
+                            if (err) {
+                                res.redirect("/error")
+                                //throw err
+                            } else {
+                                pageName = "thanks page"
+                                res.render("index", {pageName: pageName})
+                            }
+                        })
+                    }
+                })
+            }
+        //wrong password
         } else {
             pageName = "delete page2"
             res.render("index", {pageName: pageName})
         }
     }
-
 })
 
 //thanks page after submitting a form.
@@ -306,7 +321,7 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                }else if (!results.length) {
+                } else if (!results.length) {
                     res.redirect("/error4")
                 } else {
                     //console.log(results)
@@ -323,7 +338,7 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                }else if (!results.length) {
+                } else if (!results.length) {
                     res.redirect("/error4")
                 } else {
                     //console.log(results)
@@ -340,7 +355,7 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                }else if (!results.length) {
+                } else if (!results.length) {
                     res.redirect("/error4")
                 } else {
                     //console.log(results)
