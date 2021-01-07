@@ -551,7 +551,7 @@ app.post("/find", function (req, res) {
 
 })
 app.listen(process.env.PORT | port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`App started on http://localhost:${port}`)
 })
 
 
@@ -559,8 +559,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '9096373',
-    database: 'newyorktrip'
+    password: 'matthews34',
+    database: 'nytrip'
 })
 
 //Connect to MySQL
