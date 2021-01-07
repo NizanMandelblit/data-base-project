@@ -7,13 +7,17 @@ app.set("view engine", "ejs")
 app.use(express.static("public"))
 app.use(bodyParser.urlencoded({extended: true}))
 const port = 3001
+let result = {}
+fs.writeFileSync('hotelrseults.json', JSON.stringify(result))
+fs.writeFileSync('airbnbrseults.json', JSON.stringify(result))
+
 
 //global variables
 let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCost, minNightCost, maxRateHA, minRateHA,
     critical, superhost, types, kindOfRequestedPlace = "rr", selection = "ee", id, placeType, updateID, deleteID,
     updatePlace
 
-// GET functions
+//*** GET functions ***//
 
 //time out page
 app.get('/error1', (req, res) => {
@@ -118,13 +122,13 @@ app.get('/search', (req, res) => {
         res.render("index", {pageName: pageName})
     }
 })
-
+//splits into 3-get information on a place, delete a place, add review.
 app.get('/find', (req, res) => {
     pageName = "find page"
     selection = req.query.selection
     res.render("index", {pageName: pageName, varselected: selection})
 })
-
+// update information
 app.get('/update', (req, res) => {
     pageName = "update page"
     if (typeof (req.query.placeSort) != "undefined") {
@@ -135,7 +139,7 @@ app.get('/update', (req, res) => {
     }
     res.render("index", {pageName: pageName})
 })
-
+//delete a place, after login as admin.
 app.get('/delete', (req, res) => {
     if (typeof (req.query.placeSort) != "undefined") {
         placeType = req.query.placeSort
@@ -146,6 +150,7 @@ app.get('/delete', (req, res) => {
 
     if (typeof (req.query.password) == "undefined") {
         pageName = "delete page0"
+        res.render("index", {pageName: pageName})
     } else {
         const password = req.query.password
         if (password.localeCompare("12345") === 0) {
@@ -154,34 +159,42 @@ app.get('/delete', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                } else {
-                    let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE " + kindOfRequestedPlace + "_id=" + id + ""
+                }else{
+                    let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE "+kindOfRequestedPlace+"_id=" + id + ""
                     db.query(sql1, (err) => {
                         if (err) {
                             res.redirect("/error")
                             //throw err
+                        }else if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
+                                let sql1 = "DELETE FROM restaurant_inspections_connection_table WHERE restaurant_id=" + id + ""
+                                db.query(sql1, (err) => {
+                                    if (err) {
+                                        res.redirect("/error")
+                                        //throw err
+                                    }else{
+                                        pageName = "thanks page"
+                                        res.render("index", {pageName: pageName})
+                                    }
+                                })
+                            } else{
+                            pageName = "thanks page"
+                            res.render("index", {pageName: pageName})
                         }
+
+
                     })
-                    if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
-                        let sql1 = "DELETE FROM restaurant_inspections_connection_table WHERE restaurant_id=" + id + ""
-                        db.query(sql1, (err) => {
-                            if (err) {
-                                res.redirect("/error")
-                                //throw err
-                            }
-                        })
-                    }
-                    pageName = "thanks page"
                 }
             })
 
         } else {
             pageName = "delete page2"
+            res.render("index", {pageName: pageName})
         }
     }
-    res.render("index", {pageName: pageName})
+
 })
 
+//thanks page after submitting a form.
 app.get('/thanks', (req, res) => {
     pageName = "thanks page"
     res.render("index", {pageName: pageName})
@@ -191,7 +204,7 @@ app.get('/error', (req, res) => {
     pageName = "error page"
     res.render("index", {pageName: pageName})
 })
-
+//display the requested query results.
 app.get('/output', (req, res) => {
     pageName = "output page"
     let rawDataHotel = fs.readFileSync('hotelrseults.json')
@@ -200,7 +213,7 @@ app.get('/output', (req, res) => {
     let airbnb = JSON.parse(rawDataAirbnb)
     res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb})
 })
-
+//seek information about a place.
 app.get('/info', (req, res) => {
     pageName = "output page"
     const id = req.query.id
@@ -274,7 +287,7 @@ app.get('/info', (req, res) => {
         }
     }
 })
-
+//reveiws query reviews about a place.
 app.get('/rev', (req, res) => {
     pageName = "rev page"
     const id = req.query.id
@@ -293,10 +306,10 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                } else if (!results.length) {
+                }else if (!results.length) {
                     res.redirect("/error4")
                 } else {
-                    console.log(results)
+                    //console.log(results)
                     let data = JSON.stringify(results)
                     fs.writeFileSync("airbnbrev.json", data)
                     let rawdata = fs.readFileSync('airbnbrev.json')
@@ -310,7 +323,7 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                } else if (!results.length) {
+                }else if (!results.length) {
                     res.redirect("/error4")
                 } else {
                     //console.log(results)
@@ -327,7 +340,7 @@ app.get('/rev', (req, res) => {
                 if (err) {
                     res.redirect("/error")
                     throw err
-                } else if (!results.length) {
+                }else if (!results.length) {
                     res.redirect("/error4")
                 } else {
                     //console.log(results)
@@ -475,6 +488,28 @@ app.post("/update", function (req, res) {
 
 })
 
+//delete place from DB
+app.post("/delete", function (req, res) {
+    let sql = "DELETE FROM " + kindOfRequestedPlace + " WHERE id=" + deleteID
+    db.query(sql, (err) => {
+        if (err) {
+            res.redirect("/error")
+            throw err
+        } else {
+            let sql1 = "DELETE FROM " + kindOfRequestedPlace + "_reviews WHERE " + kindOfRequestedPlace + "_id=" + deleteID
+            console.log(sql1)
+            db.query(sql1, (err) => {
+                if (err) {
+                    res.redirect("/error")
+                    throw err
+                } else {
+                    res.redirect("/thanks")
+                }
+            })
+        }
+    })
+})
+
 //find place in order to update,view info or delete
 app.post("/find", function (req, res) {
     pageName = ''
@@ -509,8 +544,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: 'matthews34',
-    database: 'nyculinarytrip'
+    password: '54321',
+    database: 'new_york_db'
 })
 
 //Connect to MySQL
