@@ -22,32 +22,32 @@ let pageName, style, distance, maxRateRestaurant, minRateRestaurant, maxNightCos
 //time out page
 app.get('/error1', (req, res) => {
     pageName = "error page1"
-    res.render("index", {pageName: pageName})
+    res.render("index2", {pageName: pageName})
 })
 
 //no results for name with LIKE query
 app.get('/error2', (req, res) => {
     pageName = "error page2"
-    res.render("index", {pageName: pageName})
+    res.render("index2", {pageName: pageName})
 })
 
 //no destinations found for request
 app.get('/error3', (req, res) => {
     pageName = "error page3"
-    res.render("index", {pageName: pageName})
+    res.render("index2", {pageName: pageName})
 })
 
 // no reviews found
 app.get('/error4', (req, res) => {
     pageName = "error page4"
-    res.render("index", {pageName: pageName})
+    res.render("index2", {pageName: pageName})
 })
 
 //exit page
 app.get('/bye', (req, res) => {
     pageName = "bye page"
     db.end();
-    res.render("index", {pageName: pageName})
+    res.render("index2", {pageName: pageName})
     setTimeout(() =>
         process.exit(0), 1000)
 })
@@ -55,7 +55,7 @@ app.get('/bye', (req, res) => {
 //home page
 app.get('/', (req, res) => {
     pageName = "home page"
-    res.render("index", {pageName: pageName})
+    res.render("index2", {pageName: pageName})
 })
 
 //search destination
@@ -86,7 +86,7 @@ app.get('/search', (req, res) => {
                 pageName = "outputairbnbid"
                 let rawDataAirbnb = fs.readFileSync('airbnbbyiddearch.json')
                 let airbnb = JSON.parse(rawDataAirbnb)
-                res.render("index", {pageName: pageName, queryairbnb: airbnb})
+                res.render("index2", {pageName: pageName, queryairbnb: airbnb})
             }
         })
     }
@@ -113,20 +113,20 @@ app.get('/search', (req, res) => {
                 pageName = "outputhotelid"
                 let rawDataHotel = fs.readFileSync('hotelbyiddearch.json')
                 let hotel = JSON.parse(rawDataHotel)
-                res.render("index", {pageName: pageName, queryhotels: hotel})
+                res.render("index2", {pageName: pageName, queryhotels: hotel})
             }
         })
 
     }
     if (hotelid == null && airbnbid == null) {
-        res.render("index", {pageName: pageName})
+        res.render("index2", {pageName: pageName})
     }
 })
 //splits into 3-get information on a place, delete a place, add review.
 app.get('/find', (req, res) => {
     pageName = "find page"
     selection = req.query.selection
-    res.render("index", {pageName: pageName, varselected: selection})
+    res.render("index2", {pageName: pageName, varselected: selection})
 })
 // update information
 app.get('/update', (req, res) => {
@@ -137,7 +137,7 @@ app.get('/update', (req, res) => {
     if (typeof (req.query.placeSort) != "undefined") {
         updateID = req.query.id
     }
-    res.render("index", {pageName: pageName})
+    res.render("index2", {pageName: pageName})
 })
 //delete a place, after login as admin.
 app.get('/delete', (req, res) => {
@@ -150,7 +150,7 @@ app.get('/delete', (req, res) => {
 
     if (typeof (req.query.password) == "undefined") {
         pageName = "delete page0"
-        res.render("index", {pageName: pageName})
+        res.render("index2", {pageName: pageName})
     } else {
         const password = req.query.password
         if (password.localeCompare("12345") === 0) {
@@ -175,7 +175,7 @@ app.get('/delete', (req, res) => {
                                         //throw err
                                     } else {
                                         pageName = "thanks page"
-                                        res.render("index", {pageName: pageName})
+                                        res.render("index2", {pageName: pageName})
                                     }
                                 })
                             }
@@ -195,7 +195,7 @@ app.get('/delete', (req, res) => {
                                 //throw err
                             } else {
                                 pageName = "thanks page"
-                                res.render("index", {pageName: pageName})
+                                res.render("index2", {pageName: pageName})
                             }
                         })
                     }
@@ -204,7 +204,7 @@ app.get('/delete', (req, res) => {
             //wrong password
         } else {
             pageName = "delete page2"
-            res.render("index", {pageName: pageName})
+            res.render("index2", {pageName: pageName})
         }
     }
 })
@@ -212,12 +212,12 @@ app.get('/delete', (req, res) => {
 //thanks page after submitting a form.
 app.get('/thanks', (req, res) => {
     pageName = "thanks page"
-    res.render("index", {pageName: pageName})
+    res.render("index2", {pageName: pageName})
 })
 
 app.get('/error', (req, res) => {
     pageName = "error page"
-    res.render("index", {pageName: pageName})
+    res.render("index2", {pageName: pageName})
 })
 //display the requested query results.
 app.get('/output', (req, res) => {
@@ -226,7 +226,7 @@ app.get('/output', (req, res) => {
     let hotel = JSON.parse(rawDataHotel)
     let rawDataAirbnb = fs.readFileSync('airbnbrseults.json')
     let airbnb = JSON.parse(rawDataAirbnb)
-    res.render("index", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb})
+    res.render("index2", {pageName: pageName, queryhotels: hotel, queryairbnb: airbnb})
 })
 //seek information about a place.
 app.get('/info', (req, res) => {
@@ -252,7 +252,7 @@ app.get('/info', (req, res) => {
                     fs.writeFileSync("airbnbinfo.json", data)
                     let rawdata = fs.readFileSync('airbnbinfo.json')
                     data = JSON.parse(rawdata)
-                    res.render("index", {pageName: "infoairbnb", queryairbnb: data})
+                    res.render("index2", {pageName: "infoairbnb", queryairbnb: data})
                 }
             })
         } else if (kindOfRequestedPlace.localeCompare("hotels") === 0) {
@@ -266,7 +266,7 @@ app.get('/info', (req, res) => {
                     fs.writeFileSync("hotelinfo.json", data)
                     let rawdata = fs.readFileSync('hotelinfo.json')
                     data = JSON.parse(rawdata)
-                    res.render("index", {pageName: "infohotel", queryhotel: data})
+                    res.render("index2", {pageName: "infohotel", queryhotel: data})
                 }
             })
         } else if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
@@ -292,7 +292,7 @@ app.get('/info', (req, res) => {
                     fs.writeFileSync("restaurantsinfoB.json", data)
                     let rawdataB = fs.readFileSync('restaurantsinfoB.json')
                     dataB = JSON.parse(rawdataB)
-                    res.render("index", {
+                    res.render("index2", {
                         pageName: "inforestaurants",
                         queryrestaurantsA: dataA,
                         queryrestaurantsB: dataB
@@ -329,7 +329,7 @@ app.get('/rev', (req, res) => {
                     fs.writeFileSync("airbnbrev.json", data)
                     let rawdata = fs.readFileSync('airbnbrev.json')
                     data = JSON.parse(rawdata)
-                    res.render("index", {pageName: "revairbnb", queryairbnb: data})
+                    res.render("index2", {pageName: "revairbnb", queryairbnb: data})
                 }
             })
         } else if (kindOfRequestedPlace.localeCompare("hotels") === 0) {
@@ -346,7 +346,7 @@ app.get('/rev', (req, res) => {
                     fs.writeFileSync("hotelrev.json", data)
                     let rawdata = fs.readFileSync('hotelrev.json')
                     data = JSON.parse(rawdata)
-                    res.render("index", {pageName: "revhotel", queryhotel: data})
+                    res.render("index2", {pageName: "revhotel", queryhotel: data})
                 }
             })
         } else if (kindOfRequestedPlace.localeCompare("restaurants") === 0) {
@@ -363,7 +363,7 @@ app.get('/rev', (req, res) => {
                     fs.writeFileSync("restaurantsrev.json", data)
                     let rawdata = fs.readFileSync('restaurantsrev.json')
                     data = JSON.parse(rawdata)
-                    res.render("index", {pageName: "revrestaurants", queryrestaurants: data})
+                    res.render("index2", {pageName: "revrestaurants", queryrestaurants: data})
                 }
             })
 
@@ -450,7 +450,6 @@ app.post("/search", function (req, res) {
         } else if (!results.length && !timedOut) {
             empty++
         } else if (!timedOut) {
-            let data = JSON.stringify(results)
             let normRes = normalize(results)
             console.log(normRes)
             let pleasureCount = new Array(results.length)
@@ -465,6 +464,7 @@ app.post("/search", function (req, res) {
             results.sort((a, b) => (a.pleasure < b.pleasure) ? 1 : -1)
 
             console.log(pleasureCount)
+            let data = JSON.stringify(results)
             fs.writeFileSync("airbnbrseults.json", data)
             clearTimeout(myTimeOut)
             res.redirect("/output")
@@ -559,7 +559,7 @@ app.post("/find", function (req, res) {
             fs.writeFileSync("findoutput.json", data)
             let rawdata = fs.readFileSync('findoutput.json')
             data = JSON.parse(rawdata)
-            res.render("index", {pageName: pageName, query: data, varselected: selection, placeSort: placeSort})
+            res.render("index2", {pageName: pageName, query: data, varselected: selection, placeSort: placeSort})
         }
     })
 
@@ -573,8 +573,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: 'matthews34',
-    database: 'nytrip'
+    password: '9096373',
+    database: 'newyorktrip'
 })
 
 //Connect to MySQL

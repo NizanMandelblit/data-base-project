@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Data-Base Project Site </title>
+    <!--bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+    <!--Jquery-->
+    <script src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <!-- adding favicon-->
+    <link rel="stylesheet" href="css/styles.css">
+    <!--adding fonts from google -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300&family=Sacramento&display=swap"
+          rel="stylesheet">
+    <!--font awsome -->
+    <!--    <script src="https://kit.fontawesome.com/34861f07f9.js" crossorigin="anonymous"></script>-->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
+</head>
+
+<body>
+
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light static-top mb-5 shadow navbar-fixed-top sticky">
+    <div class="container">
+        <a class="navbar-brand" href="/"><img src="statue-of-liberty.png">New York Cuilnary Trip</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/search"><img src="search.png"> Find Destination</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/find?selection=update"><img src="refresh.png"> Add Review</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/find?selection=delete"><img src="trash.png"> Delete Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/find?selection=info"><img src="information.png"> Get Information</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/bye"><img src="exit.png"> Sign Out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div id="loading"></div>
+
+<div class="page">
+
+    <!--יhome page content-->
+    <% if(pageName === "home page") { %>
+        <div class="container p-3 my-3 bg-transparent text-white">
+            <h1 class="welcome" style="position: center">WELCOME</h1>
+            <h2 class="welcome"> Find your dream destination in New York that meets all your culinary needs</h2>
+        </div>
+    <% } %>
+    <!--search page content-->
+    <% if(pageName == "search page") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form id="my-form" class="" action="/search" method="post">
+                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">1.Please provide a price range per night in $</label>
+                    <input id="X" type="number" onchange="limit()" min="0" class="form-control" placeholder="Max"
+                           name="maxNightCost"
+                           required>
+                    <input id="Y" type="number" min="0" class="form-control" placeholder="Min" name="minNightCost"
+                           required>
+                </div>
+                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">2.Please provide a range for your preferred hotel and airbnb
+                        ratings</label>
+                    <input id="X2" type="number" onchange="limit()" min="0" class="form-control" placeholder="Max"
+                           name="maxRateHA"
+                           required>
+                    <input id="Y2" type="number" min="0" class="form-control" placeholder="Min" name="minRateHA"
+                           required>
+                </div>
+                <div class="form-row align-items-center">
+                    <label for="exampleFormControlInput1">3.Please provide a range for your preferred restaurant
+                        rating</label>
+                    <input id="requireform" min="0" type="number" class="form-control" placeholder="Max"
+                           name="maxRateRestaurant" onchange="limit()"
+                           required>
+                    <input id="requireform" min="0" type="number" class="form-control" placeholder="Min"
+                           name="minRateRestaurant"
+                           required>
+                </div>
+                <label for="exampleFormControlInput1">4.Avoid restaurants with critical reviews</label>
+
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="critical">
+                    <label class="form-check-label" for="exampleCheck1"> </label>
+
+                </div>
+                <label for="exampleFormControlInput1">5.Show airbnb destinations of super hosts only</label>
+
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="super">
+                    <label class="form-check-label" for="exampleCheck1"> </label>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">6.Please select the food types you're interested in</label>
+                    <!-- need to have multi choose-->
+                    <select id="requirelist" class="selectpicker form-control" multiple data-live-search="true"
+                            name="style"
+                            required>
+                        <option>Pizza/Italian</option>
+                        <option>Donuts</option>
+                        <option>Delicatessen</option>
+                        <option>Jewish/Kosher</option>
+                        <option>Sandwiches</option>
+                        <option>Russian</option>
+                        <option>Vietnamese/Cambodian/Malaysia</option>
+                        <option>Other</option>
+                        <option>Sandwiches/Salads/Mixed Buffet</option>
+                        <option>Peruvian</option>
+                        <option>Tex-Mex</option>
+                        <option>Bottled beverages, including water, sodas, juices, etc.</option>
+                        <option>Irish</option>
+                        <option>French</option>
+                        <option>German</option>
+                        <option>Ice Cream, Gelato, Yogurt, Ices</option>
+                        <option>Middle Eastern</option>
+                        <option>Juice, Smoothies, Fruit Salads</option>
+                        <option>Chicken</option>
+                        <option>Australian</option>
+                        <option>Bangladeshi</option>
+                        <option>Creole</option>
+                        <option>Hotdogs</option>
+                        <option>Soups</option>
+                        <option>Hotdogs/Pretzels</option>
+                        <option>English</option>
+                        <option>Hawaiian</option>
+                        <option>Pancakes/Waffles</option>
+                        <option>Scandinavian</option>
+                        <option>Filipino</option>
+                        <option>Californian</option>
+                        <option>Polish</option>
+                        <option>Barbecue</option>
+                        <option>Afghan</option>
+                        <option>Eastern European</option>
+                        <option>Cajun</option>
+                        <option>Chilean</option>
+                        <option>Indonesian</option>
+                        <option>Egyptian</option>
+                        <option>Moroccan</option>
+                        <option>Ethiopian</option>
+                        <option>Soups & Sandwiches</option>
+                        <option>Fruits/Vegetables</option>
+                        <option>Southwestern</option>
+                        <option>Nuts/Confectionary</option>
+                        <option>Armenian</option>
+                        <option>Chinese</option>
+                        <option>Cuban</option>
+                        <option>Not Listed/Not Applicable</option>
+                        <option>Creole/Cajun</option>
+                        <option>Portuguese</option>
+                        <option>Iranian</option>
+                        <option>Polynesian</option>
+                        <option>Czech</option>
+                    </select>
+
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">7.Please enter the maximum distance in kilometers you are
+                        willing to travel to restaurants
+                    </label>
+                    <input id="requireform" type="double" class="form-control" placeholder="e.g 12.5" name="distance"
+                           required>
+                </div>
+
+                <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
+
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+
+            </form>
+
+        </div>
+    <% } %>
+
+    <!--update page content-->
+    <% if(pageName === "update page") { %>
+
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form id="my-form" class="" action="/update" method="post">
+
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">1.Please enter your name:</label>
+                    <div class="row">
+                        <div class="col">
+                            <input type="text" class="form-control" name="FirstName" placeholder="First name"
+                                   maxlength="20">
+                        </div>
+                        <div class="col">
+                            <input type="text" class="form-control" name="LastName" placeholder="Last name"
+                                   maxlength="20">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">2.Please enter your rating</label>
+                    <input type="number" name="grade" min="1" max="100" class="form-control" placeholder="1-100"
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">3.Enter additional comments if you'd like:</label>
+                    <textarea maxlength="60" class="form-control" name="comment" id="exampleFormControlTextarea1"
+                              rows="3"></textarea>
+                </div>
+                <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
+
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </form>
+
+        </div>
+
+    <% } %>
+
+    <!--delete page content-->
+    <% if(pageName === "delete page0") { %>
+        <div id="admindiv" class="full-screen-container">
+            <div class="login-container">
+                <h3 class="login-title">Admin Login</h3>
+                <form id="adminform">
+                    <div class="input-group">
+                        <label>Password</label>
+                        <input id="pass" type="password" name="password">
+                    </div>
+                    <button type="submit" class="login-button">Sign In</button>
+                </form>
+            </div>
+
+        </div>
+
+    <% } %>
+    <% if(pageName === "delete page2") { %>
+        <div id="admindiv" class="full-screen-container">
+            <div class="login-container">
+                <h3 class="login-title">Admin Login</h3>
+                <form id="adminform">
+                    <div class="input-group">
+                        <label>Wrong Password, Try Again</label>
+                        <input id="pass" type="password" name="password">
+                    </div>
+                    <button type="submit" class="login-button">Sign In</button>
+                </form>
+            </div>
+        </div>
+
+    <% } %>
+    <% if(pageName == "delete page1") { %>
+        <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
+            <form id="my-form" class="" action="/delete" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">1.where did you visit?</label>
+                    <select name="place" class="form-control" required>
+                        <option>airbnb</option>
+                        <option>restaurants</option>
+                        <option>hotels</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">2.enter the name of the place</label>
+                    <input type="text" name="placename" class="form-control" placeholder="e.g dan hotel" required>
+                </div>
+                <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
+
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </form>
+
+        </div>
+
+    <% } %>
+
+    <!--thanks page content-->
+    <% if(pageName == "thanks page") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/thanks">
+                <h1> thank you! </h1>
+                <h2> we hope you enjoyed your trip:) </h2>
+            </form>
+        </div>
+    <% } %>
+    <!--error page content-->
+    <% if(pageName === "error page") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error">
+                <h1> Error </h1>
+                <h2> we are sorry </h2>
+            </form>
+        </div>
+    <% } %>
+    <!--error1 page content-->
+    <% if(pageName === "error page1") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error1">
+                <h1> Error </h1>
+                <h2> We're sorry but your request took too long, try to be more specific please. </h2>
+            </form>
+        </div>
+    <% } %>
+    <!--error2 page content-->
+    <% if(pageName === "error page2") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error2">
+                <h1> Error </h1>
+                <h2> We're Sorry, no place matches your search. Please try again.</h2>
+            </form>
+        </div>
+    <% } %>
+    <!--error3 page content-->
+    <% if(pageName === "error page3") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error3">
+                <h1> Error </h1>
+                <h2> We're Sorry, no results match your preferences. Please try to be less specific </h2>
+            </form>
+        </div>
+    <% } %>
+    <!--error4 page content-->
+    <% if(pageName === "error page4") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/error4">
+                <h1> no results </h1>
+                <h2> there are no reviews for this place </h2>
+            </form>
+        </div>
+    <% } %>
+    <!--bye page content-->
+    <% if(pageName === "bye page") { %>
+        <div class="container p-3 my-3 bg-dark text-white">
+            <form class="" action="/bye">
+                <h1> Good Bye! </h1>
+                <h2> We hope to see you again soon.. </h2>
+            </form>
+        </div>
+    <% } %>
+    <!--output page content-->
+    <% if(pageName === "output page") { %>
+        <!-- JSON.stringify(query)-->
+
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#hotels" role="button"
+               aria-expanded="false"
+               aria-controls="hotels">HOTELS</a>
+            <div class="collapse multi-collapse" id="hotels">
+                <input id="myInput" type="text" placeholder="Search..">
+
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col">rating</th>
+                        <th scope="col">price</th>
+                        <th scope="col"># relevant restaurants</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="myTable">
+                    <% for(var i = 0; i < queryhotels.length; i++) { %>
+                        <tr>
+
+                            <td>
+                                <a href="/info?sort=hotels&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                            </td>
+                            <td><%= queryhotels[i].rating %></td>
+                            <td><%= queryhotels[i].price %></td>
+                            <td><a href="/search?hotelid=<%= queryhotels[i].id %>">  <%= queryhotels[i].counter %> </a>
+                            </td>
+
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#airbnb" role="button"
+               aria-expanded="false"
+               aria-controls="airbnb">AIRBNB</a>
+            <div class="collapse multi-collapse" id="airbnb" style="">
+                <input id="myInputtwo" type="text" placeholder="Search..">
+
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col">rating</th>
+                        <th scope="col">price</th>
+                        <th scope="col"># relevant restaurants</th>
+                        <th scope="col">pleasure</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="myTabletwo">
+                    <% for(var i = 0; i < queryairbnb.length; i++) { %>
+                        <tr>
+                            <td><a href="/info?sort=airbnb&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            </td>
+                            <td><%= queryairbnb[i].rating %></td>
+                            <td><%= queryairbnb[i].price %></td>
+                            <td><a href="/search?airbnbid=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].counter %> </a>
+                            </td>
+                            <td><%= queryairbnb[i].pleasure %> </td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <% } %>
+
+    <!--find place page content-->
+    <% if(pageName === "find page") { %>
+
+        <div id="deletepage" class="container p-3 my-3 bg-dark text-white">
+            <form id="my-form" class="" action="/find?selection=<%= varselected %>" method="post">
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">1.Please choose the type of place</label>
+                    <select name="place" class="form-control" required>
+                        <option>airbnb</option>
+                        <option>restaurants</option>
+                        <option>hotels</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">2.Please enter the name of the place</label>
+                    <input type="text" name="placename" class="form-control" placeholder="e.g dan hotel" required>
+                </div>
+                <button id="sumbitbtn" type="submit" class="btn btn-primary">Submit</button>
+
+                <button id="loadingbtn" class="btn btn-primary" type="button" disabled style="display: none">
+                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...
+                </button>
+            </form>
+
+        </div>
+
+    <% } %>
+
+    <!--outputhotelid page content-->
+    <% if(pageName === "outputhotelid") { %>
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#hotels" role="button" aria-expanded="false"
+               aria-controls="hotels">relevant restaurants close to the hotel</a>
+            <div class="collapse multi-collapse" id="hotels">
+                <input id="myInput" type="text" placeholder="Search..">
+
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col">type</th>
+                        <th scope="col">rating</th>
+                        <th scope="col">distance from the hotel</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="myTable">
+                    <% for(var i = 0; i < queryhotels.length; i++) { %>
+                        <tr>
+                            <td>
+                                <a href="/info?sort=restaurants&id=<%= queryhotels[i].id %>">  <%= queryhotels[i].name %> </a>
+                            </td>
+                            <td><%= queryhotels[i].type %></td>
+                            <td><%= queryhotels[i].rating %></td>
+                            <td><%= queryhotels[i].distance %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <% } %>
+
+    <!--outputairbnbid page content-->
+    <% if(pageName === "outputairbnbid") { %>
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#airbnb" role="button" aria-expanded="false"
+               aria-controls="airbnb">relevant restaurants close to the airbnb</a>
+            <div class="collapse multi-collapse" id="airbnb" style="">
+                <input id="myInputtwo" type="text" placeholder="Search..">
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                        <th scope="col">type</th>
+                        <th scope="col">rating</th>
+                        <th scope="col">distance from the airbnb</th>
+                    </tr>
+                    </thead>
+
+                    <tbody id="myTabletwo">
+                    <% for(var i = 0; i < queryairbnb.length; i++) { %>
+                        <tr>
+                            <td>
+                                <a href="/info?sort=restaurants&id=<%= queryairbnb[i].id %>"> <%= queryairbnb[i].name %> </a>
+                            </td>
+                            <td><%= queryairbnb[i].type %></td>
+                            <td><%= queryairbnb[i].rating %></td>
+                            <td><%= queryairbnb[i].distance %></td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <% } %>
+
+    <!--findoutput page content-->
+    <% if(pageName === "findoutput") { %>
+
+        <div id="overlay" class="container-fluid">
+            <a class="btn btn-primary dropdown-toggle" data-toggle="collapse" href="#airbnb" role="button"
+               aria-expanded="false"
+               aria-controls="airbnb">click to see the results</a>
+            <div class="collapse multi-collapse" id="airbnb" style="">
+                <input id="myInputtwo" type="text" placeholder="Search..">
+
+                <table class="table table-hover table-dark">
+                    <thead>
+                    <tr>
+                        <th scope="col">name</th>
+                    </tr>
+                    </thead>
+                    <tbody id="myTabletwo">
+                    <% for(var i = 0; i < query.length; i++) { %>
+                        <tr>
+                            <td>
+                                <a href="/<%= varselected %>?id=<%= query[i].id %>&placeSort=<%= placeSort %>">  <%= query[i].name %> </a>
+                            </td>
+                        </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    <% } %>
+
+</div>
+
+<% if(pageName === "infoairbnb") { %>
+    <div class="container p-3 my-3 bg-dark text-white">
+        <!--AIRBNB-->
+        <% for(var i = 0; i < queryairbnb.length; i++) { %>
+            Name:  <%= queryairbnb[i].name %><br>
+            Price:  <%= queryairbnb[i].price %><br>
+            Rating:  <%= queryairbnb[i].rating %><br>
+            Host Name:  <%= queryairbnb[i].host_name %><br>
+            <% if(queryairbnb[i].superhost.toString() === "1") { %>
+                this is a Superhost<br>
+            <% } %>
+            user reviews : <a href="/rev?id=<%= queryairbnb[i].id %>&sort=airbnb">Click Here</a>
+        <% } %>
+    </div>
+
+<% } %>
+
+<% if(pageName === "infohotel") { %>
+    <!--info HOTEL-->
+    <div class="container p-3 my-3 bg-dark text-white">
+
+        <% for(var i = 0; i < queryhotel.length; i++) { %>
+            Name:  <%= queryhotel[i].name %><br>
+            number of stars :<%= queryhotel[i].star_rating %><br>
+            maximum price:  <%= queryhotel[i].high_price %><br>
+            minimum price:  <%= queryhotel[i].low_price %><br>
+            rating:  <%= queryhotel[i].rating %><br>
+            user reviews : <a href="/rev?id=<%= queryhotel[i].id %>&sort=hotels">Click Here</a>
+
+        <% } %>
+    </div>
+<% } %>
+<!--RESTURANTS-->
+<% if(pageName === "inforestaurants") { %>
+    <div class="container p-3 my-3 bg-dark text-white">
+        <% for(var i = 0; i < queryrestaurantsA.length; i++) { %>
+            Name:  <%= queryrestaurantsA[i].name %><br>
+            boro :<%= queryrestaurantsA[i].boro %><br>
+            building number:  <%= queryrestaurantsA[i].building %><br>
+            cuisine:  <%= queryrestaurantsA[i].type %><br>
+            rating:  <%= queryrestaurantsA[i].rating %><br>
+            user reviews : <a href="/rev?id=<%= queryrestaurantsA[i].id %>&sort=restaurants">Click Here</a><br>
+        <% } %>
+        <h1>Inspections</h1><br>
+        <% for(var i = 0; i < queryrestaurantsB.length; i++) { %>
+            inspection <%= i + 1 %> : <%= queryrestaurantsB[i].description %><br>
+            <% if(queryrestaurantsB[i].critical.toString() === "1") { %>
+                this review is a critical review<br>
+            <% } %><br>
+        <% } %>
+    </div>
+<% } %>
+
+<!--REVIEWS-->
+<% if(pageName === "revhotel") { %>
+    <div class="container p-3 my-3 bg-dark text-white">
+        <h1>reviews</h1>
+        <!--HOTEL-->
+        <% for(var i = 0; i < queryhotel.length; i++) { %>
+            review <%= (i + 1) %>: <br>
+            reviewer: <%= queryhotel[i].guest_name %><br>
+            grade: <%= queryhotel[i].grade %><br>
+            comment: <%= queryhotel[i].comment %><br><br>
+
+        <% } %>
+    </div>
+<% } %>
+
+<% if(pageName === "revairbnb") { %>
+    <div class="container p-3 my-3 bg-dark text-white">
+        <h1>reviews</h1>
+        <!--airbnb-->
+        <% for(var i = 0; i < queryairbnb.length; i++) { %>
+            review <%= (i + 1) %>: <br>
+            reviewer: <%= queryairbnb[i].guest_name %><br>
+            grade: <%= queryairbnb[i].grade %><br>
+            comment: <%= queryairbnb[i].comment %><br><br>
+
+        <% } %>
+    </div>
+<% } %>
+
+<% if(pageName === "revrestaurants") { %>
+    <div class="container p-3 my-3 bg-dark text-white">
+        <h1>reviews</h1>
+        <!--resturant-->
+        <% for(var i = 0; i < queryrestaurants.length; i++) { %>
+            review <%= (i + 1) %>: <br>
+            reviewer: <%= queryrestaurants[i].guest_name %><br>
+            grade: <%= queryrestaurants[i].grade %><br>
+            comment: <%= queryrestaurants[i].comment %><br><br>
+
+        <% } %>
+    </div>
+<% } %>
+
+<div class="container-fluid">
+    <footer id="sticky-footer" class="py-1 bg-secondry text-white-50">
+        <div class="container text-center">
+            <small>Copyright &copy; <a href="https://www.linkedin.com/in/nizan-mandelblit/">Nizan Mandelblit</a> ,<a
+                        href="https://www.linkedin.com/in/eldad-horvitz/">Eldad Horvitz</a> and <a
+                        href="https://www.linkedin.com/in/yitzi-jacobs-82a7b819a/">Yitzi Jacobs</a> </small>
+        </div>
+    </footer>
+</div>
+
+
+<script src="scripts.js"></script>
+</body>
+
+
+</html>
