@@ -573,8 +573,8 @@ app.listen(process.env.PORT | port, () => {
 const db = mysql.createConnection({
     host: '127.0.0.1',
     user: 'root',
-    password: '9096373',
-    database: 'newyorktrip'
+    password: 'matthews34',
+    database: 'nytrip'
 })
 
 //Connect to MySQL
