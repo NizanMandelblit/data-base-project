@@ -584,6 +584,7 @@ db.connect(err => {
     }
 })
 
+//normalizes results using min-max method
 function normalize(results) {
     //find the min and max for price,rating and restaurant counter
     let minRating = 9999999

@@ -17,12 +17,14 @@ db.connect(err => {
     console.log('connected to db')
 })
 
+
+//build query
 let maxRateRestaurant = 90
 let minRateRestaurant = 80
 let maxNightCost = 130
 let minNightCost = 100
 let types = "'Donuts','Jewish/Kosher','Sandwiches'"
-let distance = 3
+let distance = 5
 let maxRateAirBNB = 90
 let minRateAirBNB = 80
 let critical = false
@@ -46,6 +48,7 @@ if (superhost)
 
 sql += end_airbnb
 
+//run query
 db.query(sql, (err, results) => {
     //if query fails
     if (err) {
@@ -58,10 +61,11 @@ db.query(sql, (err, results) => {
         let normRes = normalize(results)
         oneUpOneDown(results, normRes)
         hillClimbing(results, normRes)
-        untilOverTake(results,normRes)
+        untilOverTake(results, normRes)
     }
 })
 
+//hill-climbing algorithm
 function hillClimbing(results, normRes) {
     let maxPleasure = -Infinity, bestPlace, bestWeights, i = 0
     let weightPrice = 1 / 3
@@ -101,6 +105,8 @@ function hillClimbing(results, normRes) {
     console.log(i)
 }
 
+
+// takes each pair of the three weights and increments one and decreases the other by 0.01
 function oneUpOneDown(results, normRes) {
     let maxPleasure = -Infinity, bestPlace, bestWeights
     for (let i = 0; i < 6; i++) {
@@ -140,15 +146,15 @@ function oneUpOneDown(results, normRes) {
     console.log('and the weights were:\n' + bestWeights)
 }
 
-
+//tinkers with weights until the optimal place is overtaken by another place
 function untilOverTake(results, normRes) {
     let bestPlace = results[0]
     let bestWeights = ''
     for (let i = 0; i < 6; i++) {
         let first = true, maxID = 0, prevMaxID, maxIndex = 0
-        let weightPrice = 0.33
-        let weightCount = 0.33
-        let weightRating = 0.33
+        let weightPrice = 1 / 3
+        let weightCount = 1 / 3
+        let weightRating = 1 / 3
         while (weightPrice <= 1 && weightPrice >= 0 && weightCount <= 1 && weightCount >= 0 && weightRating <= 1 && weightRating >= 0) {
 
             if (!first)
@@ -213,6 +219,7 @@ function untilOverTake(results, normRes) {
     console.log('and the weights were:\n' + bestWeights)
 }
 
+// runs through results and applies given weights and then returns result with maximum pleasure
 function getOptimal(results, weightPrice, weightCount, weightRating, normRes) {
     let optimal = -Infinity, optimalIndex
     //populate pleasure field
@@ -223,9 +230,11 @@ function getOptimal(results, weightPrice, weightCount, weightRating, normRes) {
             optimalIndex = i
         }
     }
+    //test
     return results[optimalIndex]
 }
 
+//normalizes results using min-max method
 function normalize(results) {
     //find the min and max for price,rating and restaurant counter
     let minRating = Infinity
