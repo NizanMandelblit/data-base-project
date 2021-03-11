@@ -272,3 +272,4 @@ function normalize(results) {
     }
     return [normCount, normRating, normPrice]
 }
+//test2
